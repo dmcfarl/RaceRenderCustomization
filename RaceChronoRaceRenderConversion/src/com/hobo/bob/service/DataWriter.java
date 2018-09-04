@@ -67,30 +67,30 @@ public class DataWriter {
 		out.write("# RaceRender Data\n".getBytes());
 		out.write("Time".getBytes());
 		for (int i = 0; i < session.getHeaders().size(); i++) {
-			if (session.getHeaders().get(i).equals("Lap #")
-					|| session.getHeaders().get(i).equals("Session fragment #")) {
+			String header = session.getHeaders().get(i);
+			if (header.equals("Lap #") || header.equals("Session fragment #")) {
 				continue;
 			}
 			out.write(",".getBytes());
-			String header = session.getHeaders().get(i);
 			if (header.equals(ConversionConstants.TIME_HEADER)) {
 				header = "UTC Time";
-			} else if (header.contains("(.C)")) {
-				header = header.replace("(.C)", "(.F)");
-			} else if (header.contains("(m/s)")) {
-				header = header.replace("(m/s)", "(mph)");
+			} else if (header.contains(ConversionConstants.CELCIUS_HEADER)) {
+				header = header.replace(ConversionConstants.CELCIUS_HEADER, ConversionConstants.FAHRENHEIT_HEADER);
+			} else if (header.contains(ConversionConstants.METERS_PER_SECOND_HEADER)) {
+				header = header.replace(ConversionConstants.METERS_PER_SECOND_HEADER,
+						ConversionConstants.MILES_PER_HOUR_HEADER);
 				if (!header.contains("OBD")) {
-					header = "Satellite " + header;
+					header = "GPS " + header;
 				}
-			} else if (header.contains("(kPa)")) {
-				header = header.replace("(kPa)", "(psi)");
-			} else if (header.contains("(m)")) {
-				header = header.replace("(m)", "(mi)");
+			} else if (header.contains(ConversionConstants.KILOPASCALS_HEADER)) {
+				header = header.replace(ConversionConstants.KILOPASCALS_HEADER,
+						ConversionConstants.POUNDS_PER_SQUARE_INCH_HEADER);
+			} else if (header.contains(ConversionConstants.METERS_HEADER) && !header.contains("position")) {
+				header = header.replace(ConversionConstants.METERS_HEADER, ConversionConstants.MILES_HEADER);
 			}
 			out.write(header.getBytes());
 		}
-		out.write(",Boost (psi)".getBytes());
-		out.write("\n".getBytes());
+		out.write((",Boost " + ConversionConstants.POUNDS_PER_SQUARE_INCH_HEADER + "\n").getBytes());
 
 		AtomicInteger currentLap = new AtomicInteger(0);
 
@@ -131,25 +131,29 @@ public class DataWriter {
 		out.write(String.format("%.3f", row.getTime() - lap.getLapStart() + ConversionConstants.LAP_BUFFER).getBytes());
 
 		for (int i = 0; i < session.getHeaders().size(); i++) {
-			if (session.getHeaders().get(i).equals("Lap #")
-					|| session.getHeaders().get(i).equals("Session fragment #")) {
+			String header = session.getHeaders().get(i);
+			if (header.equals("Lap #") || header.equals("Session fragment #")) {
 				continue;
 			}
 			out.write(",".getBytes());
 			String value = row.getLine()[i];
-			if (session.getHeaders().get(i).equals(ConversionConstants.TIME_HEADER)) {
+			if (header.equals(ConversionConstants.TIME_HEADER)) {
 				value = String.format("%.0f", Double.parseDouble(value));
 			} else {
-				if (session.getHeaders().get(i).contains("(.C)")) {
+				if (header.contains(ConversionConstants.CELCIUS_HEADER)) {
 					value = DataConverter.celciusToFahrenheit(value);
-				} else if (session.getHeaders().get(i).contains("(m/s)")) {
+				} else if (header.contains(ConversionConstants.METERS_PER_SECOND_HEADER)) {
 					value = DataConverter.metersPerSecondToMilesPerHour(value);
-				} else if (session.getHeaders().get(i).contains("(kpa)")) {
+				} else if (header.contains(ConversionConstants.KILOPASCALS_HEADER)) {
 					value = DataConverter.kpaToPsi(value);
-				} else if (session.getHeaders().get(i).contains("(m)")) {
+				} else if (header.contains(ConversionConstants.METERS_HEADER) && !header.contains("position")) {
 					value = DataConverter.metersToMiles(value);
 				}
-				if (!value.isEmpty() && !session.getHeaders().get(i).contains("(deg)")) {
+				if (!value.isEmpty() && !header.contains("(deg)")) {
+					// Format most fields to only contain 5 decimal places for
+					// easier reading.
+					// Ignore Latitude and Longitude fields since we need
+					// greater precision.
 					try {
 						DecimalFormat formatter = new DecimalFormat("#.#####");
 						value = formatter.format(Double.parseDouble(value));
