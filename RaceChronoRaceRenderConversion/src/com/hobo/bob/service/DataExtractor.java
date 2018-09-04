@@ -92,31 +92,50 @@ public class DataExtractor {
 		try (BufferedReader lapReader = new BufferedReader(new FileReader(lapsFile))) {
 			Lap lap = new Lap(currentLap);
 			String line = lapReader.readLine();
-			try {
-				lap.setLapTime(Double.parseDouble(line));
-			} catch (NumberFormatException e) {
+			if (!parseLapLine(lap, line)) {
 				line = lapReader.readLine();
-				try {
-					lap.setLapTime(Double.parseDouble(line));
-				} catch (NumberFormatException e1) {
-					throw new IllegalArgumentException("Unable to parse laps file.", e1);
+				if (!parseLapLine(lap, line)) {
+					throw new IllegalArgumentException("Unable to parse laps file.");
 				}
 			}
 			session.addLap(lap);
 
 			while ((line = lapReader.readLine()) != null) {
-				currentLap++;
-				lap = new Lap(currentLap);
-				try {
-					lap.setLapTime(Double.parseDouble(line));
-				} catch (NumberFormatException e1) {
-					throw new IllegalArgumentException("Unable to parse laps file.", e1);
+				if (!line.isEmpty()) {
+					currentLap++;
+					lap = new Lap(currentLap);
+					if (!parseLapLine(lap, line)) {
+						throw new IllegalArgumentException("Unable to parse laps file.");
+					}
+					session.addLap(lap);
 				}
-				session.addLap(lap);
 			}
 		}
 
 		return session;
+	}
+
+	private boolean parseLapLine(Lap lap, String line) {
+		boolean parsed = false;
+		try {
+			if (line == null) {
+				throw new IllegalArgumentException("Reached end of laps file before processing a lap.");
+			} else if (line.toLowerCase().contains("dnf")) {
+				lap.setLapDisplay(-1, -1, false, true);
+			} else if (line.toLowerCase().contains("oc") || line.toLowerCase().contains("off")) {
+				lap.setLapDisplay(-1, -1, true, false);
+			} else if (line.replaceAll(",", "").trim().matches("^\\d+(\\.\\d+)?\\+\\d$")) {
+				String[] time = line.split("\\+");
+				lap.setLapDisplay(Double.parseDouble(time[0]), Integer.parseInt(time[1]), false, false);
+			} else {
+				lap.setLapDisplay(Double.parseDouble(line), 0, false, false);
+			}
+			parsed = true;
+		} catch (NumberFormatException e) {
+			parsed = false;
+		}
+
+		return parsed;
 	}
 
 	private void readLap(Lap lap, BufferedReader sessionReader, Deque<DataRow> dataBuffer, DataRow lapStart)

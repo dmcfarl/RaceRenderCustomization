@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
+import com.hobo.bob.ConversionConstants;
+
 public class Lap {
 	private List<DataRow> lapData;
 	private List<Sector> sectors;
 	private double lapTime;
+	private double lapDisplay;
 	private double lapStart;
 	private double lapFinish;
 	private int lapNum;
@@ -52,6 +55,28 @@ public class Lap {
 
 	public void setLapTime(double lapTime) {
 		this.lapTime = lapTime;
+	}
+
+	public double getLapDisplay() {
+		return lapDisplay;
+	}
+
+	public void setLapDisplay(double time, int cones, boolean offCourse, boolean dnf) {
+		if (dnf) {
+			lapDisplay = ConversionConstants.DNF_DISPLAY_TIME;
+			lapTime = lapDisplay;
+		} else if (offCourse) {
+			lapDisplay = ConversionConstants.OFF_DISPLAY_TIME;
+			lapTime = lapDisplay;
+		} else if (cones > 9) {
+			throw new IllegalArgumentException("Unable to process runs with more than 9 hit cones.");
+		} else if (cones > 0) {
+			lapTime = time + ConversionConstants.CONE_TIME_PENALTY * cones;
+			lapDisplay = time + ConversionConstants.CONE_DISPLAY_PENALTY * cones;
+		} else {
+			lapDisplay = time;
+			lapTime = lapDisplay;
+		}
 	}
 
 	public double getLapStart() {
