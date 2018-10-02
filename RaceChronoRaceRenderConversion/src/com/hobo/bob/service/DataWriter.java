@@ -7,6 +7,8 @@ import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.hobo.bob.ConversionConstants;
@@ -64,6 +66,7 @@ public class DataWriter {
 	}
 
 	private void writeLap(OutputStream out, Lap lap, String footer) throws IOException {
+		Deque<Double> bearingBuffer = new LinkedList<>();
 		out.write("# RaceRender Data\n".getBytes());
 		out.write("Time".getBytes());
 		for (int i = 0; i < session.getHeaders().size(); i++) {
@@ -97,6 +100,7 @@ public class DataWriter {
 		boolean wroteStart = false;
 		boolean wroteFinish = false;
 		for (DataRow row : lap.getLapData()) {
+			bearingBuffer.add(row.getBearing());
 			if (!wroteStart && row.getTime() == lap.getLapStart()) {
 				printLapHeader(out, currentLap.getAndIncrement(), ConversionConstants.LAP_BUFFER);
 				wroteStart = true;
@@ -104,7 +108,7 @@ public class DataWriter {
 				printLapHeader(out, currentLap.getAndIncrement(), lap.getLapDisplay());
 				wroteFinish = true;
 			}
-			writeRow(out, lap, row);
+			writeRow(out, lap, row, bearingBuffer);
 		}
 		DataRow last = lap.getLapData().get(lap.getLapData().size() - 1).clone();
 
@@ -122,12 +126,12 @@ public class DataWriter {
 		}
 
 		last.addTime(lapTimes + 1);
-		writeRow(out, lap, last);
+		writeRow(out, lap, last, bearingBuffer);
 
 		out.write(footer.getBytes());
 	}
 
-	private void writeRow(OutputStream out, Lap lap, DataRow row) throws IOException {
+	private void writeRow(OutputStream out, Lap lap, DataRow row, Deque<Double> bearingBuffer) throws IOException {
 		out.write(String.format("%.3f", row.getTime() - lap.getLapStart() + ConversionConstants.LAP_BUFFER).getBytes());
 
 		for (int i = 0; i < session.getHeaders().size(); i++) {
@@ -146,8 +150,18 @@ public class DataWriter {
 					value = DataConverter.metersPerSecondToMilesPerHour(value);
 				} else if (header.contains(ConversionConstants.KILOPASCALS_HEADER)) {
 					value = DataConverter.kpaToPsi(value);
-				} else if (header.contains(ConversionConstants.METERS_HEADER) && !header.contains("position")) {
-					value = DataConverter.metersToMiles(value);
+				} else if (header.contains(ConversionConstants.METERS_HEADER)) {
+					if (header.equals(ConversionConstants.DISTANCE_HEADER)) {
+						value = DataConverter.distanceInMetersToMiles(value, lap.getStartDistance());
+					} else if (!header.contains("position")) {
+						value = DataConverter.metersToMiles(value);
+					}
+				} else if (header.equals(ConversionConstants.BEARING_HEADER)) {
+					if(row.getTime() - lap.getLapStart() + ConversionConstants.LAP_BUFFER < ConversionConstants.BEARING_BUFFER){
+						value = Double.toString(bearingBuffer.peek());
+					} else {
+						value = Double.toString(bearingBuffer.pop());
+					}
 				}
 				if (!value.isEmpty() && !header.contains("(deg)")) {
 					// Format most fields to only contain 5 decimal places for

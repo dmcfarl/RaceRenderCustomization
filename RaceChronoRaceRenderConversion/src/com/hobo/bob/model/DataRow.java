@@ -13,6 +13,8 @@ public class DataRow {
 	private static int timeIndex = -1;
 	private static int lapIndex = -1;
 	private static int trapIndex = -1;
+	private static int distanceIndex = -1;
+	private static int bearingIndex = -1;
 
 	private DataRow(DataRow clone) {
 		this.line = clone.getLine();
@@ -76,14 +78,28 @@ public class DataRow {
 
 		return this.trap;
 	}
+
+	public Double getDistance() {
+		String distance = line[distanceIndex];
+	
+		return !distance.isEmpty() ? Double.parseDouble(distance) : null;
+	}
+
+	public Double getBearing() {
+		String bearing = line[bearingIndex];
+	
+		return !bearing.isEmpty() ? Double.parseDouble(bearing) : null;
+	}
 	
 	public DataRow clone(){
 		return new DataRow(this);
 	}
 
-	public static void setRowConf(int time, int lap, int trap) {
+	public static void setRowConf(int time, int lap, int trap, int distance, int bearing) {
 		timeIndex = time;
 		lapIndex = lap;
 		trapIndex = trap;
+		distanceIndex = distance;
+		bearingIndex = bearing;
 	}
 }

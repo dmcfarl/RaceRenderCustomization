@@ -37,7 +37,9 @@ public class DataExtractor {
 
 			DataRow.setRowConf(session.getHeaders().indexOf(ConversionConstants.TIME_HEADER),
 					session.getHeaders().indexOf(ConversionConstants.LAP_HEADER),
-					session.getHeaders().indexOf(ConversionConstants.TRAP_HEADER));
+					session.getHeaders().indexOf(ConversionConstants.TRAP_HEADER),
+					session.getHeaders().indexOf(ConversionConstants.DISTANCE_HEADER),
+					session.getHeaders().indexOf(ConversionConstants.BEARING_HEADER));
 			String line;
 			while (session.getBest().getLapData() == null && (line = sessionReader.readLine()) != null) {
 				DataRow row = new DataRow(line);
@@ -141,6 +143,7 @@ public class DataExtractor {
 	private void readLap(Lap lap, BufferedReader sessionReader, Deque<DataRow> dataBuffer, DataRow lapStart)
 			throws IOException {
 		lap.setLapStart(lapStart.getTime());
+		lap.setStartDistance(lapStart.getDistance());
 
 		String line;
 		DataRow row = null;

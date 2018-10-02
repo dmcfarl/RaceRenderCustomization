@@ -9,6 +9,15 @@ public class DataConverter {
 		return result;
 	}
 
+	public static String distanceInMetersToMiles(String meters, double lapStartMeters) {
+		String result = "";
+		if (!meters.isEmpty()) {
+			double conversion = (Double.parseDouble(meters) - lapStartMeters) * 32 / 51499;
+			result = conversion  < 0 ? "0" : Double.toString(conversion);
+		}
+		return result;
+	}
+
 	public static String metersPerSecondToMilesPerHour(String mps) {
 		String result = "";
 		if (!mps.isEmpty()) {

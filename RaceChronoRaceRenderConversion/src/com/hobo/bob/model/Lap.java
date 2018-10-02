@@ -14,6 +14,7 @@ public class Lap {
 	private double lapStart;
 	private double lapFinish;
 	private int lapNum;
+	private double startDistance;
 
 	public Lap(int lapNum) {
 		this.lapNum = lapNum;
@@ -101,5 +102,13 @@ public class Lap {
 
 	public void setLapNum(int lapNum) {
 		this.lapNum = lapNum;
+	}
+
+	public double getStartDistance() {
+		return startDistance;
+	}
+
+	public void setStartDistance(double startDistance) {
+		this.startDistance = startDistance;
 	}
 }
