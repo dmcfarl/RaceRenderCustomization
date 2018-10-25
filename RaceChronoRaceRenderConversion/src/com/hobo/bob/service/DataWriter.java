@@ -7,8 +7,6 @@ import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.hobo.bob.ConversionConstants;
@@ -66,7 +64,14 @@ public class DataWriter {
 	}
 
 	private void writeLap(OutputStream out, Lap lap, String footer) throws IOException {
-		Deque<Double> bearingBuffer = new LinkedList<>();
+		int bufferRows = -1;
+		DataRow positionRow;
+		do {
+			bufferRows++;
+			positionRow = lap.getLapData().get(bufferRows);
+		} while (positionRow.getTime() - lap.getLapStart()
+				+ ConversionConstants.LAP_BUFFER < ConversionConstants.POSITION_BUFFER);
+
 		out.write("# RaceRender Data\n".getBytes());
 		out.write("Time".getBytes());
 		for (int i = 0; i < session.getHeaders().size(); i++) {
@@ -96,11 +101,10 @@ public class DataWriter {
 		out.write((",Boost " + ConversionConstants.POUNDS_PER_SQUARE_INCH_HEADER + "\n").getBytes());
 
 		AtomicInteger currentLap = new AtomicInteger(0);
-
 		boolean wroteStart = false;
 		boolean wroteFinish = false;
-		for (DataRow row : lap.getLapData()) {
-			bearingBuffer.add(row.getBearing());
+		for (int i = 0; i < lap.getLapData().size(); i++) {
+			DataRow row = lap.getLapData().get(i);
 			if (!wroteStart && row.getTime() == lap.getLapStart()) {
 				printLapHeader(out, currentLap.getAndIncrement(), ConversionConstants.LAP_BUFFER);
 				wroteStart = true;
@@ -108,7 +112,8 @@ public class DataWriter {
 				printLapHeader(out, currentLap.getAndIncrement(), lap.getLapDisplay());
 				wroteFinish = true;
 			}
-			writeRow(out, lap, row, bearingBuffer);
+			writeRow(out, lap, row, i + bufferRows < lap.getLapData().size() ? lap.getLapData().get(i + bufferRows)
+					: lap.getLapData().get(i));
 		}
 		DataRow last = lap.getLapData().get(lap.getLapData().size() - 1).clone();
 
@@ -126,12 +131,12 @@ public class DataWriter {
 		}
 
 		last.addTime(lapTimes + 1);
-		writeRow(out, lap, last, bearingBuffer);
+		writeRow(out, lap, last, last);
 
 		out.write(footer.getBytes());
 	}
 
-	private void writeRow(OutputStream out, Lap lap, DataRow row, Deque<Double> bearingBuffer) throws IOException {
+	private void writeRow(OutputStream out, Lap lap, DataRow row, DataRow positionRow) throws IOException {
 		out.write(String.format("%.3f", row.getTime() - lap.getLapStart() + ConversionConstants.LAP_BUFFER).getBytes());
 
 		for (int i = 0; i < session.getHeaders().size(); i++) {
@@ -156,12 +161,10 @@ public class DataWriter {
 					} else if (!header.contains("position")) {
 						value = DataConverter.metersToMiles(value);
 					}
-				} else if (header.equals(ConversionConstants.BEARING_HEADER)) {
-					if(row.getTime() - lap.getLapStart() + ConversionConstants.LAP_BUFFER < ConversionConstants.BEARING_BUFFER){
-						value = Double.toString(bearingBuffer.peek());
-					} else {
-						value = Double.toString(bearingBuffer.pop());
-					}
+				} else if (header.equals(ConversionConstants.LAT_HEADER)) {
+					value = Double.toString(positionRow.getLatitude());
+				} else if (header.equals(ConversionConstants.LON_HEADER)) {
+					value = Double.toString(positionRow.getLongitude());
 				}
 				if (!value.isEmpty() && !header.contains("(deg)")) {
 					// Format most fields to only contain 5 decimal places for

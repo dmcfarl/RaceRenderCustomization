@@ -1,5 +1,6 @@
 package com.hobo.bob;
 
+import java.io.File;
 import java.io.IOException;
 
 import com.hobo.bob.model.Session;
@@ -14,13 +15,15 @@ public class Driver {
 			System.exit(1);
 		}
 
+		File dataFile = new File(args[0]);
+		
 		DataExtractor extractor = new DataExtractor(args[0], args[1]);
 		try {
 			System.out.println("Reading data...");
 			Session session = extractor.extract();
 			System.out.println("Data extracted...");
 
-			DataWriter writer = new DataWriter("./", session);
+			DataWriter writer = new DataWriter(dataFile.getParent() + File.separator, session);
 			writer.write();
 			System.out.println("Conversion complete.");
 		} catch (IOException e) {

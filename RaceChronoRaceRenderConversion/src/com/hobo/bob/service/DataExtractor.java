@@ -39,7 +39,8 @@ public class DataExtractor {
 					session.getHeaders().indexOf(ConversionConstants.LAP_HEADER),
 					session.getHeaders().indexOf(ConversionConstants.TRAP_HEADER),
 					session.getHeaders().indexOf(ConversionConstants.DISTANCE_HEADER),
-					session.getHeaders().indexOf(ConversionConstants.BEARING_HEADER));
+					session.getHeaders().indexOf(ConversionConstants.LAT_HEADER),
+					session.getHeaders().indexOf(ConversionConstants.LON_HEADER));
 			String line;
 			while (session.getBest().getLapData() == null && (line = sessionReader.readLine()) != null) {
 				DataRow row = new DataRow(line);

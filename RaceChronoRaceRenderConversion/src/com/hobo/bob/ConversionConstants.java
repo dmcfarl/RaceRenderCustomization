@@ -9,7 +9,9 @@ public class ConversionConstants {
 	public static final String BAROMETRIC_HEADER = "Barometric pressure (kPa) *OBD";
 	public static final String DISTANCE_HEADER = "Distance (m)";
 	public static final String BEARING_HEADER = "Bearing (deg)";
-	public static final double BEARING_BUFFER = 0.4;
+	public static final String LAT_HEADER = "Latitude (deg)";
+	public static final String LON_HEADER = "Longitude (deg)";
+	public static final double POSITION_BUFFER = 0.4;
 	
 	public static final double CONE_TIME_PENALTY = 2.0;
 	public static final double DNF_DISPLAY_TIME = 3 * 60 * 60;
