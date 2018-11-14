@@ -19,10 +19,12 @@ import com.hobo.bob.model.Session;
 public class DataExtractor {
 	private String sessionFile;
 	private String lapsFile;
+	private boolean allLaps;
 
 	public DataExtractor(String sessionFile, String lapsFile) {
 		this.sessionFile = sessionFile;
 		this.lapsFile = lapsFile;
+		this.allLaps = false;
 	}
 
 	public Session extract() throws IOException {
@@ -42,7 +44,7 @@ public class DataExtractor {
 					session.getHeaders().indexOf(ConversionConstants.LAT_HEADER),
 					session.getHeaders().indexOf(ConversionConstants.LON_HEADER));
 			String line;
-			while (session.getBest().getLapData() == null && (line = sessionReader.readLine()) != null) {
+			while ((session.getBest().getLapData() == null || allLaps) && (line = sessionReader.readLine()) != null) {
 				DataRow row = new DataRow(line);
 				dataBuffer.add(row);
 				while (dataBuffer.peek().getTime() < row.getTime() - ConversionConstants.LAP_BUFFER) {
@@ -66,6 +68,8 @@ public class DataExtractor {
 
 						readLap(session.getBest(), sessionReader, dataBuffer, bestStart);
 					}
+				} else if (allLaps && row.getLap() > 0) {
+					readLap(session.getLaps().get(row.getLap() - 1), sessionReader, dataBuffer, row);
 				}
 			}
 		}
@@ -156,6 +160,7 @@ public class DataExtractor {
 		}
 
 		lap.setLapFinish(dataBuffer.peekLast().getTime());
+		lap.setFinishDistance(dataBuffer.peekLast().getDistance());
 
 		if (row != null) {
 			if (!lap.getSectors().isEmpty()
@@ -176,5 +181,13 @@ public class DataExtractor {
 			dataBuffer.clear();
 			dataBuffer.addAll(lapCooldown);
 		}
+	}
+
+	public void setExtractAllLaps(boolean allLaps) {
+		this.allLaps = allLaps;
+	}
+
+	public boolean getExtractAllLaps() {
+		return allLaps;
 	}
 }

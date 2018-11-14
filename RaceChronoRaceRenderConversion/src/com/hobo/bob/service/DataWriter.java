@@ -25,7 +25,7 @@ public class DataWriter {
 		this.session = session;
 	}
 
-	public void write() throws IOException {
+	public void writeBestAndGhost() throws IOException {
 		try (OutputStream best = new FileOutputStream(filepath + "Best.csv");
 				OutputStream ghost = new FileOutputStream(filepath + "Ghost.csv")) {
 			writeBest(best);
@@ -33,6 +33,44 @@ public class DataWriter {
 			if (session.getGhost() != null) {
 				writeLap(ghost, session.getGhost(), "# Session End\n\n");
 				System.out.println("Ghost lap file written...");
+			}
+		}
+	}
+	
+	public void writeAll() throws IOException {
+		for (Lap lap : session.getLaps()){
+			try (OutputStream out = new FileOutputStream(filepath + "Lap " + lap.getLapNum() + ".csv")) {
+				StringBuffer footer = new StringBuffer();
+				AtomicInteger currentLap = new AtomicInteger(2);
+
+				footer.append(getLapHeader(currentLap.getAndIncrement(), 0));
+				for (int i = 1; i < lap.getLapNum(); i++) {
+					footer.append(getLapHeader(currentLap.getAndIncrement(), session.getLaps().get(i - 1).getLapDisplay()));
+				}
+				footer.append(getLapHeader(currentLap.getAndIncrement(), 0));
+				for (Sector sector : lap.getSectors()) {
+					footer.append(getLapHeader(currentLap.getAndIncrement(), sector.getTime() - lap.getLapStart()));
+				}
+				footer.append(getLapHeader(currentLap.getAndIncrement(), 0));
+				if (lap.getLapNum() > 1) {
+					Lap prevBest = session.getLaps().get(0);
+					for (int i = 2; i < lap.getLapNum(); i++) {
+						Lap prev = session.getLaps().get(i - 1);
+						if(prev.getLapTime() < prevBest.getLapTime()) {
+							prevBest = prev;
+						}
+					}
+					
+					for (Sector sector : prevBest.getSectors()) {
+						footer.append(getLapHeader(currentLap.getAndIncrement(),
+								sector.getTime() - prevBest.getLapStart()));
+					}
+				}
+
+				footer.append("# Session End\n\n");
+
+				writeLap(out, lap, footer.toString());
+				System.out.println("Lap " + lap.getLapNum() + " file written...");
 			}
 		}
 	}
