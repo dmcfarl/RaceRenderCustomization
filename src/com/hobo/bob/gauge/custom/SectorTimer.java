@@ -33,8 +33,6 @@ private int FontSize;
 private int FontWidth;
 private int HeaderY;
 private int SectorY;
-private int GapX;
-private int GapY;
 private int ConesIndex;
 private int SectorX;
 private int CurrSector;
@@ -42,7 +40,6 @@ private int X;
 private int Y;
 private float CurrSplit;
 private float PrevSplit;
-private float NextSplit;
 private float NextPrevSplit;
 private float RunTime;
 private float DiffSplit;
@@ -509,8 +506,6 @@ FontWidth = 72;
 //OffsetY = 6;
 HeaderY = SizeY - 100;
 SectorY = 30;
-GapX = 190; //Gap between the lap number and the lap time (may need to fit 2 or 3 digits)
-GapY = 5; //Additional gap between rows
 
 ConesIndex = GetDataIndex("Cones");
 
@@ -590,7 +585,6 @@ Y = HeaderY - 33;
 //Current Run
 
 CurrSplit = 0;
-NextSplit = 0;
 PrevSplit = 0;
 NextPrevSplit = 0;
 RunTime = GetCurLapTime();
@@ -598,65 +592,52 @@ RunTime = GetCurLapTime();
 if(GetCurLapNum() > 1){
 	CurrSplit = GetLapTime(1);
 	PrevSplit = LastPrevSplit;
-	NextSplit = 99999;
 	NextPrevSplit = 99999;
 } else if(RunTime >= CurrSplit6 && CurrSplit6 > 0){
 	CurrSplit = CurrSplit6;
 	PrevSplit = PrevSplit6;
-	NextSplit = GetLapTime(1);
 	NextPrevSplit = LastPrevSplit;
 } else if(RunTime >= CurrSplit5 && CurrSplit5 > 0){
 	CurrSplit = CurrSplit5;
 	PrevSplit = PrevSplit5;
 	if(CurrSplit6 == 0){
-		NextSplit = GetLapTime(1);
 		NextPrevSplit = LastPrevSplit;
 	} else {
-		NextSplit = CurrSplit6;
 		NextPrevSplit = PrevSplit6;
 	}
 } else if(RunTime >= CurrSplit4 && CurrSplit4 > 0){
 	CurrSplit = CurrSplit4;
 	PrevSplit = PrevSplit4;
 	if(CurrSplit5 == 0){
-		NextSplit = GetLapTime(1);
 		NextPrevSplit = LastPrevSplit;
 	} else {
-		NextSplit = CurrSplit5;
 		NextPrevSplit = PrevSplit5;
 	}
 } else if(RunTime >= CurrSplit3 && CurrSplit3 > 0){
 	CurrSplit = CurrSplit3;
 	PrevSplit = PrevSplit3;
 	if(CurrSplit4 == 0){
-		NextSplit = GetLapTime(1);
 		NextPrevSplit = LastPrevSplit;
 	} else {
-		NextSplit = CurrSplit4;
 		NextPrevSplit = PrevSplit4;
 	}
 } else if(RunTime >= CurrSplit2 && CurrSplit2 > 0){
 	CurrSplit = CurrSplit2;
 	PrevSplit = PrevSplit2;
 	if(CurrSplit3 == 0){
-		NextSplit = GetLapTime(1);
 		NextPrevSplit = LastPrevSplit;
 	} else {
-		NextSplit = CurrSplit3;
 		NextPrevSplit = PrevSplit3;
 	}
 } else if(RunTime >= CurrSplit1 && CurrSplit1 > 0){
 	CurrSplit = CurrSplit1;
 	PrevSplit = PrevSplit1;
 	if(CurrSplit2 == 0){
-		NextSplit = GetLapTime(1);
 		NextPrevSplit = LastPrevSplit;
 	} else {
-		NextSplit = CurrSplit2;
 		NextPrevSplit = PrevSplit2;
 	}
 } else {
-	NextSplit = CurrSplit1;
 	NextPrevSplit = PrevSplit1;
 }
 DiffSplit = CurrSplit - PrevSplit;

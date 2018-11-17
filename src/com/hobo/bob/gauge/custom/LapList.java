@@ -35,7 +35,6 @@ private int FontSize;
 private int FontWidth;
 private int TimeX;
 private int GapY;
-private int GapCone;
 private int TopY;
 private int BufferY;
 private int ConeIndex;
@@ -1379,7 +1378,6 @@ FontWidth = 33;
 // Spacing
 TimeX = 113; // Gap between the lap number and the lap time (may need to fit 2 or 3 digits)
 GapY = 7; // Additional gap between rows
-GapCone = 240;
 
 TopY = SizeY - 63;
 
