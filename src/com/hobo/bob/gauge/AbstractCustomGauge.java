@@ -82,6 +82,10 @@ protected void DrawText(String text, int x, int y, String color, int size, Strin
 
 }
 
+protected void DrawText(String text, double x, int y, String color, int size, String alignment) {
+
+}
+
 protected void DrawText(String text, int x, int y, String color, int size, int alignment) {
 
 }

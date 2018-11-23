@@ -33,18 +33,22 @@ private int FontWidth;
 private int HeaderY;
 private int SectorY;
 private int ConesIndex;
-private int X;
+private double X;
 private int Y;
 private float RunTime;
 private String DiffText;
 private float RunDisplayTime;
 private String TimeString;
 private int TimeIdx;
-private float PrevTime;
+private float LapTime;
 private int FooterY;
 private int SeparatorX;
 private int GapX;
 private String SplitColor;
+private float DiffSector;
+private float DiffSplit;
+private String DiffColor;
+private float SectorTime;
 
 public ComparisonSectorTimer(Frame frame, int sizeX, int sizeY) {
 super(frame, sizeX, sizeY);
@@ -448,7 +452,7 @@ DrawLine(SizeX - SeparatorX, FooterY / 2, SizeX - SeparatorX, HeaderY - FooterY 
 
 //Save Split Information and Draw Sector List
 SectorY = (HeaderY - FooterY) / (NumSplits + 1);
-Y = HeaderY - FooterY;
+Y = HeaderY - FooterY + 5;
 CurrSplit1 = 0;
 CurrSplit2 = 0;
 CurrSplit3 = 0;
@@ -466,7 +470,7 @@ if(NumSplits >= 1) {
 	CurrSplit2 = GetLapTime(1);
 	PrevSplit1 = GetLapTime(SplitStart + NumSplits + 1);
 	PrevSplit2 = GetLapTime(SplitStart + NumSplits + 2);
-	DrawText("SECTOR 1", SizeX / 2, Y + 5, RunColor, 3 * FontSize / 8, AlignH_Center);
+	DrawText("SECTOR 1", SizeX / 2, Y, RunColor, 3 * FontSize / 8, AlignH_Center);
 	Y -= SectorY;
 }
 if(NumSplits >= 2) {
@@ -474,7 +478,7 @@ if(NumSplits >= 2) {
 	CurrSplit3 = GetLapTime(1);
 	PrevSplit2 = GetLapTime(SplitStart + NumSplits + 2);
 	PrevSplit3 = GetLapTime(SplitStart + NumSplits + 3);
-	DrawText("SECTOR 2", SizeX / 2, Y + 5, RunColor, 3 * FontSize / 8, AlignH_Center);
+	DrawText("SECTOR 2", SizeX / 2, Y, RunColor, 3 * FontSize / 8, AlignH_Center);
 	Y -= SectorY;
 }
 if(NumSplits >= 3) {
@@ -482,7 +486,7 @@ if(NumSplits >= 3) {
 	CurrSplit4 = GetLapTime(1);
 	PrevSplit3 = GetLapTime(SplitStart + NumSplits + 3);
 	PrevSplit4 = GetLapTime(SplitStart + NumSplits + 4);
-	DrawText("SECTOR 3", SizeX / 2, Y + 5, RunColor, 3 * FontSize / 8, AlignH_Center);
+	DrawText("SECTOR 3", SizeX / 2, Y, RunColor, 3 * FontSize / 8, AlignH_Center);
 	Y -= SectorY;
 }
 if(NumSplits >= 4) {
@@ -490,7 +494,7 @@ if(NumSplits >= 4) {
 	CurrSplit5 = GetLapTime(1);
 	PrevSplit4 = GetLapTime(SplitStart + NumSplits + 4);
 	PrevSplit5 = GetLapTime(SplitStart + NumSplits + 5);
-	DrawText("SECTOR 4", SizeX / 2, Y + 5, RunColor, 3 * FontSize / 8, AlignH_Center);
+	DrawText("SECTOR 4", SizeX / 2, Y, RunColor, 3 * FontSize / 8, AlignH_Center);
 	Y -= SectorY;
 }
 if(NumSplits >= 5) {
@@ -498,15 +502,15 @@ if(NumSplits >= 5) {
 	CurrSplit6 = GetLapTime(1);
 	PrevSplit5 = GetLapTime(SplitStart + NumSplits + 5);
 	PrevSplit6 = GetLapTime(SplitStart + NumSplits + 6);
-	DrawText("SECTOR 5", SizeX / 2, Y + 5, RunColor, 3 * FontSize / 8, AlignH_Center);
+	DrawText("SECTOR 5", SizeX / 2, Y, RunColor, 3 * FontSize / 8, AlignH_Center);
 	Y -= SectorY;
 }
 if(NumSplits >= 6) {
 	CurrSplit6 = GetLapTime(SplitStart + 5);
 	PrevSplit6 = GetLapTime(SplitStart + NumSplits + 6);
-	DrawText("SECTOR 6", SizeX / 2, Y + 5, RunColor, 3 * FontSize / 8, AlignH_Center);
+	DrawText("SECTOR 6", SizeX / 2, Y, RunColor, 3 * FontSize / 8, AlignH_Center);
 }
-DrawText("SECTOR " + FormatNumber(NumSplits + 1, 0), SizeX / 2, Y + 5, RunColor, 3 * FontSize / 8, AlignH_Center);
+DrawText("SECTOR " + FormatNumber(NumSplits + 1, 0), SizeX / 2, Y, RunColor, 3 * FontSize / 8, AlignH_Center);
 LastPrevSplit = GetLapTime(SplitStart + NumSplits * 2 + 1);
 
 //Draw Header
@@ -532,6 +536,30 @@ DrawLineFlat(SizeX / 2 + 140, HeaderY + FooterY / 2, SizeX / 2 + 140, SizeY - 20
 @Override
 public void foregroundScript() {
 SetTextOutline(Transparent);
+
+if(GetCurLapNum() < 1) {
+	LapTime = 0;
+} else {
+	LapTime = GetCurLapTime();
+	if(GetCurLapNum() > 1) {
+		LapTime += GetLapTime(1);
+	}
+	if(GetCurLapNum() > 2) {
+		LapTime += GetLapTime(2);
+	}
+	if(GetCurLapNum() > 3) {
+		LapTime += GetLapTime(3);
+	}
+	if(GetCurLapNum() > 4) {
+		LapTime += GetLapTime(4);
+	}
+	if(GetCurLapNum() > 5) {
+		LapTime += GetLapTime(5);
+	}
+	if(GetCurLapNum() > 6) {
+		LapTime += GetLapTime(6);
+	}
+}
 
 X = 75;
 Y = HeaderY - 45;
@@ -564,183 +592,554 @@ DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4 + 25, Y, RunColor, Fo
 
 //Previous Split
 X += SizeX - SeparatorX + 10;
-if(GetCurLapNum() < 1) {
-	PrevTime = 0;
+if(LapTime > LastPrevSplit) {
+	RunDisplayTime = LastPrevSplit;
 } else {
-	PrevTime = GetCurLapTime();
-	if(GetCurLapNum() > 1) {
-		PrevTime += GetLapTime(1);
-	}
-	if(GetCurLapNum() > 2) {
-		PrevTime += GetLapTime(2);
-	}
-	if(GetCurLapNum() > 3) {
-		PrevTime += GetLapTime(3);
-	}
-	if(GetCurLapNum() > 4) {
-		PrevTime += GetLapTime(4);
-	}
-	if(GetCurLapNum() > 5) {
-		PrevTime += GetLapTime(5);
-	}
-	if(GetCurLapNum() > 6) {
-		PrevTime += GetLapTime(6);
-	}
-	if(PrevTime > LastPrevSplit) {
-		RunDisplayTime = LastPrevSplit;
-	} else {
-		RunDisplayTime = PrevTime;
-	}
+	RunDisplayTime = LapTime;
 }
 
-if(ConesIndex > 0) {
-	RunDisplayTime += ceil(GetDataValue(ConesIndex)) * ConePenalty;
-}
-TimeString = FormatNumber(RunDisplayTime, 3);
-TimeIdx = 0;
-if(RunDisplayTime >= 10) {
-	DrawText(substr(TimeString, TimeIdx, 1), X, Y, RunColor, FontSize, AlignH_Center);
+if((LapTime > LastPrevSplit) && (GetCurLapNum() > 1)) {
+	DiffSplit = LastPrevSplit - GetLapTime(1);
+	if(ConesIndex > 0) {
+		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
+	}
+	DiffText = FormatNumber(DiffSplit, 3);
+	DiffColor = RunColor;
+	if(DiffSplit < 0) {
+		DiffColor = NegativeSplitColor;
+	} else if(DiffSplit > 0) {
+		DiffColor = PositiveSplitColor;
+		DiffText = "+" + DiffText;
+	}
+	DrawText(DiffText, X - 30, Y, DiffColor, FontSize, AlignH_Left);
+} else {
+	if(ConesIndex > 0) {
+		RunDisplayTime += ceil(GetDataValue(ConesIndex)) * ConePenalty;
+	}
+	TimeString = FormatNumber(RunDisplayTime, 3);
+	TimeIdx = 0;
+	if(RunDisplayTime >= 10) {
+		DrawText(substr(TimeString, TimeIdx, 1), X, Y, RunColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+	}
+	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, RunColor, FontSize, AlignH_Center);
 	TimeIdx += 1;
+	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth + 50, Y, RunColor, FontSize, AlignH_Center);
+	TimeIdx += 1;
+	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2 + 25, Y, RunColor, FontSize, AlignH_Center);
+	TimeIdx += 1;
+	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3 + 25, Y, RunColor, FontSize, AlignH_Center);
+	TimeIdx += 1;
+	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4 + 25, Y, RunColor, FontSize, AlignH_Center);
 }
-DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, RunColor, FontSize, AlignH_Center);
-TimeIdx += 1;
-DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth + 50, Y, RunColor, FontSize, AlignH_Center);
-TimeIdx += 1;
-DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2 + 25, Y, RunColor, FontSize, AlignH_Center);
-TimeIdx += 1;
-DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3 + 25, Y, RunColor, FontSize, AlignH_Center);
-TimeIdx += 1;
-DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4 + 25, Y, RunColor, FontSize, AlignH_Center);
 
 //Draw Sectors
-Y = HeaderY - FooterY;
+Y = HeaderY - FooterY + 5;
 FontWidth *= 3 / 8;
 FontSize *= 3 / 8;
 if(NumSplits >= 0) {
 	SplitColor = RunColor;
-	if(PrevTime > CurrSplit1) {
-		DrawText(FormatNumber(CurrSplit1, 3), SizeX / 2 - GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
+	if(LapTime > CurrSplit1) {
+		SectorTime = CurrSplit1;
+	} else {
+		SectorTime = LapTime;
 	}
-	if(PrevTime > PrevSplit1) {
-		if(PrevTime < CurrSplit1) {
-			DrawText(FormatNumber(PrevSplit1, 3), SizeX / 2 + GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
-		} else {
-			DiffText = FormatNumber(PrevSplit1 - CurrSplit1, 3);
-			if(PrevSplit1 > CurrSplit1) {
-				DiffText = "+" + DiffText;
-				SplitColor = PositiveSplitColor;
-			} else if(PrevSplit1 < CurrSplit1) {
-				SplitColor = NegativeSplitColor;
-			}
-			DrawText(DiffText, SizeX / 2 + GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
+	X = SizeX / 2 - 1.335 * GapX;
+	TimeIdx = 0;
+	TimeString = FormatNumber(SectorTime, 3);
+	if(SectorTime >= 10) {
+		DrawText(substr(TimeString, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+	}
+	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+	TimeIdx += 1;
+	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+	TimeIdx += 1;
+	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+	TimeIdx += 1;
+	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+	TimeIdx += 1;
+	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
+
+	X = SizeX / 2 + 0.715 * GapX;
+	if(LapTime > PrevSplit1 && LapTime > CurrSplit1) {
+		DiffSector = PrevSplit1 - CurrSplit1;
+		DiffText = FormatNumber(DiffSector, 3);
+		if(PrevSplit1 > CurrSplit1) {
+			DiffText = "+" + DiffText;
+			SplitColor = PositiveSplitColor;
+		} else if(PrevSplit1 < CurrSplit1) {
+			SplitColor = NegativeSplitColor;
 		}
+		TimeIdx = 0;
+		if(abs(DiffSector) >= 10) {
+			DrawText(substr(DiffText, TimeIdx, 1), X - 0.5 *FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		} else if(SectorTime != 0) {
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		}
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
+	} else {
+		SectorTime = LapTime;
+		if(LapTime > PrevSplit1) {
+			SectorTime = PrevSplit1;
+		}
+		TimeString = FormatNumber(SectorTime, 3);
+		TimeIdx = 0;
+		if(SectorTime >= 10) {
+			DrawText(substr(TimeString, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		}
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
 	}
 	Y -= SectorY;
 }
 if(NumSplits >= 1) {
 	SplitColor = RunColor;
-	if(PrevTime > CurrSplit2) {
-		DrawText(FormatNumber(CurrSplit2, 3), SizeX / 2 - GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
+	SectorTime = 0;
+	if(LapTime > CurrSplit2) {
+		SectorTime = CurrSplit2 - CurrSplit1;
+	} else if(LapTime > CurrSplit1) {
+		SectorTime = LapTime - CurrSplit1;
 	}
-	if(PrevTime > PrevSplit2) {
-		if(PrevTime < CurrSplit2) {
-			DrawText(FormatNumber(PrevSplit2, 3), SizeX / 2 + GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
-		} else {
-			DiffText = FormatNumber(PrevSplit2 - CurrSplit2, 3);
-			if(PrevSplit2 > CurrSplit2) {
-				DiffText = "+" + DiffText;
-				SplitColor = PositiveSplitColor;
-			} else if(PrevSplit2 < CurrSplit2) {
-				SplitColor = NegativeSplitColor;
+	if(SectorTime > 0) {
+		X = SizeX / 2 - 1.335 * GapX;
+		TimeString = FormatNumber(SectorTime, 3);
+		TimeIdx = 0;
+		if(SectorTime >= 10) {
+			DrawText(substr(TimeString, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		}
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
+	}
+	X = SizeX / 2 + 0.715 * GapX;
+	if(LapTime > PrevSplit2 && LapTime > CurrSplit2) {
+		DiffSector = (PrevSplit2 - PrevSplit1) - (CurrSplit2 - CurrSplit1);
+		DiffText = FormatNumber(DiffSector, 3);
+		if(DiffSector > 0) {
+			DiffText = "+" + DiffText;
+			SplitColor = PositiveSplitColor;
+		} else if(DiffSector < 0) {
+			SplitColor = NegativeSplitColor;
+		}
+		TimeIdx = 0;
+		if(abs(DiffSector) >= 10) {
+			DrawText(substr(DiffText, TimeIdx, 1), X - 0.75 *FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		} else if(SectorTime != 0) {
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		}
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
+	} else {
+		SectorTime = 0;
+		if(LapTime > PrevSplit2) {
+			SectorTime = PrevSplit2 - PrevSplit1;
+		} else if(LapTime > PrevSplit1) {
+			SectorTime = LapTime - PrevSplit1;
+		}
+		if(SectorTime > 0) {
+			TimeString = FormatNumber(SectorTime, 3);
+			TimeIdx = 0;
+			if(SectorTime >= 10) {
+				DrawText(substr(TimeString, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+				TimeIdx += 1;
 			}
-			DrawText(DiffText, SizeX / 2 + GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
 		}
 	}
 	Y -= SectorY;
 }
 if(NumSplits >= 2) {
 	SplitColor = RunColor;
-	if(PrevTime > CurrSplit3) {
-		DrawText(FormatNumber(CurrSplit3, 3), SizeX / 2 - GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
+	SectorTime = 0;
+	if(LapTime > CurrSplit3) {
+		SectorTime = CurrSplit3 - CurrSplit2;
+	} else if(LapTime > CurrSplit2) {
+		SectorTime = LapTime - CurrSplit2;
 	}
-	if(PrevTime > PrevSplit3) {
-		if(PrevTime < CurrSplit3) {
-			DrawText(FormatNumber(PrevSplit3, 3), SizeX / 2 + GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
-		} else {
-			DiffText = FormatNumber(PrevSplit3 - CurrSplit3, 3);
-			if(PrevSplit3 > CurrSplit3) {
-				DiffText = "+" + DiffText;
-				SplitColor = PositiveSplitColor;
-			} else if(PrevSplit3 < CurrSplit3) {
-				SplitColor = NegativeSplitColor;
+	if(SectorTime > 0) {
+		X = SizeX / 2 - 1.335 * GapX;
+		TimeString = FormatNumber(SectorTime, 3);
+		TimeIdx = 0;
+		if(SectorTime >= 10) {
+			DrawText(substr(TimeString, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		}
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
+	}
+	X = SizeX / 2 + 0.715 * GapX;
+	if(LapTime > PrevSplit3 && LapTime > CurrSplit3) {
+		DiffSector = (PrevSplit3 - PrevSplit2) - (CurrSplit3 - CurrSplit2);
+		DiffText = FormatNumber(DiffSector, 3);
+		if(DiffSector > 0) {
+			DiffText = "+" + DiffText;
+			SplitColor = PositiveSplitColor;
+		} else if(DiffSector < 0) {
+			SplitColor = NegativeSplitColor;
+		}
+		TimeIdx = 0;
+		if(abs(DiffSector) >= 10) {
+			DrawText(substr(DiffText, TimeIdx, 1), X - 0.75 *FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		} else if(SectorTime != 0) {
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		}
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
+	} else {
+		SectorTime = 0;
+		if(LapTime > PrevSplit3) {
+			SectorTime = PrevSplit3 - PrevSplit2;
+		} else if(LapTime > PrevSplit2) {
+			SectorTime = LapTime - PrevSplit2;
+		}
+		if(SectorTime > 0) {
+			TimeString = FormatNumber(SectorTime, 3);
+			TimeIdx = 0;
+			if(SectorTime >= 10) {
+				DrawText(substr(TimeString, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+				TimeIdx += 1;
 			}
-			DrawText(DiffText, SizeX / 2 + GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
 		}
 	}
 	Y -= SectorY;
 }
 if(NumSplits >= 3) {
 	SplitColor = RunColor;
-	if(PrevTime > CurrSplit4) {
-		DrawText(FormatNumber(CurrSplit4, 3), SizeX / 2 - GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
+	SectorTime = 0;
+	if(LapTime > CurrSplit4) {
+		SectorTime = CurrSplit4 - CurrSplit3;
+	} else if(LapTime > CurrSplit3) {
+		SectorTime = LapTime - CurrSplit3;
 	}
-	if(PrevTime > PrevSplit4) {
-		if(PrevTime < CurrSplit4) {
-			DrawText(FormatNumber(PrevSplit4, 3), SizeX / 2 + GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
-		} else {
-			DiffText = FormatNumber(PrevSplit4 - CurrSplit4, 3);
-			if(PrevSplit4 > CurrSplit4) {
-				DiffText = "+" + DiffText;
-				SplitColor = PositiveSplitColor;
-			} else if(PrevSplit4 < CurrSplit4) {
-				SplitColor = NegativeSplitColor;
+	if(SectorTime > 0) {
+		X = SizeX / 2 - 1.335 * GapX;
+		TimeString = FormatNumber(SectorTime, 3);
+		TimeIdx = 0;
+		if(SectorTime >= 10) {
+			DrawText(substr(TimeString, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		}
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
+	}
+	X = SizeX / 2 + 0.715 * GapX;
+	if(LapTime > PrevSplit4 && LapTime > CurrSplit4) {
+		DiffSector = (PrevSplit4 - PrevSplit3) - (CurrSplit4 - CurrSplit3);
+		DiffText = FormatNumber(DiffSector, 3);
+		if(DiffSector > 0) {
+			DiffText = "+" + DiffText;
+			SplitColor = PositiveSplitColor;
+		} else if(DiffSector < 0) {
+			SplitColor = NegativeSplitColor;
+		}
+		TimeIdx = 0;
+		if(abs(DiffSector) >= 10) {
+			DrawText(substr(DiffText, TimeIdx, 1), X - 0.75 *FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		} else if(SectorTime != 0) {
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		}
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
+	} else {
+		SectorTime = 0;
+		if(LapTime > PrevSplit4) {
+			SectorTime = PrevSplit4 - PrevSplit3;
+		} else if(LapTime > PrevSplit3) {
+			SectorTime = LapTime - PrevSplit3;
+		}
+		if(SectorTime > 0) {
+			TimeString = FormatNumber(SectorTime, 3);
+			TimeIdx = 0;
+			if(SectorTime >= 10) {
+				DrawText(substr(TimeString, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+				TimeIdx += 1;
 			}
-			DrawText(DiffText, SizeX / 2 + GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
 		}
 	}
 	Y -= SectorY;
 }
 if(NumSplits >= 4) {
 	SplitColor = RunColor;
-	if(PrevTime > CurrSplit5) {
-		DrawText(FormatNumber(CurrSplit5, 3), SizeX / 2 - GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
+	SectorTime = 0;
+	if(LapTime > CurrSplit5) {
+		SectorTime = CurrSplit5 - CurrSplit4;
+	} else if(LapTime > CurrSplit4) {
+		SectorTime = LapTime - CurrSplit4;
 	}
-	if(PrevTime > PrevSplit5) {
-		if(PrevTime < CurrSplit5) {
-			DrawText(FormatNumber(PrevSplit5, 3), SizeX / 2 + GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
-		} else {
-			DiffText = FormatNumber(PrevSplit5 - CurrSplit5, 3);
-			if(PrevSplit5 > CurrSplit5) {
-				DiffText = "+" + DiffText;
-				SplitColor = PositiveSplitColor;
-			} else if(PrevSplit5 < CurrSplit5) {
-				SplitColor = NegativeSplitColor;
+	if(SectorTime > 0) {
+		X = SizeX / 2 - 1.335 * GapX;
+		TimeString = FormatNumber(SectorTime, 3);
+		TimeIdx = 0;
+		if(SectorTime >= 10) {
+			DrawText(substr(TimeString, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		}
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
+	}
+	X = SizeX / 2 + 0.715 * GapX;
+	if(LapTime > PrevSplit5 && LapTime > CurrSplit5) {
+		DiffSector = (PrevSplit5 - PrevSplit4) - (CurrSplit5 - CurrSplit4);
+		DiffText = FormatNumber(DiffSector, 3);
+		if(DiffSector > 0) {
+			DiffText = "+" + DiffText;
+			SplitColor = PositiveSplitColor;
+		} else if(DiffSector < 0) {
+			SplitColor = NegativeSplitColor;
+		}
+		TimeIdx = 0;
+		if(abs(DiffSector) >= 10) {
+			DrawText(substr(DiffText, TimeIdx, 1), X - 0.75 *FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		} else if(SectorTime != 0) {
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		}
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
+	} else {
+		SectorTime = 0;
+		if(LapTime > PrevSplit5) {
+			SectorTime = PrevSplit5 - PrevSplit4;
+		} else if(LapTime > PrevSplit4) {
+			SectorTime = LapTime - PrevSplit4;
+		}
+		if(SectorTime > 0) {
+			TimeString = FormatNumber(SectorTime, 3);
+			TimeIdx = 0;
+			if(SectorTime >= 10) {
+				DrawText(substr(TimeString, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+				TimeIdx += 1;
 			}
-			DrawText(DiffText, SizeX / 2 + GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
 		}
 	}
 	Y -= SectorY;
 }
 if(NumSplits >= 5) {
 	SplitColor = RunColor;
-	if(PrevTime > CurrSplit6) {
-		DrawText(FormatNumber(CurrSplit6, 3), SizeX / 2 - GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
+	SectorTime = 0;
+	if(LapTime > CurrSplit6) {
+		SectorTime = CurrSplit6 - CurrSplit5;
+	} else if(LapTime > CurrSplit5) {
+		SectorTime = LapTime - CurrSplit5;
 	}
-	if(PrevTime > PrevSplit6) {
-		if(PrevTime < CurrSplit6) {
-			DrawText(FormatNumber(PrevSplit6, 3), SizeX / 2 + GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
-		} else {
-			DiffText = FormatNumber(PrevSplit6 - CurrSplit6, 3);
-			if(PrevSplit6 > CurrSplit6) {
-				DiffText = "+" + DiffText;
-				SplitColor = PositiveSplitColor;
-			} else if(PrevSplit6 < CurrSplit6) {
-				SplitColor = NegativeSplitColor;
+	if(SectorTime > 0) {
+		X = SizeX / 2 - 1.335 * GapX;
+		TimeString = FormatNumber(SectorTime, 3);
+		TimeIdx = 0;
+		if(SectorTime >= 10) {
+			DrawText(substr(TimeString, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		}
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
+	}
+	X = SizeX / 2 + 0.715 * GapX;
+	if(LapTime > PrevSplit6 && LapTime > CurrSplit6) {
+		DiffSector = (PrevSplit6 - PrevSplit5) - (CurrSplit6 - CurrSplit5);
+		DiffText = FormatNumber(DiffSector, 3);
+		X = SizeX / 2 + 0.715 * GapX;
+		if(DiffSector > 0) {
+			DiffText = "+" + DiffText;
+			SplitColor = PositiveSplitColor;
+		} else if(DiffSector < 0) {
+			SplitColor = NegativeSplitColor;
+		}
+		TimeIdx = 0;
+		if(abs(DiffSector) >= 10) {
+			DrawText(substr(DiffText, TimeIdx, 1), X - 0.75 *FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		} else if(SectorTime != 0) {
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		}
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
+		if(SectorTime >= 10) {
+			DrawText(substr(DiffText, TimeIdx, 1), X - FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		} else if(SectorTime != 0) {
+			DrawText(substr(DiffText, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+		}
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+		TimeIdx += 1;
+		DrawText(substr(DiffText, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
+	} else {
+		SectorTime = 0;
+		if(LapTime > PrevSplit6) {
+			SectorTime = PrevSplit6 - PrevSplit5;
+		} else if(LapTime > PrevSplit5) {
+			SectorTime = LapTime - PrevSplit5;
+		}
+		if(SectorTime > 0) {
+			TimeString = FormatNumber(SectorTime, 3);
+			TimeIdx = 0;
+			if(SectorTime >= 10) {
+				DrawText(substr(TimeString, TimeIdx, 1), X, Y, SplitColor, FontSize, AlignH_Center);
+				TimeIdx += 1;
 			}
-			DrawText(DiffText, SizeX / 2 + GapX, Y + 5, SplitColor, FontSize, AlignH_Center);
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 1.7, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2.4, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3.4, Y, SplitColor, FontSize, AlignH_Center);
+			TimeIdx += 1;
+			DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4.4, Y, SplitColor, FontSize, AlignH_Center);
 		}
 	}
-	Y -= SectorY;
 }
 }
 
