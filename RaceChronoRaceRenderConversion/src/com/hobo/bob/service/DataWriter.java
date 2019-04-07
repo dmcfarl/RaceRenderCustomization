@@ -43,7 +43,6 @@ public class DataWriter {
 				StringBuffer footer = new StringBuffer();
 				AtomicInteger currentLap = new AtomicInteger(2);
 
-				footer.append(getLapHeader(currentLap.getAndIncrement(), 0));
 				for (int i = 1; i < lap.getLapNum(); i++) {
 					footer.append(getLapHeader(currentLap.getAndIncrement(), session.getLaps().get(i - 1).getLapDisplay()));
 				}
@@ -80,7 +79,6 @@ public class DataWriter {
 		StringBuffer footer = new StringBuffer();
 		AtomicInteger currentLap = new AtomicInteger(2);
 
-		footer.append(getLapHeader(currentLap.getAndIncrement(), 0));
 		for (int i = 1; i < lap.getLapNum(); i++) {
 			footer.append(getLapHeader(currentLap.getAndIncrement(), session.getLaps().get(i - 1).getLapDisplay()));
 		}
