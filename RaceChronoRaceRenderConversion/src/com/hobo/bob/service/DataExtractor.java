@@ -127,16 +127,26 @@ public class DataExtractor {
 		try {
 			if (line == null) {
 				throw new IllegalArgumentException("Reached end of laps file before processing a lap.");
-			} else if (line.toLowerCase().contains("dnf")) {
+			}
+			String[] tokens = line.split(",");
+			
+			// Parse lap time
+			if (tokens[0].toLowerCase().contains("dnf")) {
 				lap.setLapDisplay(-1, -1, false, true);
-			} else if (line.toLowerCase().contains("oc") || line.toLowerCase().contains("off")) {
+			} else if (tokens[0].toLowerCase().contains("oc") || tokens[0].toLowerCase().contains("off")) {
 				lap.setLapDisplay(-1, -1, true, false);
-			} else if (line.replaceAll(",", "").trim().matches("^\\d+(\\.\\d+)?\\+\\d$")) {
-				String[] time = line.split("\\+");
+			} else if (tokens[0].trim().matches("^\\d+(\\.\\d+)?\\+\\d$")) {
+				String[] time = tokens[0].split("\\+");
 				lap.setLapDisplay(Double.parseDouble(time[0]), Integer.parseInt(time[1]), false, false);
 			} else {
-				lap.setLapDisplay(Double.parseDouble(line), 0, false, false);
+				lap.setLapDisplay(Double.parseDouble(tokens[0]), 0, false, false);
 			}
+			
+			// Parse start buffer
+			if (tokens.length > 1) {
+				lap.setLapStartBuffer(Double.parseDouble(tokens[1]));
+			}
+			
 			parsed = true;
 		} catch (NumberFormatException e) {
 			parsed = false;

@@ -16,6 +16,7 @@ public class Lap {
 	private int lapNum;
 	private double startDistance;
 	private double finishDistance;
+	private double lapStartBuffer = ConversionConstants.LAP_BUFFER;
 
 	public Lap(int lapNum) {
 		this.lapNum = lapNum;
@@ -119,5 +120,13 @@ public class Lap {
 
 	public void setFinishDistance(double finishDistance) {
 		this.finishDistance = finishDistance;
+	}
+
+	public double getLapStartBuffer() {
+		return lapStartBuffer;
+	}
+
+	public void setLapStartBuffer(double lapStartBuffer) {
+		this.lapStartBuffer = lapStartBuffer;
 	}
 }

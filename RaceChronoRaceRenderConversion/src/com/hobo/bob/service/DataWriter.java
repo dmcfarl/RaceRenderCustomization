@@ -48,7 +48,8 @@ public class DataWriter {
 				}
 				footer.append(getLapHeader(currentLap.getAndIncrement(), 0));
 				for (Sector sector : lap.getSectors()) {
-					footer.append(getLapHeader(currentLap.getAndIncrement(), sector.getTime() - lap.getLapStart()));
+					footer.append(getLapHeader(currentLap.getAndIncrement(), sector.getTime() - lap.getLapStart()
+							- (lap.getLapStartBuffer() - ConversionConstants.LAP_BUFFER)));
 				}
 				footer.append(getLapHeader(currentLap.getAndIncrement(), 0));
 				if (lap.getLapNum() > 1) {
@@ -61,9 +62,11 @@ public class DataWriter {
 					}
 					
 					for (Sector sector : prevBest.getSectors()) {
-						footer.append(getLapHeader(currentLap.getAndIncrement(),
-								sector.getTime() - prevBest.getLapStart()));
+						footer.append(
+								getLapHeader(currentLap.getAndIncrement(), sector.getTime() - prevBest.getLapStart()
+										- (prevBest.getLapStartBuffer() - ConversionConstants.LAP_BUFFER)));
 					}
+					footer.append(getLapHeader(currentLap.getAndIncrement(), prevBest.getLapDisplay()));
 				}
 
 				footer.append("# Session End\n\n");
@@ -84,13 +87,15 @@ public class DataWriter {
 		}
 		footer.append(getLapHeader(currentLap.getAndIncrement(), 0));
 		for (Sector sector : lap.getSectors()) {
-			footer.append(getLapHeader(currentLap.getAndIncrement(), sector.getTime() - lap.getLapStart()));
+			footer.append(getLapHeader(currentLap.getAndIncrement(),
+					sector.getTime() - lap.getLapStart() - (lap.getLapStartBuffer() - ConversionConstants.LAP_BUFFER)));
 		}
 		footer.append(getLapHeader(currentLap.getAndIncrement(), 0));
 		if (session.getGhost() != null) {
 			for (Sector sector : session.getGhost().getSectors()) {
-				footer.append(getLapHeader(currentLap.getAndIncrement(),
-						sector.getTime() - session.getGhost().getLapStart()));
+				footer.append(
+						getLapHeader(currentLap.getAndIncrement(), sector.getTime() - session.getGhost().getLapStart()
+								- (session.getGhost().getLapStartBuffer() - ConversionConstants.LAP_BUFFER)));
 			}
 		}
 
@@ -142,7 +147,7 @@ public class DataWriter {
 		for (int i = 0; i < lap.getLapData().size(); i++) {
 			DataRow row = lap.getLapData().get(i);
 			if (!wroteStart && row.getTime() == lap.getLapStart()) {
-				printLapHeader(out, currentLap.getAndIncrement(), ConversionConstants.LAP_BUFFER);
+				printLapHeader(out, currentLap.getAndIncrement(), lap.getLapStartBuffer());
 				wroteStart = true;
 			} else if (!wroteFinish && row.getTime() == lap.getLapFinish()) {
 				printLapHeader(out, currentLap.getAndIncrement(), lap.getLapDisplay());
