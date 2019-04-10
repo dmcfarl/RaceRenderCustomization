@@ -644,16 +644,21 @@ DiffSplit = CurrSplit - PrevSplit;
 
 //Current Run or Difference between Splits
 if(GetCurLapNum() > 1 || (CurrSplit != 0 && CurrSplit + SplitDisplayLength > RunTime)) {
+	DiffColor = RunColor;
+	if(PrevSplit == 999999 || PrevSplit == 0) {
+		DiffSplit = CurrSplit;
+	} else {
+		if(DiffSplit < 0){
+			DiffColor = NegativeSplitColor;
+		} else if(DiffSplit > 0){
+			DiffColor = PositiveSplitColor;
+			DiffText = "+" + DiffText;
+		}
+	}
 	if(ConesIndex > 0){
 		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
 	DiffText = FormatNumber(DiffSplit, 3);
-	if(DiffSplit < 0){
-		DiffColor = NegativeSplitColor;
-	} else if(DiffSplit > 0){
-		DiffColor = PositiveSplitColor;
-		DiffText = "+" + DiffText;
-	}
 	DrawText(DiffText, SizeX / 4, Y, DiffColor, FontSize, AlignH_Center);
 } else {
 	RunDisplayTime = RunTime;
@@ -689,21 +694,25 @@ FontWidth *= 5 / 8;
 X += SizeX / 2 + 65;
 
 Y -= 40;
-PrevTimeString = FormatNumber(PrevTime, 3);
-TimeIdx = 0;
-if(PrevTime >= 10){
-	DrawText(substr(PrevTimeString, TimeIdx, 1), X, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
+if(PrevTime > 0 && PrevTime < 999999) {
+	PrevTimeString = FormatNumber(PrevTime, 3);
+	TimeIdx = 0;
+	if(PrevTime >= 10){
+		DrawText(substr(PrevTimeString, TimeIdx, 1), X, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
+		TimeIdx += 1;
+	}
+	DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
 	TimeIdx += 1;
+	DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth + 30, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
+	TimeIdx += 1;
+	DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth * 2 + 15, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
+	TimeIdx += 1;
+	DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth * 3 + 15, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
+	TimeIdx += 1;
+	DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth * 4 + 15, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
+} else {
+	DrawText("---", X + 55, Y, RunColor, 5 * FontSize / 8, AlignH_Left);
 }
-DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
-TimeIdx += 1;
-DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth + 30, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
-TimeIdx += 1;
-DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth * 2 + 15, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
-TimeIdx += 1;
-DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth * 3 + 15, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
-TimeIdx += 1;
-DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth * 4 + 15, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
 
 //Draw Sectors
 CurrSector = 0;
@@ -717,10 +726,12 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit1 > 0 && RunTime 
 		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
 	DiffColor = RunColor;
-	if(DiffSplit < 0){
-		DiffColor = NegativeSplitColor;
-	} else if(DiffSplit > 0){
-		DiffColor = PositiveSplitColor;
+	if((CurrSplit1 == 0 && LastPrevSplit < 999999) || (PrevSplit1 > 0 && PrevSplit1 < 999999)) {
+		if(DiffSplit < 0) {
+			DiffColor = NegativeSplitColor;
+		} else if(DiffSplit > 0) {
+			DiffColor = PositiveSplitColor;
+		}
 	}
 
 	//DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 2, SectorY, DiffColor, Filled);
@@ -755,10 +766,12 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit2 > 0 && RunTime 
 		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
 	DiffColor = RunColor;
-	if(DiffSplit < 0){
-		DiffColor = NegativeSplitColor;
-	} else if(DiffSplit > 0){
-		DiffColor = PositiveSplitColor;
+	if((CurrSplit2 == 0 && LastPrevSplit < 999999) || (PrevSplit2 > 0 && PrevSplit2 < 999999)) {
+		if(DiffSplit < 0) {
+			DiffColor = NegativeSplitColor;
+		} else if(DiffSplit > 0) {
+			DiffColor = PositiveSplitColor;
+		}
 	}
 
 	//DrawRect(SectorX * CurrSector - 1, 0, SectorX * CurrSector + 2, SectorY, DiffColor, Filled);
@@ -793,10 +806,12 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit3 > 0 && RunTime 
 		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
 	DiffColor = RunColor;
-	if(DiffSplit < 0){
-		DiffColor = NegativeSplitColor;
-	} else if(DiffSplit > 0){
-		DiffColor = PositiveSplitColor;
+	if((CurrSplit3 == 0 && LastPrevSplit < 999999) || (PrevSplit3 > 0 && PrevSplit3 < 999999)) {
+		if(DiffSplit < 0) {
+			DiffColor = NegativeSplitColor;
+		} else if(DiffSplit > 0) {
+			DiffColor = PositiveSplitColor;
+		}
 	}
 
 	//DrawRect(SectorX * CurrSector - 1, 0, SectorX * CurrSector + 2, SectorY, DiffColor, Filled);
@@ -831,10 +846,12 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit4 > 0 && RunTime 
 		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
 	DiffColor = RunColor;
-	if(DiffSplit < 0){
-		DiffColor = NegativeSplitColor;
-	} else if(DiffSplit > 0){
-		DiffColor = PositiveSplitColor;
+	if((CurrSplit4 == 0 && LastPrevSplit < 999999) || (PrevSplit4 > 0 && PrevSplit4 < 999999)) {
+		if(DiffSplit < 0) {
+			DiffColor = NegativeSplitColor;
+		} else if(DiffSplit > 0) {
+			DiffColor = PositiveSplitColor;
+		}
 	}
 
 	//DrawRect(SectorX * CurrSector, 0, SectorX * (CurrSector + 1) - SectorY, SectorY, DiffColor, Filled);
@@ -869,10 +886,12 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit5 > 0 && RunTime 
 		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
 	DiffColor = RunColor;
-	if(DiffSplit < 0){
-		DiffColor = NegativeSplitColor;
-	} else if(DiffSplit > 0){
-		DiffColor = PositiveSplitColor;
+	if((CurrSplit5 == 0 && LastPrevSplit < 999999) || (PrevSplit5 > 0 && PrevSplit5 < 999999)) {
+		if(DiffSplit < 0) {
+			DiffColor = NegativeSplitColor;
+		} else if(DiffSplit > 0) {
+			DiffColor = PositiveSplitColor;
+		}
 	}
 
 	//DrawRect(SectorX * CurrSector, 0, SectorX * (CurrSector + 1) - SectorY, SectorY, DiffColor, Filled);
@@ -907,10 +926,12 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit6 > 0 && RunTime 
 		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
 	DiffColor = RunColor;
-	if(DiffSplit < 0){
-		DiffColor = NegativeSplitColor;
-	} else if(DiffSplit > 0){
-		DiffColor = PositiveSplitColor;
+	if((CurrSplit6 == 0 && LastPrevSplit < 999999) || (PrevSplit6 > 0 && PrevSplit6 < 999999)) {
+		if(DiffSplit < 0) {
+			DiffColor = NegativeSplitColor;
+		} else if(DiffSplit > 0) {
+			DiffColor = PositiveSplitColor;
+		}
 	}
 
 	//DrawRect(SectorX * CurrSector, 0, SectorX * (CurrSector + 1) - SectorY, SectorY, DiffColor, Filled);
