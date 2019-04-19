@@ -139,18 +139,28 @@ public class DataWriter {
 			}
 			out.write(header.getBytes());
 		}
-		out.write((",Boost " + ConversionConstants.POUNDS_PER_SQUARE_INCH_HEADER + "\n").getBytes());
+		out.write((",Boost " + ConversionConstants.POUNDS_PER_SQUARE_INCH_HEADER).getBytes());
+		if(!lap.getConeTimes().isEmpty()) {
+			out.write(", Cones".getBytes());
+		}
+		out.write("\n".getBytes());
 
 		AtomicInteger currentLap = new AtomicInteger(0);
 		boolean wroteStart = false;
 		boolean wroteFinish = false;
 		for (int i = 0; i < lap.getLapData().size(); i++) {
 			DataRow row = lap.getLapData().get(i);
-			if (!wroteStart && row.getTime() == lap.getLapStart()) {
+			if (!wroteStart
+					&& row.getTime() - lap.getLapStart() + ConversionConstants.LAP_BUFFER >= lap.getLapStartBuffer()) {
 				printLapHeader(out, currentLap.getAndIncrement(), lap.getLapStartBuffer());
 				wroteStart = true;
 			} else if (!wroteFinish && row.getTime() == lap.getLapFinish()) {
-				printLapHeader(out, currentLap.getAndIncrement(), lap.getLapDisplay());
+				double lapDisplay = lap.getLapDisplay();
+				if (lapDisplay > lap.getLapTime() && lapDisplay < ConversionConstants.OFF_DISPLAY_TIME) {
+					// Cones for the current lap are handled with the Cones column
+					lapDisplay = lap.getLapTime();
+				}
+				printLapHeader(out, currentLap.getAndIncrement(), lapDisplay);
 				wroteFinish = true;
 			}
 			writeRow(out, lap, row, i + bufferRows < lap.getLapData().size() ? lap.getLapData().get(i + bufferRows)
@@ -241,6 +251,22 @@ public class DataWriter {
 		}
 		out.write(",".getBytes());
 		out.write(boost.getBytes());
+		
+		// Add Cones
+		if (!lap.getConeTimes().isEmpty()) {
+			out.write(",".getBytes());
+			int cones;
+			for (cones = 0; cones < lap.getConeTimes().size(); cones++) {
+				double currentTime = row.getTime() - lap.getLapStart() + ConversionConstants.LAP_BUFFER;
+				double coneTime = lap.getConeTimes().get(cones)
+						+ lap.getLapStartBuffer();
+				if (currentTime < coneTime) {
+					break;
+				}
+			}
+			out.write(Integer.toString(cones).getBytes());
+		}
+
 		out.write("\n".getBytes());
 	}
 

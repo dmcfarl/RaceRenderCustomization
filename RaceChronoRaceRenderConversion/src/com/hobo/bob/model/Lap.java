@@ -17,6 +17,7 @@ public class Lap {
 	private double startDistance;
 	private double finishDistance;
 	private double lapStartBuffer = ConversionConstants.LAP_BUFFER;
+	private List<Double> coneTimes;
 
 	public Lap(int lapNum) {
 		this.lapNum = lapNum;
@@ -74,7 +75,7 @@ public class Lap {
 		} else if (cones > 9) {
 			throw new IllegalArgumentException("Unable to process runs with more than 9 hit cones.");
 		} else if (cones > 0) {
-			lapTime = time + ConversionConstants.CONE_TIME_PENALTY * cones;
+			lapTime = time;
 			lapDisplay = time + ConversionConstants.CONE_DISPLAY_PENALTY * cones;
 		} else {
 			lapDisplay = time;
@@ -128,5 +129,16 @@ public class Lap {
 
 	public void setLapStartBuffer(double lapStartBuffer) {
 		this.lapStartBuffer = lapStartBuffer;
+	}
+
+	public List<Double> getConeTimes() {
+		if (coneTimes == null) {
+			coneTimes = new ArrayList<>();
+		}
+		return coneTimes;
+	}
+
+	public void setConeTimes(List<Double> coneTimes) {
+		this.coneTimes = coneTimes;
 	}
 }

@@ -99,7 +99,7 @@ public class DataExtractor {
 		try (BufferedReader lapReader = new BufferedReader(new FileReader(lapsFile))) {
 			Lap lap = new Lap(currentLap);
 			String line = lapReader.readLine();
-			if (!parseLapLine(lap, line)) {
+			if (!line.matches("^\\d+") || !parseLapLine(lap, line)) {
 				line = lapReader.readLine();
 				if (!parseLapLine(lap, line)) {
 					throw new IllegalArgumentException("Unable to parse laps file.");
@@ -147,8 +147,19 @@ public class DataExtractor {
 				lap.setLapStartBuffer(Double.parseDouble(tokens[1]));
 			}
 			
+			// Parse current lap cone times
+			if (tokens.length > 2) {
+				String[] cones = tokens[2].split("\\|");
+				for (String cone : cones) {
+					if (!cone.trim().isEmpty()) {
+						lap.getConeTimes().add(Double.parseDouble(cone));
+					}
+				}
+			}
+			
 			parsed = true;
 		} catch (NumberFormatException e) {
+			e.printStackTrace();
 			parsed = false;
 		}
 
