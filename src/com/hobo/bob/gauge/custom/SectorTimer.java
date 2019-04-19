@@ -641,12 +641,17 @@ if(GetCurLapNum() > 1){
 	NextPrevSplit = PrevSplit1;
 }
 DiffSplit = CurrSplit - PrevSplit;
+if(ConesIndex > 0){
+	DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
+}
 
 //Current Run or Difference between Splits
 if(GetCurLapNum() > 1 || (CurrSplit != 0 && CurrSplit + SplitDisplayLength > RunTime)) {
 	DiffColor = RunColor;
+	DiffText = FormatNumber(DiffSplit, 3);
 	if(PrevSplit == 999999 || PrevSplit == 0) {
 		DiffSplit = CurrSplit;
+		DiffText = FormatNumber(DiffSplit, 3);
 	} else {
 		if(DiffSplit < 0){
 			DiffColor = NegativeSplitColor;
@@ -655,16 +660,9 @@ if(GetCurLapNum() > 1 || (CurrSplit != 0 && CurrSplit + SplitDisplayLength > Run
 			DiffText = "+" + DiffText;
 		}
 	}
-	if(ConesIndex > 0){
-		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
-	}
-	DiffText = FormatNumber(DiffSplit, 3);
 	DrawText(DiffText, SizeX / 4, Y, DiffColor, FontSize, AlignH_Center);
 } else {
 	RunDisplayTime = RunTime;
-	if(ConesIndex > 0){
-		RunDisplayTime += ceil(GetDataValue(ConesIndex)) * ConePenalty;
-	}
 	TimeString = FormatNumber(RunDisplayTime, 3);
 	TimeIdx = 0;
 	if(RunTime >= 10){
