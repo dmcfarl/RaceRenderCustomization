@@ -572,7 +572,7 @@ DrawRect(17, HeaderY + 15, 100, SizeY - 69, White, Filled);
 DrawCircle(100, SizeY - 69, 15, White, Filled);
 
 SetTextOutline(Transparent);
-DrawNumber(SplitStart - 3, 0, 67, SizeY - 15, Black, 62, AlignH_Center);
+DrawNumber(SplitStart - 2, 0, 67, SizeY - 15, Black, 62, AlignH_Center);
 }
 
 @Override
