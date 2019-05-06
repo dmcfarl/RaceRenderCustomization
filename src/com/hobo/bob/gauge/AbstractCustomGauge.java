@@ -41,6 +41,9 @@ return (float) Math.ceil((Float) val);
 protected float floor(float val) {
 return (float) Math.floor(val);
 }
+protected int trunc(float val) {
+return (int) Math.floor(val);
+}
 
 protected String substr(String value, int start, int length) {
 return value.substring(start, start + length);

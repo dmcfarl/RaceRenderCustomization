@@ -29,8 +29,8 @@ private String PositiveSplitColor;
 private String NegativeSplitColor;
 private String HeaderColor;
 private String BackgroundColor;
+private String HeaderColor2;
 private int FontSize;
-private int FontWidth;
 private int HeaderY;
 private int SectorY;
 private int ConesIndex;
@@ -45,11 +45,7 @@ private float RunTime;
 private float DiffSplit;
 private String DiffText;
 private String DiffColor;
-private float RunDisplayTime;
-private String TimeString;
-private int TimeIdx;
 private float PrevTime;
-private String PrevTimeString;
 
 public SectorTimer(Frame frame, int sizeX, int sizeY) {
 super(frame, sizeX, sizeY);
@@ -70,10 +66,6 @@ NumSplits = 0;
 SplitNum = 2;
 SplitTime = GetLapTime(SplitNum);
 LastPrevSplit = 999999;
-if(SplitTime == 0){
-	SplitNum = SplitNum + 1;
-	SplitTime = GetLapTime(SplitNum);
-}
 
 //Possible Lap 1
 if(SplitTime == 0){
@@ -496,10 +488,10 @@ PositiveSplitColor = ColorC;
 NegativeSplitColor = ColorD;
 HeaderColor = ColorE;
 BackgroundColor = ColorF;
+HeaderColor2 = ColorG;
 
 //Parameters
 FontSize = 100;
-FontWidth = 72;
 
 //Spacing
 //OffsetX = 6;
@@ -516,42 +508,42 @@ if(CurrSector >= 0){
 	DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BackgroundColor, Filled);
 	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY * 2, SectorY / 2, HeaderColor, BackgroundColor, SectorY); 
 	DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 5, SectorY, HeaderColor, Filled);
-	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, White, 30, AlignH_Center);
+	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, White, 30, AlignH_Center);
 	CurrSector -= 1;
 }
 if(CurrSector >= 0){
 	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY); 
 	DrawRect(SectorX * (CurrSector + 1) - 5, 0, SectorX * (CurrSector + 1), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 5, SectorY, HeaderColor, Filled);
-	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, White, 30, AlignH_Center);
+	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, White, 30, AlignH_Center);
 	CurrSector -= 1;
 }
 if(CurrSector >= 0){
 	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY); 
 	DrawRect(SectorX * (CurrSector + 1) - 5, 0, SectorX * (CurrSector + 1), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 5, SectorY, HeaderColor, Filled);
-	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, White, 30, AlignH_Center);
+	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, White, 30, AlignH_Center);
 	CurrSector -= 1;
 }
 if(CurrSector >= 0){
 	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY); 
 	DrawRect(SectorX * (CurrSector + 1) - 5, 0, SectorX * (CurrSector + 1), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 5, SectorY, HeaderColor, Filled);
-	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, White, 30, AlignH_Center);
+	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, White, 30, AlignH_Center);
 	CurrSector -= 1;
 }
 if(CurrSector >= 0){
 	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY); 
 	DrawRect(SectorX * (CurrSector + 1) - 5, 0, SectorX * (CurrSector + 1), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 5, SectorY, HeaderColor, Filled);
-	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, White, 30, AlignH_Center);
+	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, White, 30, AlignH_Center);
 	CurrSector -= 1;
 }
 if(CurrSector >= 0){
 	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY); 
 	DrawRect(SectorX * (CurrSector + 1) - 5, 0, SectorX * (CurrSector + 1), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 5, SectorY, HeaderColor, Filled);
-	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, White, 30, AlignH_Center);
+	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, White, 30, AlignH_Center);
 	CurrSector -= 1;
 }
 
@@ -563,6 +555,7 @@ DrawLine(SizeX / 2, SectorY + 15, SizeX / 2, HeaderY - 15, White, 2);
 
 //Draw Header
 DrawRect(0, HeaderY, SizeX, SizeY, HeaderColor, Filled);
+DrawRect(0, SizeY - 5, SizeX, SizeY, HeaderColor2, Filled);
 
 //Draw Car Line
 DrawLineFlat(140, HeaderY + 15, 140, SizeY - 20, ColorB, 6);
@@ -572,15 +565,15 @@ DrawRect(17, HeaderY + 15, 100, SizeY - 69, White, Filled);
 DrawCircle(100, SizeY - 69, 15, White, Filled);
 
 SetTextOutline(Transparent);
-DrawNumber(SplitStart - 2, 0, 67, SizeY - 15, Black, 62, AlignH_Center);
+DrawNumber(SplitStart - 2, 0, 67, SizeY - 25, Black, 62, AlignH_Center);
 }
 
 @Override
 public void foregroundScript() {
 SetTextOutline(Transparent);
 
-X = 68;//OffsetX + 32;
-Y = HeaderY - 33;
+X = SizeX / 2 - 45;
+Y = HeaderY - 45;
 
 //Current Run
 
@@ -660,24 +653,9 @@ if(GetCurLapNum() > 1 || (CurrSplit != 0 && CurrSplit + SplitDisplayLength > Run
 			DiffText = "+" + DiffText;
 		}
 	}
-	DrawText(DiffText, SizeX / 4, Y, DiffColor, FontSize, AlignH_Center);
+	DrawText(DiffText, X, Y, DiffColor, FontSize, AlignH_Right);
 } else {
-	RunDisplayTime = RunTime;
-	TimeString = FormatNumber(RunDisplayTime, 3);
-	TimeIdx = 0;
-	if(RunTime >= 10){
-		DrawText(substr(TimeString, TimeIdx, 1), X, Y, RunColor, FontSize, AlignH_Center);
-		TimeIdx += 1;
-	}
-	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth, Y, RunColor, FontSize, AlignH_Center);
-	TimeIdx += 1;
-	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth + 50, Y, RunColor, FontSize, AlignH_Center);
-	TimeIdx += 1;
-	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 2 + 25, Y, RunColor, FontSize, AlignH_Center);
-	TimeIdx += 1;
-	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 3 + 25, Y, RunColor, FontSize, AlignH_Center);
-	TimeIdx += 1;
-	DrawText(substr(TimeString, TimeIdx, 1), X + FontWidth * 4 + 25, Y, RunColor, FontSize, AlignH_Center);
+	DrawText(FormatNumber(RunTime, 3), X, Y, RunColor, FontSize, AlignH_Right);
 }
 
 //Previous Split
@@ -688,28 +666,13 @@ if(CurrSplit != 0 && RunTime < CurrSplit + SplitDisplayLength) {
 	PrevTime = NextPrevSplit;
 }
 
-FontWidth *= 5 / 8;
-X += SizeX / 2 + 65;
+X = 7 * SizeX / 8;
 
 Y -= 40;
 if(PrevTime > 0 && PrevTime < 999999) {
-	PrevTimeString = FormatNumber(PrevTime, 3);
-	TimeIdx = 0;
-	if(PrevTime >= 10){
-		DrawText(substr(PrevTimeString, TimeIdx, 1), X, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
-		TimeIdx += 1;
-	}
-	DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
-	TimeIdx += 1;
-	DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth + 30, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
-	TimeIdx += 1;
-	DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth * 2 + 15, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
-	TimeIdx += 1;
-	DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth * 3 + 15, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
-	TimeIdx += 1;
-	DrawText(substr(PrevTimeString, TimeIdx, 1), X + FontWidth * 4 + 15, Y, RunColor, 5 * FontSize / 8, AlignH_Center);
+	DrawText(FormatNumber(PrevTime, 3), X, Y, RunColor, 5 * FontSize / 8, AlignH_Right);
 } else {
-	DrawText("---", X + 55, Y, RunColor, 5 * FontSize / 8, AlignH_Left);
+	DrawText("---", X - 175, Y, RunColor, 5 * FontSize / 8, AlignH_Right);
 }
 
 //Draw Sectors
@@ -748,9 +711,9 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit1 > 0 && RunTime 
 	DrawLineGradientRGB(SectorX * CurrSector, 28, SectorX * (CurrSector + 1) - SectorY, 28, HeaderColor, DiffColor, 3);
 
 	if((GetCurLapNum() == 1 && RunTime < CurrSplit1 + SplitDisplayLength) || CurrSplit1 == 0 && RunTime < SplitDisplayLength){
-		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, Black, 30, AlignH_Center);
+		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
 	} else {
-		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, Black, 30, AlignH_Center);
+		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
 	}
 	CurrSector += 1;
 }
@@ -788,9 +751,9 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit2 > 0 && RunTime 
 	DrawLineGradientRGB(SectorX * CurrSector, 28, SectorX * (CurrSector + 1) - SectorY, 28, HeaderColor, DiffColor, 3);
 
 	if((GetCurLapNum() == 1 && RunTime < CurrSplit2 + SplitDisplayLength) || CurrSplit2 == 0 && RunTime < SplitDisplayLength){
-		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, Black, 30, AlignH_Center);
+		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
 	} else {
-		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, Black, 30, AlignH_Center);
+		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
 	}
 	CurrSector += 1;
 }
@@ -828,9 +791,9 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit3 > 0 && RunTime 
 	DrawLineGradientRGB(SectorX * CurrSector, 28, SectorX * (CurrSector + 1) - SectorY, 28, HeaderColor, DiffColor, 3);
 
 	if((GetCurLapNum() == 1 && RunTime < CurrSplit3 + SplitDisplayLength) || CurrSplit3 == 0 && RunTime < SplitDisplayLength){
-		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, Black, 30, AlignH_Center);
+		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
 	} else {
-		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, Black, 30, AlignH_Center);
+		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
 	}
 	CurrSector += 1;
 }
@@ -868,9 +831,9 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit4 > 0 && RunTime 
 	DrawLineGradientRGB(SectorX * CurrSector, 28, SectorX * (CurrSector + 1) - SectorY, 28, HeaderColor, DiffColor, 3);
 
 	if((GetCurLapNum() == 1 && RunTime < CurrSplit4 + SplitDisplayLength) || CurrSplit4 == 0 && RunTime < SplitDisplayLength){
-		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, Black, 30, AlignH_Center);
+		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
 	} else {
-		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, Black, 30, AlignH_Center);
+		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
 	}
 	CurrSector += 1;
 }
@@ -908,9 +871,9 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit5 > 0 && RunTime 
 	DrawLineGradientRGB(SectorX * CurrSector, 28, SectorX * (CurrSector + 1) - SectorY, 28, HeaderColor, DiffColor, 3);
 
 	if((GetCurLapNum() == 1 && RunTime < CurrSplit5 + SplitDisplayLength) || CurrSplit5 == 0 && RunTime < SplitDisplayLength){
-		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, Black, 30, AlignH_Center);
+		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
 	} else {
-		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, Black, 30, AlignH_Center);
+		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
 	}
 	CurrSector += 1;
 }
@@ -948,9 +911,9 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit6 > 0 && RunTime 
 	DrawLineGradientRGB(SectorX * CurrSector, 28, SectorX * (CurrSector + 1) - SectorY, 28, HeaderColor, DiffColor, 3);
 
 	if((GetCurLapNum() == 1 && RunTime < CurrSplit6 + SplitDisplayLength) || CurrSplit6 == 0 && RunTime < SplitDisplayLength){
-		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, Black, 30, AlignH_Center);
+		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
 	} else {
-		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, 33, Black, 30, AlignH_Center);
+		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
 	}
 	CurrSector += 1;
 }

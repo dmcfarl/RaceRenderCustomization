@@ -32,7 +32,6 @@ private String HeaderColor;
 private String BackgroundColor;
 private String RunBackgroundColor;
 private int FontSize;
-private int FontWidth;
 private int TimeX;
 private int GapY;
 private int TopY;
@@ -46,8 +45,6 @@ private int RunNum;
 private float RunTime;
 private int CurrentRun;
 private String RunColor;
-private String RunTimeString;
-private int CurrRunIndex;
 private String ConeText;
 
 public LapList(Frame frame, int sizeX, int sizeY) {
@@ -1370,10 +1367,9 @@ BackgroundColor = ColorF;
 RunBackgroundColor = ColorG;
 
 FontSize = 42;
-FontWidth = 33;
 
 //Spacing
-TimeX = 113; //Gap between the lap number and the lap time (may need to fit 2 or 3 digits)
+TimeX = SizeX - 230; //Gap between the lap number and the lap time (may need to fit 2 or 3 digits)
 GapY = 7; //Additional gap between rows
 
 TopY = SizeY - 63;
@@ -1402,7 +1398,7 @@ DrawRect(0, TopY, SizeX, SizeY, HeaderColor, Filled);
 //Draw Background
 DrawRect(0, BufferY, RectWidth, TopY, BackgroundColor, Filled);
 DrawRect(0, BufferY - GapY * 2, RectWidth - GapY * 2, TopY, BackgroundColor, Filled);
-DrawCircle(RectWidth - GapY * 2, BufferY, GapY * 2, BackgroundColor, Filled);
+DrawCircle(RectWidth - GapY * 2 -1, BufferY, GapY * 2, BackgroundColor, Filled);
 }
 
 @Override
@@ -1410,13 +1406,13 @@ public void foregroundScript() {
 SetTextOutline(Transparent);
 
 X = 16;
-Y = TopY - GapY; //Space between top of chart and the topmost Run time
+Y = TopY - GapY - 5; //Space between top of chart and the topmost Run time
 
 //Current Run
 RunNum = NumRuns;
-DrawRect(X - 3, Y - FontSize + 5, X + 59, Y - GapY + 3, RunBackgroundColor, Filled);
-DrawRect(X - 3, Y - FontSize - 3, X + 51, Y - FontSize + 5, RunBackgroundColor, Filled);
-DrawCircle(X + 52, Y - FontSize + 4, 7, RunBackgroundColor, Filled);
+DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
+DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
+DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
 
 DrawNumber(RunNum, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
 
@@ -1439,24 +1435,10 @@ else if(CurrentRun > 1){
 	}
 }
 
-RunTimeString = FormatNumber(RunTime, 3);
-CurrRunIndex = 0;
-if(RunTime >= 10){
-	DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX, Y, RunColor, FontSize, AlignH_Center);
-	CurrRunIndex += 1;
-}
-DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth, Y, RunColor, FontSize, AlignH_Center);
-CurrRunIndex += 1;
-DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth + 20, Y, RunColor, FontSize, AlignH_Center);
-CurrRunIndex += 1;
-DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 2 + 10, Y, RunColor, FontSize, AlignH_Center);
-CurrRunIndex += 1;
-DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 3 + 10, Y, RunColor, FontSize, AlignH_Center);
-CurrRunIndex += 1;
-DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 4 + 10, Y, RunColor, FontSize, AlignH_Center);
+DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
 if(Cones > 0){
 	ConeText = "+" + FormatNumber(Cones, 0);
-	DrawText(ConeText, ConeX, Y, RunColor, FontSize, 0);
+	DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
 }
 
 //Run -1
@@ -1464,9 +1446,9 @@ RunNum = RunNum - 1;
 Y -= FontSize + GapY;
 if(RunDisplay1 > 0 && Y > 0)
 {
-	DrawRect(X - 3, Y - FontSize + 5, X + 59, Y - GapY + 3, RunBackgroundColor, Filled);
-	DrawRect(X - 3, Y - FontSize - 3, X + 51, Y - FontSize + 5, RunBackgroundColor, Filled);
-	DrawCircle(X + 52, Y - FontSize + 4, 7, RunBackgroundColor, Filled);
+	DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
+	DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
+	DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
 
 	DrawNumber(RunNum, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
 
@@ -1474,28 +1456,15 @@ if(RunDisplay1 > 0 && Y > 0)
 	Cones = Cones1;
 	if(RunNum == BestRun) { RunColor = BestRunTimeColor; } else { RunColor = RunTimeColor; }
 	if(Cones == 100){
-		DrawText("DNF", TimeX - 20, Y, RunColor, FontSize, 0);
+		DrawText("DNF", TimeX, Y, RunColor, FontSize, 0);
 	} else if(Cones == 50){
-		DrawText("OFF", TimeX - 20, Y, RunColor, FontSize, 0);
+		DrawText("OFF", TimeX, Y, RunColor, FontSize, 0);
 	} else {
-		RunTimeString = FormatNumber(RunTime, 3);
-		CurrRunIndex = 0;
-		if(RunTime >= 10){
-			DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX, Y, RunColor, FontSize, AlignH_Center);
-			CurrRunIndex += 1;
-		}
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth + 20, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 2 + 10, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 3 + 10, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 4 + 10, Y, RunColor, FontSize, AlignH_Center);
+		DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
+
 		if(Cones > 0){
 			ConeText = "+" + FormatNumber(Cones, 0);
-			DrawText(ConeText, ConeX, Y, RunColor, FontSize, 0);
+			DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
 		}
 	}
 }
@@ -1505,9 +1474,9 @@ RunNum = RunNum - 1;
 Y -= FontSize + GapY;
 if(RunDisplay2 > 0 && Y > 0)
 {
-	DrawRect(X - 3, Y - FontSize + 5, X + 59, Y - GapY + 3, RunBackgroundColor, Filled);
-	DrawRect(X - 3, Y - FontSize - 3, X + 51, Y - FontSize + 5, RunBackgroundColor, Filled);
-	DrawCircle(X + 52, Y - FontSize + 4, 7, RunBackgroundColor, Filled);
+	DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
+	DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
+	DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
 
 	DrawNumber(RunNum, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
 
@@ -1515,28 +1484,14 @@ if(RunDisplay2 > 0 && Y > 0)
 	Cones = Cones2;
 	if(RunNum == BestRun) { RunColor = BestRunTimeColor; } else { RunColor = RunTimeColor; }
 	if(Cones == 100){
-		DrawText("DNF", TimeX - 20, Y, RunColor, FontSize, 0);
+		DrawText("DNF", TimeX, Y, RunColor, FontSize, 0);
 	} else if(Cones == 50){
-		DrawText("OFF", TimeX - 20, Y, RunColor, FontSize, 0);
+		DrawText("OFF", TimeX, Y, RunColor, FontSize, 0);
 	} else {
-		RunTimeString = FormatNumber(RunTime, 3);
-		CurrRunIndex = 0;
-		if(RunTime >= 10){
-			DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX, Y, RunColor, FontSize, AlignH_Center);
-			CurrRunIndex += 1;
-		}
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth + 20, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 2 + 10, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 3 + 10, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 4 + 10, Y, RunColor, FontSize, AlignH_Center);
+		DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
 		if(Cones > 0){
 			ConeText = "+" + FormatNumber(Cones, 0);
-			DrawText(ConeText, ConeX, Y, RunColor, FontSize, 0);
+			DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
 		}
 	}
 }
@@ -1546,9 +1501,9 @@ RunNum = RunNum - 1;
 Y -= FontSize + GapY;
 if(RunDisplay3 > 0 && Y > 0)
 {
-	DrawRect(X - 3, Y - FontSize + 5, X + 59, Y - GapY + 3, RunBackgroundColor, Filled);
-	DrawRect(X - 3, Y - FontSize - 3, X + 51, Y - FontSize + 5, RunBackgroundColor, Filled);
-	DrawCircle(X + 52, Y - FontSize + 4, 7, RunBackgroundColor, Filled);
+	DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
+	DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
+	DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
 
 	DrawNumber(RunNum, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
 
@@ -1556,28 +1511,14 @@ if(RunDisplay3 > 0 && Y > 0)
 	Cones = Cones3;
 	if(RunNum == BestRun) { RunColor = BestRunTimeColor; } else { RunColor = RunTimeColor; }
 	if(Cones == 100){
-		DrawText("DNF", TimeX - 20, Y, RunColor, FontSize, 0);
+		DrawText("DNF", TimeX, Y, RunColor, FontSize, 0);
 	} else if(Cones == 50){
-		DrawText("OFF", TimeX - 20, Y, RunColor, FontSize, 0);
+		DrawText("OFF", TimeX, Y, RunColor, FontSize, 0);
 	} else {
-		RunTimeString = FormatNumber(RunTime, 3);
-		CurrRunIndex = 0;
-		if(RunTime >= 10){
-			DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX, Y, RunColor, FontSize, AlignH_Center);
-			CurrRunIndex += 1;
-		}
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth + 20, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 2 + 10, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 3 + 10, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 4 + 10, Y, RunColor, FontSize, AlignH_Center);
+		DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
 		if(Cones > 0){
 			ConeText = "+" + FormatNumber(Cones, 0);
-			DrawText(ConeText, ConeX, Y, RunColor, FontSize, 0);
+			DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
 		}
 	}
 }
@@ -1587,9 +1528,9 @@ RunNum = RunNum - 1;
 Y -= FontSize + GapY;
 if(RunDisplay4 > 0 && Y > 0)
 {
-	DrawRect(X - 3, Y - FontSize + 5, X + 59, Y - GapY + 3, RunBackgroundColor, Filled);
-	DrawRect(X - 3, Y - FontSize - 3, X + 51, Y - FontSize + 5, RunBackgroundColor, Filled);
-	DrawCircle(X + 52, Y - FontSize + 4, 7, RunBackgroundColor, Filled);
+	DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
+	DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
+	DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
 
 	DrawNumber(RunNum, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
 
@@ -1597,28 +1538,14 @@ if(RunDisplay4 > 0 && Y > 0)
 	Cones = Cones4;
 	if(RunNum == BestRun) { RunColor = BestRunTimeColor; } else { RunColor = RunTimeColor; }
 	if(Cones == 100){
-		DrawText("DNF", TimeX - 20, Y, RunColor, FontSize, 0);
+		DrawText("DNF", TimeX, Y, RunColor, FontSize, 0);
 	} else if(Cones == 50){
-		DrawText("OFF", TimeX - 20, Y, RunColor, FontSize, 0);
+		DrawText("OFF", TimeX, Y, RunColor, FontSize, 0);
 	} else {
-		RunTimeString = FormatNumber(RunTime, 3);
-		CurrRunIndex = 0;
-		if(RunTime >= 10){
-			DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX, Y, RunColor, FontSize, AlignH_Center);
-			CurrRunIndex += 1;
-		}
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth + 20, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 2 + 10, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 3 + 10, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 4 + 10, Y, RunColor, FontSize, AlignH_Center);
+		DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
 		if(Cones > 0){
 			ConeText = "+" + FormatNumber(Cones, 0);
-			DrawText(ConeText, ConeX, Y, RunColor, FontSize, 0);
+			DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
 		}
 	}
 }
@@ -1627,9 +1554,9 @@ if(RunDisplay4 > 0 && Y > 0)
 RunNum = RunNum - 1;
 Y -= FontSize + GapY;
 if(RunNum > BestRun){
-	DrawRect(X - 3, Y - FontSize + 5, X + 59, Y - GapY + 3, RunBackgroundColor, Filled);
-	DrawRect(X - 3, Y - FontSize - 3, X + 51, Y - FontSize + 5, RunBackgroundColor, Filled);
-	DrawCircle(X + 52, Y - FontSize + 4, 7, RunBackgroundColor, Filled);
+	DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
+	DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
+	DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
 
 	DrawNumber(BestRun, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
 
@@ -1637,34 +1564,20 @@ if(RunNum > BestRun){
 	Cones = BestCones;
 	RunColor = BestRunTimeColor;
 	if(Cones == 100){
-		DrawText("DNF", TimeX - 20, Y, RunColor, FontSize, 0);
+		DrawText("DNF", TimeX, Y, RunColor, FontSize, 0);
 	} else if(Cones == 50){
-		DrawText("OFF", TimeX - 20, Y, RunColor, FontSize, 0);
+		DrawText("OFF", TimeX, Y, RunColor, FontSize, 0);
 	} else {
-		RunTimeString = FormatNumber(RunTime, 3);
-		CurrRunIndex = 0;
-		if(RunTime >= 10){
-			DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX, Y, RunColor, FontSize, AlignH_Center);
-			CurrRunIndex += 1;
-		}
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth + 20, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 2 + 10, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 3 + 10, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 4 + 10, Y, RunColor, FontSize, AlignH_Center);
+		DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
 		if(Cones > 0){
 			ConeText = "+" + FormatNumber(Cones, 0);
-			DrawText(ConeText, ConeX, Y, RunColor, FontSize, 0);
+			DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
 		}
 	}
 } else if(RunDisplay5 > 0 && Y > 0){
-	DrawRect(X - 3, Y - FontSize + 5, X + 59, Y - GapY + 3, RunBackgroundColor, Filled);
-	DrawRect(X - 3, Y - FontSize - 3, X + 51, Y - FontSize + 5, RunBackgroundColor, Filled);
-	DrawCircle(X + 52, Y - FontSize + 4, 7, RunBackgroundColor, Filled);
+	DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
+	DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
+	DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
 
 	DrawNumber(RunNum, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
 
@@ -1672,28 +1585,14 @@ if(RunNum > BestRun){
 	Cones = Cones5;
 	if(RunNum == BestRun) { RunColor = BestRunTimeColor; } else { RunColor = RunTimeColor; }
 	if(Cones == 100){
-		DrawText("DNF", TimeX - 20, Y, RunColor, FontSize, 0);
+		DrawText("DNF", TimeX, Y, RunColor, FontSize, 0);
 	} else if(Cones == 50){
-		DrawText("OFF", TimeX - 20, Y, RunColor, FontSize, 0);
+		DrawText("OFF", TimeX, Y, RunColor, FontSize, 0);
 	} else {
-		RunTimeString = FormatNumber(RunTime, 3);
-		CurrRunIndex = 0;
-		if(RunTime >= 10){
-			DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX, Y, RunColor, FontSize, AlignH_Center);
-			CurrRunIndex += 1;
-		}
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth + 20, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 2 + 10, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 3 + 10, Y, RunColor, FontSize, AlignH_Center);
-		CurrRunIndex += 1;
-		DrawText(substr(RunTimeString, CurrRunIndex, 1), TimeX + FontWidth * 4 + 10, Y, RunColor, FontSize, AlignH_Center);
+		DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
 		if(Cones > 0){
 			ConeText = "+" + FormatNumber(Cones, 0);
-			DrawText(ConeText, ConeX, Y, RunColor, FontSize, 0);
+			DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
 		}
 	}
 }
