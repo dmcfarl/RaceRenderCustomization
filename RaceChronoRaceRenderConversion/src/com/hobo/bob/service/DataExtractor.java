@@ -53,8 +53,8 @@ public class DataExtractor {
 
 				if (session.getBest().getLapNum() == row.getLap()) {
 					readLap(session.getBest(), sessionReader, dataBuffer, row);
-				} else if (session.getGhost() != null && session.getGhost().getLapNum() == row.getLap()) {
-					readLap(session.getGhost(), sessionReader, dataBuffer, row);
+				} else if (session.getBest().getPrevBest() != null && session.getBest().getPrevBest().getLapNum() == row.getLap()) {
+					readLap(session.getBest().getPrevBest(), sessionReader, dataBuffer, row);
 
 					if (session.getBest().getLapNum() == dataBuffer.peekLast().getLap()) {
 						Iterator<DataRow> iter = dataBuffer.descendingIterator();

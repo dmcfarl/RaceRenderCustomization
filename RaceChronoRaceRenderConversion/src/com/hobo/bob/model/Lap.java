@@ -18,9 +18,11 @@ public class Lap {
 	private double finishDistance;
 	private double lapStartBuffer = ConversionConstants.LAP_BUFFER;
 	private List<Double> coneTimes;
+	private Lap prevBest;
 
 	public Lap(int lapNum) {
 		this.lapNum = lapNum;
+		this.prevBest = null;
 	}
 
 	public List<DataRow> getLapData() {
@@ -140,5 +142,13 @@ public class Lap {
 
 	public void setConeTimes(List<Double> coneTimes) {
 		this.coneTimes = coneTimes;
+	}
+
+	public Lap getPrevBest() {
+		return prevBest;
+	}
+
+	public void setPrevBest(Lap prevBest) {
+		this.prevBest = prevBest;
 	}
 }

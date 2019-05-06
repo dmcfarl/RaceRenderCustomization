@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Session {
 	private Lap best;
-	private Lap ghost;
 	private List<Lap> laps;
 	private List<String> headers;
 
@@ -15,14 +14,6 @@ public class Session {
 
 	public void setBest(Lap best) {
 		this.best = best;
-	}
-
-	public Lap getGhost() {
-		return ghost;
-	}
-
-	public void setGhost(Lap ghost) {
-		this.ghost = ghost;
 	}
 
 	public List<Lap> getLaps() {
@@ -38,12 +29,10 @@ public class Session {
 			this.laps = new ArrayList<>();
 		}
 		this.laps.add(lap);
+		lap.setPrevBest(getBest());
 
-		if (best == null || lap.getLapTime() < best.getLapTime()) {
-			if (best != null) {
-				ghost = best;
-			}
-			best = lap;
+		if (best == null || lap.getLapDisplay() < best.getLapDisplay()) {
+			setBest(lap);
 		}
 	}
 
