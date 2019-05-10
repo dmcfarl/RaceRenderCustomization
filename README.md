@@ -36,3 +36,4 @@ Future improvements would include:
 - [ ] Add support for TrackAddict files (mainly for proper formatting to use with the custom gauges)
 - [ ] Use an actual CSV Reader instead of manually parsing the files
 - [ ] Consistent usage of cones and times throughout
+- [ ] Allow drag-and-drop functionality with input data file (assuming that lap list is in the same folder)
