@@ -1,4 +1,4 @@
-package com.hobo.bob.gauge.custom;
+package com.hobo.bob.gauge.custom.autocross;
 
 import com.hobo.bob.gauge.AbstractCustomGauge;
 import com.hobo.bob.gauge.model.Frame;
