@@ -30,6 +30,7 @@ private String RunColor;
 private float BestCones;
 private int Buffer;
 private int BottomY;
+private String BackColor;
 
 public LapList(Frame frame, int sizeX, int sizeY) {
 super(frame, sizeX, sizeY);
@@ -124,7 +125,7 @@ ConeX = SizeX - 60;
 DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
 DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
-DrawNumber(NumRuns, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+DrawNumber(NumRuns, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 Y -= RowY;
 
 //NumRuns - 1
@@ -143,7 +144,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -179,7 +180,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -215,7 +216,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -251,7 +252,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -287,7 +288,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -323,7 +324,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -359,7 +360,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -395,7 +396,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -431,7 +432,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -467,7 +468,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -503,7 +504,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -539,7 +540,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -575,7 +576,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -611,7 +612,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -647,7 +648,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -683,7 +684,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -719,7 +720,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -755,7 +756,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -791,7 +792,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -827,7 +828,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -863,7 +864,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -899,7 +900,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -935,7 +936,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -971,7 +972,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -1007,7 +1008,7 @@ if(RunIdx >= 0) {
 		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
-			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 			if(Cones == 18) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 12) {
@@ -1035,9 +1036,6 @@ SetTextOutline(Transparent);
 
 Y = SizeY - Header - Buffer; // Space between top of chart and the topmost Run time
 
-//Current Run
-RunIdx = NumRuns;
-
 Cones = 0;
 if(ConeIndex > 0) {
 	Cones = ceil(GetDataValue(ConeIndex));
@@ -1049,10 +1047,24 @@ RunColor = ColorB;
 if(RunIdx < 1) {
 	RunTime = 0;
 } else if(RunIdx > 1) {
+	Run = RunTime; // Assume Next lap is at least 4 seconds long
 	RunTime = GetLapTime(1);
 	if(RunTime + Cones * ConePenalty < BestRunTime) {
 		BestRun = NumRuns - 1;
 		RunColor = ColorD;
+	}
+
+	if(Run < 4) {
+		BackColor = RunColor;
+		if(Run < 0.5) {
+			BackColor = BlendColorsRGB(ColorG, RunColor, Run / 0.5);
+		} else if(Run > 3.5) {
+			BackColor = BlendColors(RunColor, ColorG, (Run - 3.5) / 0.5);
+		}
+		DrawRect(X, Y - 32, X + 65, Y + 1, BackColor, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, BackColor, Filled);
+		DrawCircle(X + 58, Y - 33, 7, BackColor, Filled);
+		DrawNumber(NumRuns, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 	}
 }
 
@@ -1066,14 +1078,14 @@ if(NumDisp > 1) {
 	Y = SizeY - Header - Buffer - (NumDisp - 1) * RowY;
 
 	if(NumRuns - NumDisp > BestRun) {
-		DrawNumber(BestRun + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+		DrawNumber(BestRun + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 		DrawTime(BestRunTime, 3, ConeX - 3, Y, ColorD, FontSize, AlignH_Right, 2);
 		if(BestCones > 0) {
 			ConeText = "+" + FormatNumber(BestCones, 0);
 			DrawText(ConeText, ConeX, Y, ColorD, FontSize, AlignH_Left);
 		}
 	} else {
-		DrawNumber(NumRuns - NumDisp + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+		DrawNumber(NumRuns - NumDisp + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
 		DrawTime(LastDisp, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
 		if(LastCones > 0) {
 			ConeText = "+" + FormatNumber(LastCones, 0);

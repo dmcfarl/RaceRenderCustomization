@@ -110,6 +110,10 @@ protected void DrawTime(Object val, int decimals, int x, int y, String color, in
 
 }
 
+protected String BlendColors(String colorA, String colorB, double amount) {
+return "colorBlend";
+}
+
 protected String BlendColorsRGB(String colorA, String colorB, double amount) {
 return "colorBlend";
 }
