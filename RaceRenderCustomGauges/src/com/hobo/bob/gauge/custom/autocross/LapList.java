@@ -6,46 +6,30 @@ import com.hobo.bob.gauge.model.Frame;
 public class LapList extends AbstractCustomGauge {
 
 private int ConePenalty;
+private int ConeTime;
 private int NumRuns;
-private float RunDisplay1;
-private float Cones1;
-private float RunDisplay2;
-private float Cones2;
-private float RunDisplay3;
-private float Cones3;
-private float RunDisplay4;
-private float Cones4;
-private float RunDisplay5;
-private float Cones5;
-private int PrevRunNum;
-private float BestRunTime;
+private int RunIdx;
 private int BestRun;
-private float BestCones;
-private int RunOffset;
+private float BestRunTime;
 private float Run;
 private float Cones;
-private String RunNumColor;
-private String CurRunTimeColor;
-private String RunTimeColor;
-private String BestRunTimeColor;
-private String HeaderColor;
-private String BackgroundColor;
-private String RunBackgroundColor;
-private int FontSize;
-private int TimeX;
-private int GapY;
-private int TopY;
-private int BufferY;
-private int ConeIndex;
-private int RectWidth;
-private int ConeX;
+private int Header;
+private int RowY;
+private int NumDisp;
 private int X;
 private int Y;
-private int RunNum;
+private int FontSize;
+private int TimeX;
+private int ConeIndex;
+private int ConeX;
 private float RunTime;
-private int CurrentRun;
-private String RunColor;
 private String ConeText;
+private float LastDisp;
+private float LastCones;
+private String RunColor;
+private float BestCones;
+private int Buffer;
+private int BottomY;
 
 public LapList(Frame frame, int sizeX, int sizeY) {
 super(frame, sizeX, sizeY);
@@ -53,1546 +37,1056 @@ super(frame, sizeX, sizeY);
 
 @Override
 public void backgroundScript() {
-/*
-This object will display the current in-progress lap time,
-and up to 10 prior laps, if SizeY (in Object Parameters) 
-is set big enough to accomodate that.
-
-There's approximately 53 Y units per lap line, but that
-can be adjusted using FontSize and GapY below.
-
-For 0 prior laps, set SizeY to 135
-For 5 prior laps, set SizeY to 400
-For 10 prior laps, set SizeY to 665
-
-Note that you'll need to adjust the Y position of the "Laps" 
-Text Label on the Object Properties tab.
-*/
+SetTextOutline(Transparent);
 //Set Cone Penalty
 ConePenalty = 2;
+ConeTime = 600; // Number of seconds added to recorded Lap times to designate a cone
 
-//Gather Run Information
-NumRuns = 0;
-RunDisplay1 = 0;
-Cones1 = 0;
-RunDisplay2 = 0;
-Cones2 = 0;
-RunDisplay3 = 0;
-Cones3 = 0;
-RunDisplay4 = 0;
-Cones4 = 0;
-RunDisplay5 = 0;
-Cones5 = 0;
+Header = 63;
+RowY = 50;
+Buffer = 7;
 
-//Lap 1
-PrevRunNum = NumRuns + 1;
-BestRunTime = 999999;
-BestRun = 0;
-BestCones = 0;
-RunOffset = 1;
-//Get Next Run Time and reset Cones
-Run = GetLapTime(PrevRunNum + RunOffset);
-Cones = 0;
-//Check if Lap 2 is 0; Skip to Lap 3 for Run 1 if necessary
-if(Run != 0){
-//Check for cone penalties/Off Course/DNF
-if(Run > 10799){
-	Cones = 100;
-} else if(Run > 7199){
-	Cones = 50;
-} else if(Run > 600){
-	Cones = floor(Run / 600);
-	Run = Run - Cones * 600;
-}
-if(Run > 0){
-	BestRunTime = Run + Cones * ConePenalty;
-	BestRun = PrevRunNum;
-	BestCones = Cones;
-}
-
-//Shift displayed times down one notch
-if(RunDisplay4 > 0){
-	RunDisplay5 = RunDisplay4;
-	Cones5 = Cones4;
-}
-if(RunDisplay3 > 0){
-	RunDisplay4 = RunDisplay3;
-	Cones4 = Cones3;
-}
-if(RunDisplay2 > 0){
-	RunDisplay3 = RunDisplay2;
-	Cones3 = Cones2;
-}
-if(RunDisplay1 > 0){
-	RunDisplay2 = RunDisplay1;
-	Cones2 = Cones1;
-}
-RunDisplay1 = Run;
-Cones1 = Cones;
-} else {
+//Find Number of Runs (i.e. where 0-second lap occurs
+if(GetLapTime(2) == 0) {
 	NumRuns = 1;
+} else if(GetLapTime(3) == 0) {
+	NumRuns = 2;
+} else if(GetLapTime(4) == 0) {
+	NumRuns = 3;
+} else if(GetLapTime(5) == 0) {
+	NumRuns = 4;
+} else if(GetLapTime(6) == 0) {
+	NumRuns = 5;
+} else if(GetLapTime(7) == 0) {
+	NumRuns = 6;
+} else if(GetLapTime(8) == 0) {
+	NumRuns = 7;
+} else if(GetLapTime(9) == 0) {
+	NumRuns = 8;
+} else if(GetLapTime(10) == 0) {
+	NumRuns = 9;
+} else if(GetLapTime(11) == 0) {
+	NumRuns = 10;
+} else if(GetLapTime(12) == 0) {
+	NumRuns = 11;
+} else if(GetLapTime(13) == 0) {
+	NumRuns = 12;
+} else if(GetLapTime(14) == 0) {
+	NumRuns = 13;
+} else if(GetLapTime(15) == 0) {
+	NumRuns = 14;
+} else if(GetLapTime(16) == 0) {
+	NumRuns = 15;
+} else if(GetLapTime(17) == 0) {
+	NumRuns = 16;
+} else if(GetLapTime(18) == 0) {
+	NumRuns = 17;
+} else if(GetLapTime(19) == 0) {
+	NumRuns = 18;
+} else if(GetLapTime(20) == 0) {
+	NumRuns = 19;
+} else if(GetLapTime(21) == 0) {
+	NumRuns = 20;
+} else if(GetLapTime(22) == 0) {
+	NumRuns = 21;
+} else if(GetLapTime(23) == 0) {
+	NumRuns = 22;
+} else if(GetLapTime(24) == 0) {
+	NumRuns = 23;
+} else if(GetLapTime(25) == 0) {
+	NumRuns = 24;
+} else {
+	NumRuns = 25;
 }
 
-//Lap 2
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
+NumDisp = trunc((SizeY - Header - Buffer) / RowY);
+if(NumDisp > NumRuns) {
+	NumDisp = NumRuns;
 }
-
-//Lap 3
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 4
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 5
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 6
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 7
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 8
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 9
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 10
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 11
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 12
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 13
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 14
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 15
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 16
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 17
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 18
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 19
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 20
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 21
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 22
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 23
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 24
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Lap 25
-//Check if Next Lap needs to be parsed
-if(NumRuns == 0){
-	// Get Next Run Time and reset Cones
-	PrevRunNum = PrevRunNum + 1;
-	Run = GetLapTime(PrevRunNum + RunOffset);
-	Cones = 0;
-	// If Run is 0, then no additional checks need to be made
-	if(Run == 0){
-		NumRuns = PrevRunNum;
-	}
-	// Check for cone penalties/Off Course/DNF
-	else if(Run > 10799){
-		Cones = 100;
-	} else if(Run > 7199){
-		Cones = 50;
-	} else if(Run > 600){
-		Cones = floor(Run / 600);
-		Run = Run - Cones * 600;
-	}
-
-	if(NumRuns == 0){
-		// Check if best run
-		if(Run + Cones * ConePenalty < BestRunTime){
-			BestRunTime = Run + Cones * ConePenalty;
-			BestRun = PrevRunNum;
-			BestCones = Cones;
-		}
-
-		// Shift displayed times down one notch
-		if(RunDisplay4 > 0){
-			RunDisplay5 = RunDisplay4;
-			Cones5 = Cones4;
-		}
-		if(RunDisplay3 > 0){
-			RunDisplay4 = RunDisplay3;
-			Cones4 = Cones3;
-		}
-		if(RunDisplay2 > 0){
-			RunDisplay3 = RunDisplay2;
-			Cones3 = Cones2;
-		}
-		if(RunDisplay1 > 0){
-			RunDisplay2 = RunDisplay1;
-			Cones2 = Cones1;
-		}
-		RunDisplay1 = Run;
-		Cones1 = Cones;
-	}
-}
-
-//Colors
-RunNumColor = ColorA;
-CurRunTimeColor = ColorB;
-RunTimeColor = ColorC;
-BestRunTimeColor = ColorD;
-HeaderColor = ColorE;
-BackgroundColor = ColorF;
-RunBackgroundColor = ColorG;
-
+BottomY = SizeY - Header - Buffer - NumDisp * RowY;
+DrawRect(0, BottomY, SizeX / 10, BottomY + SizeX / 10, ColorF, Filled);
+DrawRRect(0, BottomY, SizeX, SizeY, ColorF, Filled);
+DrawRect(0, SizeY - Header, SizeX, SizeY, ColorE, Filled);
+
+//Find Best Run and Set Display Fields
+RunIdx = NumRuns - 2;
+BestRun = -1;
+BestRunTime = 99999;
+BestCones = 0;
+
+X = 13;
+Y = SizeY - Header - Buffer;
 FontSize = 42;
-
-//Spacing
-TimeX = SizeX - 230; //Gap between the lap number and the lap time (may need to fit 2 or 3 digits)
-GapY = 7; //Additional gap between rows
-
-TopY = SizeY - 63;
-
-if(NumRuns < 6){
-	BufferY = TopY - ((FontSize + GapY) * NumRuns);
-} else {
-	BufferY = GapY * 2;
-}
-
-
+TimeX = SizeX - 230; // Gap between the lap number and the lap time (may need to fit 2 or 3 digits)
 ConeIndex = GetDataIndex("Cones");
-if((Cones1 > 0 && Cones1 < 50) || (Cones2 > 0 && Cones2 < 50) || (Cones3 > 0 && 
-		Cones3 < 50) || (Cones4 > 0 && Cones4 < 50) || (BestRun > NumRuns - 5 && Cones5 > 0 && Cones5 < 50) || (BestRun <= NumRuns - 5 && BestCones > 0 && BestCones < 50)
-		|| (ConeIndex > 0)){
-	RectWidth = SizeX;
-} else {
-	RectWidth = SizeX - 50;
-}
 ConeX = SizeX - 60;
 
+DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+DrawNumber(NumRuns, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+Y -= RowY;
 
-//Draw Header
-DrawRect(0, TopY, SizeX, SizeY, HeaderColor, Filled);
-
-//Draw Background
-DrawRect(0, BufferY, RectWidth, TopY, BackgroundColor, Filled);
-DrawRect(0, BufferY - GapY * 2, RectWidth - GapY * 2, TopY, BackgroundColor, Filled);
-DrawCircle(RectWidth - GapY * 2 -1, BufferY, GapY * 2, BackgroundColor, Filled);
+//NumRuns - 1
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 2
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 3
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 4
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 5
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 6
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 7
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 8
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 9
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 10
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 11
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 12
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 13
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 14
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 15
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 16
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 17
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 18
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 19
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 20
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 21
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 22
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 23
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 24
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
+//NumRuns - 25
+if(RunIdx >= 0) {
+	Run = GetLapTime(RunIdx + 2);
+	Cones = round(Run / ConeTime, 0);
+	if(Run < BestRunTime) {
+		BestRunTime = Run;
+		BestCones = Cones;
+		BestRun = RunIdx;
+	}
+	if(RunIdx >= NumRuns - NumDisp) {
+		RunTime = Run - Cones * ConeTime;
+		// Draw Number Box
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+		if(RunIdx > NumRuns - NumDisp) {
+			DrawNumber(RunIdx + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+			if(Cones == 18) {
+				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 12) {
+				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
+			} else {
+				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+				if(Cones > 0) {
+					ConeText = "+" + FormatNumber(Cones, 0);
+					DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
+				}
+			}
+		} else {
+			LastDisp = RunTime;
+			LastCones = Cones;
+		}
+		Y -= RowY;
+	}
+	RunIdx -= 1;
+}
 }
 
 @Override
 public void foregroundScript() {
 SetTextOutline(Transparent);
 
-X = 16;
-Y = TopY - GapY - 5; //Space between top of chart and the topmost Run time
+Y = SizeY - Header - Buffer; // Space between top of chart and the topmost Run time
 
 //Current Run
-RunNum = NumRuns;
-DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
-DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
-DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
-
-DrawNumber(RunNum, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
+RunIdx = NumRuns;
 
 Cones = 0;
-if(ConeIndex > 0){
+if(ConeIndex > 0) {
 	Cones = ceil(GetDataValue(ConeIndex));
 }
 
 RunTime = GetCurLapTime();
-CurrentRun = GetCurLapNum();
-RunColor = CurRunTimeColor;
-if(CurrentRun < 1){
+RunIdx = GetCurLapNum();
+RunColor = ColorB;
+if(RunIdx < 1) {
 	RunTime = 0;
-}
-else if(CurrentRun > 1){
+} else if(RunIdx > 1) {
 	RunTime = GetLapTime(1);
-	if(RunTime + Cones * ConePenalty < BestRunTime){
-		BestRun = RunNum;
-		RunColor = BestRunTimeColor;
+	if(RunTime + Cones * ConePenalty < BestRunTime) {
+		BestRun = NumRuns - 1;
+		RunColor = ColorD;
 	}
 }
 
-DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
-if(Cones > 0){
+DrawTime(RunTime, 3, ConeX - 3, Y, RunColor, FontSize, AlignH_Right, 2);
+if(Cones > 0) {
 	ConeText = "+" + FormatNumber(Cones, 0);
 	DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
 }
 
-//Run -1
-RunNum = RunNum - 1;
-Y -= FontSize + GapY;
-if(RunDisplay1 > 0 && Y > 0)
-{
-	DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
-	DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
-	DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
+if(NumDisp > 1) {
+	Y = SizeY - Header - Buffer - (NumDisp - 1) * RowY;
 
-	DrawNumber(RunNum, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
-
-	RunTime = RunDisplay1;
-	Cones = Cones1;
-	if(RunNum == BestRun) { RunColor = BestRunTimeColor; } else { RunColor = RunTimeColor; }
-	if(Cones == 100){
-		DrawText("DNF", TimeX, Y, RunColor, FontSize, 0);
-	} else if(Cones == 50){
-		DrawText("OFF", TimeX, Y, RunColor, FontSize, 0);
-	} else {
-		DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
-
-		if(Cones > 0){
-			ConeText = "+" + FormatNumber(Cones, 0);
-			DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
+	if(NumRuns - NumDisp > BestRun) {
+		DrawNumber(BestRun + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+		DrawTime(BestRunTime, 3, ConeX - 3, Y, ColorD, FontSize, AlignH_Right, 2);
+		if(BestCones > 0) {
+			ConeText = "+" + FormatNumber(BestCones, 0);
+			DrawText(ConeText, ConeX, Y, ColorD, FontSize, AlignH_Left);
 		}
-	}
-}
-
-//Run -2
-RunNum = RunNum - 1;
-Y -= FontSize + GapY;
-if(RunDisplay2 > 0 && Y > 0)
-{
-	DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
-	DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
-	DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
-
-	DrawNumber(RunNum, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
-
-	RunTime = RunDisplay2;
-	Cones = Cones2;
-	if(RunNum == BestRun) { RunColor = BestRunTimeColor; } else { RunColor = RunTimeColor; }
-	if(Cones == 100){
-		DrawText("DNF", TimeX, Y, RunColor, FontSize, 0);
-	} else if(Cones == 50){
-		DrawText("OFF", TimeX, Y, RunColor, FontSize, 0);
 	} else {
-		DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
-		if(Cones > 0){
-			ConeText = "+" + FormatNumber(Cones, 0);
-			DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
+		DrawNumber(NumRuns - NumDisp + 1, 0, X + 31, Y, ColorA, FontSize, AlignH_Center);
+		DrawTime(LastDisp, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
+		if(LastCones > 0) {
+			ConeText = "+" + FormatNumber(LastCones, 0);
+			DrawText(ConeText, ConeX, Y, ColorC, FontSize, AlignH_Left);
 		}
-	}
-}
 
-//Run -3
-RunNum = RunNum - 1;
-Y -= FontSize + GapY;
-if(RunDisplay3 > 0 && Y > 0)
-{
-	DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
-	DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
-	DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
-
-	DrawNumber(RunNum, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
-
-	RunTime = RunDisplay3;
-	Cones = Cones3;
-	if(RunNum == BestRun) { RunColor = BestRunTimeColor; } else { RunColor = RunTimeColor; }
-	if(Cones == 100){
-		DrawText("DNF", TimeX, Y, RunColor, FontSize, 0);
-	} else if(Cones == 50){
-		DrawText("OFF", TimeX, Y, RunColor, FontSize, 0);
-	} else {
-		DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
-		if(Cones > 0){
-			ConeText = "+" + FormatNumber(Cones, 0);
-			DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
-		}
-	}
-}
-
-//Run -4
-RunNum = RunNum - 1;
-Y -= FontSize + GapY;
-if(RunDisplay4 > 0 && Y > 0)
-{
-	DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
-	DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
-	DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
-
-	DrawNumber(RunNum, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
-
-	RunTime = RunDisplay4;
-	Cones = Cones4;
-	if(RunNum == BestRun) { RunColor = BestRunTimeColor; } else { RunColor = RunTimeColor; }
-	if(Cones == 100){
-		DrawText("DNF", TimeX, Y, RunColor, FontSize, 0);
-	} else if(Cones == 50){
-		DrawText("OFF", TimeX, Y, RunColor, FontSize, 0);
-	} else {
-		DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
-		if(Cones > 0){
-			ConeText = "+" + FormatNumber(Cones, 0);
-			DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
-		}
-	}
-}
-
-//Run -5
-RunNum = RunNum - 1;
-Y -= FontSize + GapY;
-if(RunNum > BestRun){
-	DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
-	DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
-	DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
-
-	DrawNumber(BestRun, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
-
-	RunTime = BestRunTime;
-	Cones = BestCones;
-	RunColor = BestRunTimeColor;
-	if(Cones == 100){
-		DrawText("DNF", TimeX, Y, RunColor, FontSize, 0);
-	} else if(Cones == 50){
-		DrawText("OFF", TimeX, Y, RunColor, FontSize, 0);
-	} else {
-		DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
-		if(Cones > 0){
-			ConeText = "+" + FormatNumber(Cones, 0);
-			DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
-		}
-	}
-} else if(RunDisplay5 > 0 && Y > 0){
-	DrawRect(X - 3, Y - FontSize + 5 + 5, X + 59 + 3, Y - GapY + 3 + 5, RunBackgroundColor, Filled);
-	DrawRect(X - 3, Y - FontSize - 3 + 5, X + 51 + 3, Y - FontSize + 5 + 5, RunBackgroundColor, Filled);
-	DrawCircle(X + 52 + 3, Y - FontSize + 4 + 5, 7, RunBackgroundColor, Filled);
-
-	DrawNumber(RunNum, 0 , X + 28, Y, RunNumColor, FontSize, AlignH_Center);
-
-	RunTime = RunDisplay5;
-	Cones = Cones5;
-	if(RunNum == BestRun) { RunColor = BestRunTimeColor; } else { RunColor = RunTimeColor; }
-	if(Cones == 100){
-		DrawText("DNF", TimeX, Y, RunColor, FontSize, 0);
-	} else if(Cones == 50){
-		DrawText("OFF", TimeX, Y, RunColor, FontSize, 0);
-	} else {
-		DrawText(FormatNumber(RunTime, 3), ConeX - 3, Y, RunColor, FontSize, AlignH_Right);
-		if(Cones > 0){
-			ConeText = "+" + FormatNumber(Cones, 0);
-			DrawText(ConeText, ConeX, Y, RunColor, FontSize, AlignH_Left);
+		if(BestRun != NumRuns - 1) {
+			Y = SizeY - Header - Buffer - (NumRuns - BestRun - 1) * RowY;
+			DrawTime(BestRunTime, 3, ConeX - 3, Y, ColorD, FontSize, AlignH_Right, 2);
+			if(BestCones > 0) {
+				ConeText = "+" + FormatNumber(BestCones, 0);
+				DrawText(ConeText, ConeX, Y, ColorD, FontSize, AlignH_Left);
+			}
 		}
 	}
 }

@@ -41,8 +41,13 @@ return (float) Math.ceil((Float) val);
 protected float floor(float val) {
 return (float) Math.floor(val);
 }
+
 protected int trunc(float val) {
 return (int) Math.floor(val);
+}
+
+protected float round(float val, int decimals) {
+return (float) (Math.round(val * Math.pow(10, decimals)) / Math.pow(10, decimals));
 }
 
 protected String substr(String value, int start, int length) {
@@ -62,6 +67,10 @@ return frame.getDataValue(dataFieldIndex);
 }
 
 protected void DrawRect(int x1, int y1, int x2, int y2, String color, String thickness) {
+
+}
+
+protected void DrawRRect(int x1, int y1, int x2, int y2, String color, String thickness) {
 
 }
 
