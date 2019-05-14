@@ -15,9 +15,9 @@ Several gauges have been implemented including:
 
 Future improvements would include:
 - [ ] Add Track style gauges for each of the above
-- [ ] Allow up to 25 laps to be displayed
-- [ ] Refactor fields to reduce the number of calculations performed when displaying text
-- [ ] Display separate minutes field
+- [x] Allow up to 25 laps to be displayed
+- [x] Refactor fields to reduce the number of calculations performed when displaying text
+- [x] Display separate minutes field
 - [ ] Better spacing especially on background rounded corners
 
 ## RaceRenderFormatter
