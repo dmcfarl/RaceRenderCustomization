@@ -1049,12 +1049,14 @@ if(RunIdx < 1) {
 } else if(RunIdx > 1) {
 	Run = RunTime; // Assume Next lap is at least 4 seconds long
 	RunTime = GetLapTime(1);
-	if(RunTime + Cones * ConePenalty < BestRunTime) {
+	if(NumRuns == 1) {
+		RunColor = ColorC;
+	} else if(RunTime + Cones * ConePenalty < BestRunTime) {
 		BestRun = NumRuns - 1;
 		RunColor = ColorD;
 	}
 
-	if(Run < 4) {
+	if(Run < 4 && NumRuns > 1) {
 		BackColor = RunColor;
 		if(Run < 0.5) {
 			BackColor = BlendColorsRGB(ColorG, RunColor, Run / 0.5);
