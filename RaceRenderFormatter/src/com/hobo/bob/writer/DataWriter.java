@@ -37,7 +37,7 @@ public class DataWriter {
 			}
 		}
 	}
-	
+
 	public void writeAll() {
 		session.getLaps().parallelStream().forEach(lap -> {
 			try (OutputStream out = new FileOutputStream(filepath + "Lap " + lap.getLapNum() + ".csv")) {
@@ -45,23 +45,26 @@ public class DataWriter {
 				AtomicInteger currentLap = new AtomicInteger(2);
 
 				for (int i = 1; i < lap.getLapNum(); i++) {
-					footer.append(getLapHeader(currentLap.getAndIncrement(), session.getLaps().get(i - 1).getLapDisplay()));
+					for (int j = 0; j < lap.getSectors().size(); j++) {
+						footer.append(getHeader("Sector", j + 1, lap.getSectors().get(j).getSector()));
+					}
+					footer.append(getHeader("Sector", lap.getSectors().size(),
+							lap.getLapTime() - lap.getSectors().get(lap.getSectors().size() - 1).getSplit()));
+					footer.append(getHeader("Lap", currentLap.getAndIncrement(),
+							session.getLaps().get(i - 1).getLapDisplay()));
 				}
-				footer.append(getLapHeader(currentLap.getAndIncrement(), 0));
+				footer.append(getHeader("Lap", currentLap.getAndIncrement(), 0));
 				for (Sector sector : lap.getSectors()) {
-					footer.append(getLapHeader(currentLap.getAndIncrement(), sector.getTime() - lap.getLapStart()
-							- (lap.getLapStartBuffer() - ConversionConstants.LAP_BUFFER)));
+					footer.append(getHeader("Lap", currentLap.getAndIncrement(), sector.getSplit()));
 				}
-				footer.append(getLapHeader(currentLap.getAndIncrement(), 0));
+				footer.append(getHeader("Lap", currentLap.getAndIncrement(), 0));
 				if (lap.getLapNum() > 1) {
 					Lap prevBest = lap.getPrevBest();
-					
+
 					for (Sector sector : prevBest.getSectors()) {
-						footer.append(
-								getLapHeader(currentLap.getAndIncrement(), sector.getTime() - prevBest.getLapStart()
-										- (prevBest.getLapStartBuffer() - ConversionConstants.LAP_BUFFER)));
+						footer.append(getHeader("Lap", currentLap.getAndIncrement(), sector.getSplit()));
 					}
-					footer.append(getLapHeader(currentLap.getAndIncrement(), prevBest.getLapDisplay()));
+					footer.append(getHeader("Lap", currentLap.getAndIncrement(), prevBest.getLapDisplay()));
 				}
 
 				footer.append("# Session End\n\n");
@@ -80,19 +83,21 @@ public class DataWriter {
 		AtomicInteger currentLap = new AtomicInteger(2);
 
 		for (int i = 1; i < lap.getLapNum(); i++) {
-			footer.append(getLapHeader(currentLap.getAndIncrement(), session.getLaps().get(i - 1).getLapDisplay()));
+			for (int j = 0; j < lap.getSectors().size(); j++) {
+				footer.append(getHeader("Sector", j + 1, lap.getSectors().get(j).getSector()));
+			}
+			footer.append(getHeader("Sector", lap.getSectors().size(),
+					lap.getLapTime() - lap.getSectors().get(lap.getSectors().size() - 1).getSplit()));
+			footer.append(getHeader("Lap", currentLap.getAndIncrement(), session.getLaps().get(i - 1).getLapDisplay()));
 		}
-		footer.append(getLapHeader(currentLap.getAndIncrement(), 0));
+		footer.append(getHeader("Lap", currentLap.getAndIncrement(), 0));
 		for (Sector sector : lap.getSectors()) {
-			footer.append(getLapHeader(currentLap.getAndIncrement(),
-					sector.getTime() - lap.getLapStart() - (lap.getLapStartBuffer() - ConversionConstants.LAP_BUFFER)));
+			footer.append(getHeader("Lap", currentLap.getAndIncrement(), sector.getSplit()));
 		}
-		footer.append(getLapHeader(currentLap.getAndIncrement(), 0));
+		footer.append(getHeader("Lap", currentLap.getAndIncrement(), 0));
 		if (session.getBest().getPrevBest() != null) {
 			for (Sector sector : session.getBest().getPrevBest().getSectors()) {
-				footer.append(
-						getLapHeader(currentLap.getAndIncrement(), sector.getTime() - session.getBest().getPrevBest().getLapStart()
-								- (session.getBest().getPrevBest().getLapStartBuffer() - ConversionConstants.LAP_BUFFER)));
+				footer.append(getHeader("Lap", currentLap.getAndIncrement(), sector.getSplit()));
 			}
 		}
 
@@ -137,12 +142,13 @@ public class DataWriter {
 			out.write(header.getBytes());
 		}
 		out.write((",Boost " + ConversionConstants.POUNDS_PER_SQUARE_INCH_HEADER).getBytes());
-		if(!lap.getConeTimes().isEmpty()) {
+		if (!lap.getConeTimes().isEmpty()) {
 			out.write(", Cones".getBytes());
 		}
 		out.write("\n".getBytes());
 
 		AtomicInteger currentLap = new AtomicInteger(0);
+		AtomicInteger currentSector = new AtomicInteger(0);
 		boolean wroteStart = false;
 		boolean wroteFinish = false;
 		for (int i = 0; i < lap.getLapData().size(); i++) {
@@ -157,8 +163,14 @@ public class DataWriter {
 					// Cones for the current lap are handled with the Cones column
 					lapDisplay = lap.getLapTime();
 				}
+				printSectorHeader(out, currentSector.incrementAndGet(),
+						lap.getLapTime() - lap.getSectors().get(lap.getSectors().size() - 1).getSplit());
 				printLapHeader(out, currentLap.getAndIncrement(), lapDisplay);
 				wroteFinish = true;
+			} else if (currentSector.get() < lap.getSectors().size()
+					&& row.getTime() == lap.getSectors().get(currentSector.get()).getTime()) {
+				Sector sector = lap.getSectors().get(currentSector.getAndIncrement());
+				printSectorHeader(out, currentSector.get(), sector.getSector());
 			}
 			writeRow(out, lap, row, i + bufferRows < lap.getLapData().size() ? lap.getLapData().get(i + bufferRows)
 					: lap.getLapData().get(i));
@@ -170,11 +182,11 @@ public class DataWriter {
 			lapTimes += session.getLaps().get(i - 1).getLapDisplay();
 		}
 		for (Sector sector : lap.getSectors()) {
-			lapTimes += sector.getTime() - lap.getLapStart();
+			lapTimes += sector.getSplit();
 		}
 		if (session.getBest().getPrevBest() != null) {
 			for (Sector sector : session.getBest().getPrevBest().getSectors()) {
-				lapTimes += sector.getTime() - session.getBest().getPrevBest().getLapStart();
+				lapTimes += sector.getSplit();
 			}
 		}
 
@@ -248,15 +260,14 @@ public class DataWriter {
 		}
 		out.write(",".getBytes());
 		out.write(boost.getBytes());
-		
+
 		// Add Cones
 		if (!lap.getConeTimes().isEmpty()) {
 			out.write(",".getBytes());
 			int cones;
 			for (cones = 0; cones < lap.getConeTimes().size(); cones++) {
 				double currentTime = row.getTime() - lap.getLapStart() + ConversionConstants.LAP_BUFFER;
-				double coneTime = lap.getConeTimes().get(cones)
-						+ lap.getLapStartBuffer();
+				double coneTime = lap.getConeTimes().get(cones) + lap.getLapStartBuffer();
 				if (currentTime < coneTime) {
 					break;
 				}
@@ -268,11 +279,16 @@ public class DataWriter {
 	}
 
 	private void printLapHeader(OutputStream out, int lap, double time) throws IOException {
-		out.write(getLapHeader(lap, time).getBytes());
+		out.write(getHeader("Lap", lap, time).getBytes());
 	}
 
-	private String getLapHeader(int lap, double time) throws IOException {
-		LocalTime lapTime = LocalTime.MIDNIGHT.plus(Duration.ofMillis((long) (time * 1000)));
-		return String.format("# Lap %d: %s\n", lap, DateTimeFormatter.ofPattern("HH:mm:ss.SSS").format(lapTime));
+	private void printSectorHeader(OutputStream out, int sector, double time) throws IOException {
+		out.write(getHeader("Sector", sector, time).getBytes());
+	}
+
+	private String getHeader(String type, int sector, double time) {
+		LocalTime sectorTime = LocalTime.MIDNIGHT.plus(Duration.ofMillis((long) Math.round(time * 1000)));
+		return String.format("# %s %d: %s\n", type, sector,
+				DateTimeFormatter.ofPattern("HH:mm:ss.SSS").format(sectorTime));
 	}
 }

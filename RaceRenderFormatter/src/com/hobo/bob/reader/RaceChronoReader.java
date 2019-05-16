@@ -96,7 +96,7 @@ public class RaceChronoReader {
 		while ((line = sessionReader.readLine()) != null && (row = new DataRow(line)).getLap() == lapStart.getLap()) {
 			dataBuffer.add(row);
 			if (row.getTrap() != null && !row.getTrap().isEmpty()) {
-				lap.addSector(new Sector(row.getTime()));
+				lap.addSector(new Sector(row.getTime(), lap));
 			}
 		}
 

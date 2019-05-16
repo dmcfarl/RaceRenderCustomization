@@ -41,6 +41,9 @@ public class Lap {
 	}
 
 	public List<Sector> getSectors() {
+		if (this.sectors == null) {
+			this.sectors = new ArrayList<>();
+		}
 		return sectors;
 	}
 
