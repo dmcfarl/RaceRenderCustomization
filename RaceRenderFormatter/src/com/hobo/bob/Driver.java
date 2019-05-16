@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import com.hobo.bob.model.Session;
-import com.hobo.bob.reader.DataExtractor;
+import com.hobo.bob.reader.RaceChronoReader;
+import com.hobo.bob.reader.LapFileReader;
 import com.hobo.bob.writer.DataWriter;
 
 public class Driver {
@@ -17,17 +18,16 @@ public class Driver {
 
 		File dataFile = new File(args[0]);
 		
-		DataExtractor extractor = new DataExtractor(args[0], args[1]);
-		if (args.length == 3) {
-			extractor.setExtractAllLaps(Boolean.parseBoolean(args[2]));
-		}
+		boolean extractAllLaps = args.length == 3 && Boolean.parseBoolean(args[2]);
+		RaceChronoReader extractor = new RaceChronoReader(args[0], extractAllLaps);
 		try {
+			Session session = new LapFileReader().extractLaps(args[1]);
 			System.out.println("Reading data...");
-			Session session = extractor.extract();
+			extractor.extract(session);
 			System.out.println("Data extracted...");
 
 			DataWriter writer = new DataWriter(dataFile.getParent() + File.separator, session);
-			if(extractor.getExtractAllLaps()) {
+			if(extractAllLaps) {
 				writer.writeAll();
 			} else {
 				writer.writeBestAndGhost();

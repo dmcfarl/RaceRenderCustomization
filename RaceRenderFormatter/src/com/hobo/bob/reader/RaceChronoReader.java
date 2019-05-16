@@ -1,7 +1,6 @@
 package com.hobo.bob.reader;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
@@ -16,20 +15,16 @@ import com.hobo.bob.model.Lap;
 import com.hobo.bob.model.Sector;
 import com.hobo.bob.model.Session;
 
-public class DataExtractor {
-	private String sessionFile;
-	private String lapsFile;
-	private boolean allLaps;
+public class RaceChronoReader {
+	private final String sessionFile;
+	private final boolean allLaps;
 
-	public DataExtractor(String sessionFile, String lapsFile) {
+	public RaceChronoReader(String sessionFile, boolean allLaps) {
 		this.sessionFile = sessionFile;
-		this.lapsFile = lapsFile;
-		this.allLaps = false;
+		this.allLaps = allLaps;
 	}
 
-	public Session extract() throws IOException {
-		Session session = extractLaps(lapsFile);
-
+	public void extract(Session session) throws IOException {
 		try (BufferedReader sessionReader = new BufferedReader(new FileReader(sessionFile))) {
 			clearUnusedHeaderData(sessionReader);
 
@@ -73,8 +68,6 @@ public class DataExtractor {
 				}
 			}
 		}
-
-		return session;
 	}
 
 	private void clearUnusedHeaderData(BufferedReader sessionReader) throws IOException {
@@ -91,79 +84,6 @@ public class DataExtractor {
 		}
 
 		return Arrays.asList(line.split(",", -1));
-	}
-
-	private Session extractLaps(String lapsFile) throws FileNotFoundException, IOException {
-		Session session = new Session();
-		int currentLap = 1;
-		try (BufferedReader lapReader = new BufferedReader(new FileReader(lapsFile))) {
-			Lap lap = new Lap(currentLap);
-			String line = lapReader.readLine();
-			if (!line.matches("^\\d+") || !parseLapLine(lap, line)) {
-				line = lapReader.readLine();
-				if (!parseLapLine(lap, line)) {
-					throw new IllegalArgumentException("Unable to parse laps file.");
-				}
-			}
-			session.addLap(lap);
-
-			while ((line = lapReader.readLine()) != null) {
-				if (!line.isEmpty()) {
-					currentLap++;
-					lap = new Lap(currentLap);
-					if (!parseLapLine(lap, line)) {
-						throw new IllegalArgumentException("Unable to parse laps file.");
-					}
-					session.addLap(lap);
-				}
-			}
-		}
-
-		return session;
-	}
-
-	private boolean parseLapLine(Lap lap, String line) {
-		boolean parsed = false;
-		try {
-			if (line == null) {
-				throw new IllegalArgumentException("Reached end of laps file before processing a lap.");
-			}
-			String[] tokens = line.split(",");
-			
-			// Parse lap time
-			if (tokens[0].toLowerCase().contains("dnf")) {
-				lap.setLapDisplay(-1, -1, false, true);
-			} else if (tokens[0].toLowerCase().contains("oc") || tokens[0].toLowerCase().contains("off")) {
-				lap.setLapDisplay(-1, -1, true, false);
-			} else if (tokens[0].trim().matches("^\\d+(\\.\\d+)?\\+\\d$")) {
-				String[] time = tokens[0].split("\\+");
-				lap.setLapDisplay(Double.parseDouble(time[0]), Integer.parseInt(time[1]), false, false);
-			} else {
-				lap.setLapDisplay(Double.parseDouble(tokens[0]), 0, false, false);
-			}
-			
-			// Parse start buffer
-			if (tokens.length > 1) {
-				lap.setLapStartBuffer(Double.parseDouble(tokens[1]));
-			}
-			
-			// Parse current lap cone times
-			if (tokens.length > 2) {
-				String[] cones = tokens[2].split("\\|");
-				for (String cone : cones) {
-					if (!cone.trim().isEmpty()) {
-						lap.getConeTimes().add(Double.parseDouble(cone));
-					}
-				}
-			}
-			
-			parsed = true;
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			parsed = false;
-		}
-
-		return parsed;
 	}
 
 	private void readLap(Lap lap, BufferedReader sessionReader, Deque<DataRow> dataBuffer, DataRow lapStart)
@@ -202,13 +122,5 @@ public class DataExtractor {
 			dataBuffer.clear();
 			dataBuffer.addAll(lapCooldown);
 		}
-	}
-
-	public void setExtractAllLaps(boolean allLaps) {
-		this.allLaps = allLaps;
-	}
-
-	public boolean getExtractAllLaps() {
-		return allLaps;
 	}
 }
