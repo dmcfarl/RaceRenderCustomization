@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import com.hobo.bob.model.Session;
-import com.hobo.bob.service.DataExtractor;
-import com.hobo.bob.service.DataWriter;
+import com.hobo.bob.reader.DataExtractor;
+import com.hobo.bob.writer.DataWriter;
 
 public class Driver {
 

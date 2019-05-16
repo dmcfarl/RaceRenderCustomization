@@ -1,4 +1,4 @@
-package com.hobo.bob.service;
+package com.hobo.bob.reader;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

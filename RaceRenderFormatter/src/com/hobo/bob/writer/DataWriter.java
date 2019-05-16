@@ -1,4 +1,4 @@
-package com.hobo.bob.service;
+package com.hobo.bob.writer;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,6 +14,7 @@ import com.hobo.bob.model.DataRow;
 import com.hobo.bob.model.Lap;
 import com.hobo.bob.model.Sector;
 import com.hobo.bob.model.Session;
+import com.hobo.bob.util.DataConverter;
 
 public class DataWriter {
 

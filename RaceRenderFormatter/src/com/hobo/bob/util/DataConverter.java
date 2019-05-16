@@ -1,4 +1,4 @@
-package com.hobo.bob.service;
+package com.hobo.bob.util;
 
 public class DataConverter {
 	public static String metersToMiles(String meters) {
