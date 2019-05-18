@@ -59,9 +59,9 @@ public class LapFileReader {
 				lap.setLapDisplay(Double.parseDouble(tokens[0]), 0, false, false);
 			}
 			
-			// Parse start buffer
+			// Parse precise lap start time
 			if (tokens.length > 1) {
-				lap.setLapStartBuffer(Double.parseDouble(tokens[1]));
+				lap.setPreciseStartTime(Double.parseDouble(tokens[1]));
 			}
 			
 			// Parse current lap cone times

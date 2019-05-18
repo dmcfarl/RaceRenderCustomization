@@ -37,7 +37,8 @@ public class RaceChronoReader {
 					session.getHeaders().indexOf(ConversionConstants.TRAP_HEADER),
 					session.getHeaders().indexOf(ConversionConstants.DISTANCE_HEADER),
 					session.getHeaders().indexOf(ConversionConstants.LAT_HEADER),
-					session.getHeaders().indexOf(ConversionConstants.LON_HEADER));
+					session.getHeaders().indexOf(ConversionConstants.LON_HEADER),
+					session.getHeaders().indexOf(ConversionConstants.BEARING_HEADER));
 			String line;
 			while ((session.getBest().getLapData() == null || allLaps) && (line = sessionReader.readLine()) != null) {
 				DataRow row = new DataRow(line);
@@ -46,16 +47,17 @@ public class RaceChronoReader {
 					dataBuffer.pop();
 				}
 
-				if (session.getBest().getLapNum() == row.getLap()) {
+				if (session.getBest().getLapNum() == row.getLapNum()) {
 					readLap(session.getBest(), sessionReader, dataBuffer, row);
-				} else if (session.getBest().getPrevBest() != null && session.getBest().getPrevBest().getLapNum() == row.getLap()) {
+				} else if (session.getBest().getPrevBest() != null
+						&& session.getBest().getPrevBest().getLapNum() == row.getLapNum()) {
 					readLap(session.getBest().getPrevBest(), sessionReader, dataBuffer, row);
 
-					if (session.getBest().getLapNum() == dataBuffer.peekLast().getLap()) {
+					if (session.getBest().getLapNum() == dataBuffer.peekLast().getLapNum()) {
 						Iterator<DataRow> iter = dataBuffer.descendingIterator();
 						DataRow bestStart = iter.next();
 						while (iter.hasNext() && bestStart != null) {
-							if (session.getBest().getLapNum() != bestStart.getLap()) {
+							if (session.getBest().getLapNum() != bestStart.getLapNum()) {
 								break;
 							}
 							bestStart = iter.next();
@@ -63,8 +65,8 @@ public class RaceChronoReader {
 
 						readLap(session.getBest(), sessionReader, dataBuffer, bestStart);
 					}
-				} else if (allLaps && row.getLap() > 0) {
-					readLap(session.getLaps().get(row.getLap() - 1), sessionReader, dataBuffer, row);
+				} else if (allLaps && row.getLapNum() > 0) {
+					readLap(session.getLaps().get(row.getLapNum() - 1), sessionReader, dataBuffer, row);
 				}
 			}
 		}
@@ -88,31 +90,42 @@ public class RaceChronoReader {
 
 	private void readLap(Lap lap, BufferedReader sessionReader, Deque<DataRow> dataBuffer, DataRow lapStart)
 			throws IOException {
-		lap.setLapStart(lapStart.getTime());
-		lap.setStartDistance(lapStart.getDistance());
-
+		lap.setDataStartTime(dataBuffer.peekFirst().getTime());
+		
 		String line;
 		DataRow row = null;
-		while ((line = sessionReader.readLine()) != null && (row = new DataRow(line)).getLap() == lapStart.getLap()) {
+		if (lap.getPreciseStartTime() > ConversionConstants.LAP_BUFFER && (line = sessionReader.readLine()) != null) {
+			do {
+				row = new DataRow(line);
+				dataBuffer.add(row);
+			} while (row.getTime() - lap.getDataStartTime() < lap.getPreciseStartTime() && (line = sessionReader.readLine()) != null);
+
+			if (dataBuffer.peekLast().getLapNum() == null) {
+				dataBuffer.peekLast().setLapNum(lapStart.getLapNum());
+			}
+			lapStart = dataBuffer.peekLast();
+		}
+		lap.setLapStart(lapStart);
+
+		while ((line = sessionReader.readLine()) != null && (row = new DataRow(line)).getLapNum() == lapStart.getLapNum()) {
 			dataBuffer.add(row);
 			if (row.getTrap() != null && !row.getTrap().isEmpty()) {
-				lap.addSector(new Sector(row.getTime(), lap));
+				lap.addSector(new Sector(row, lap));
 			}
 		}
 
-		lap.setLapFinish(dataBuffer.peekLast().getTime());
-		lap.setFinishDistance(dataBuffer.peekLast().getDistance());
+		lap.setLapFinish(dataBuffer.peekLast());
 
 		if (row != null) {
 			if (!lap.getSectors().isEmpty()
-					&& row.getTime() < lap.getSectors().get(lap.getSectors().size() - 1).getTime() + 2) {
+					&& row.getTime() < lap.getSectors().get(lap.getSectors().size() - 1).getDataRow().getTime() + 2) {
 				lap.getSectors().remove(lap.getSectors().size() - 1);
 			}
 			dataBuffer.add(row);
 
 			Deque<DataRow> lapCooldown = new LinkedList<>();
-			while ((line = sessionReader.readLine()) != null
-					&& (row = new DataRow(line)).getTime() < lap.getLapFinish() + ConversionConstants.LAP_BUFFER) {
+			while ((line = sessionReader.readLine()) != null && (row = new DataRow(line))
+					.getTime() < lap.getLapFinish().getTime() + ConversionConstants.LAP_BUFFER) {
 				lapCooldown.add(row);
 			}
 

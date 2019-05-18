@@ -11,12 +11,11 @@ public class Lap {
 	private List<Sector> sectors;
 	private double lapTime;
 	private double lapDisplay;
-	private double lapStart;
-	private double lapFinish;
+	private DataRow lapStart;
+	private DataRow lapFinish;
+	private double dataStartTime;
 	private int lapNum;
-	private double startDistance;
-	private double finishDistance;
-	private double lapStartBuffer = ConversionConstants.LAP_BUFFER;
+	private double preciseStartTime = ConversionConstants.LAP_BUFFER;
 	private List<Double> coneTimes;
 	private Lap prevBest;
 
@@ -88,20 +87,28 @@ public class Lap {
 		}
 	}
 
-	public double getLapStart() {
+	public DataRow getLapStart() {
 		return lapStart;
 	}
 
-	public void setLapStart(double lapStart) {
+	public void setLapStart(DataRow lapStart) {
 		this.lapStart = lapStart;
 	}
 
-	public double getLapFinish() {
+	public DataRow getLapFinish() {
 		return lapFinish;
 	}
 
-	public void setLapFinish(double lapFinish) {
+	public void setLapFinish(DataRow lapFinish) {
 		this.lapFinish = lapFinish;
+	}
+
+	public double getDataStartTime() {
+		return dataStartTime;
+	}
+
+	public void setDataStartTime(double dataStartTime) {
+		this.dataStartTime = dataStartTime;
 	}
 
 	public int getLapNum() {
@@ -112,28 +119,12 @@ public class Lap {
 		this.lapNum = lapNum;
 	}
 
-	public double getStartDistance() {
-		return startDistance;
+	public double getPreciseStartTime() {
+		return preciseStartTime;
 	}
 
-	public void setStartDistance(double startDistance) {
-		this.startDistance = startDistance;
-	}
-
-	public double getFinishDistance() {
-		return finishDistance;
-	}
-
-	public void setFinishDistance(double finishDistance) {
-		this.finishDistance = finishDistance;
-	}
-
-	public double getLapStartBuffer() {
-		return lapStartBuffer;
-	}
-
-	public void setLapStartBuffer(double lapStartBuffer) {
-		this.lapStartBuffer = lapStartBuffer;
+	public void setPreciseStartTime(double preciseStartTime) {
+		this.preciseStartTime = preciseStartTime;
 	}
 
 	public List<Double> getConeTimes() {

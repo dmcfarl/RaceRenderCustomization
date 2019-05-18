@@ -1,26 +1,24 @@
 package com.hobo.bob.model;
 
-import com.hobo.bob.ConversionConstants;
-
 public class Sector {
-	private Double time;
+	private DataRow dataRow;
 	private Double split;
 	private Double sector;
 
-	public Sector(Double time, Lap lap) {
-		this.time = time;
-		this.split = time - lap.getLapStart() - (lap.getLapStartBuffer() - ConversionConstants.LAP_BUFFER);
+	public Sector(DataRow dataRow, Lap lap) {
+		this.dataRow = dataRow;
+		this.split = dataRow.getTime() - lap.getDataStartTime() - lap.getPreciseStartTime();
 		this.sector = !lap.getSectors().isEmpty()
 				? this.split - lap.getSectors().get(lap.getSectors().size() - 1).getSplit()
 				: this.split;
 	}
 
-	public Double getTime() {
-		return time;
+	public DataRow getDataRow() {
+		return dataRow;
 	}
 
-	public void setTime(Double time) {
-		this.time = time;
+	public void setDataRow(DataRow row) {
+		this.dataRow = row;
 	}
 
 	public Double getSplit() {

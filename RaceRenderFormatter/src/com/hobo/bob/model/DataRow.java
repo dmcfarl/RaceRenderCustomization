@@ -7,7 +7,7 @@ public class DataRow {
 	private ObjectNode data;
 
 	private Double time;
-	private Integer lap;
+	private Integer lapNum;
 	private String trap;
 
 	private static int timeIndex = -1;
@@ -16,11 +16,12 @@ public class DataRow {
 	private static int distanceIndex = -1;
 	private static int latIndex = -1;
 	private static int lonIndex = -1;
+	private static int bearingIndex = -1;
 
 	private DataRow(DataRow clone) {
 		this.line = clone.getLine();
 		this.time = clone.getTime();
-		this.lap = clone.getLap();
+		this.lapNum = clone.getLapNum();
 		this.trap = clone.getTrap();
 	}
 
@@ -62,14 +63,18 @@ public class DataRow {
 		line[timeIndex] = Double.toString(this.time);
 	}
 
-	public Integer getLap() {
-		if (this.lap == null) {
+	public Integer getLapNum() {
+		if (this.lapNum == null) {
 			String lap = line[lapIndex];
 
-			this.lap = !lap.isEmpty() ? Integer.parseInt(lap) : -1;
+			this.lapNum = !lap.isEmpty() ? Integer.parseInt(lap) : -1;
 		}
 
-		return this.lap;
+		return this.lapNum;
+	}
+	
+	public void setLapNum(Integer lapNum) {
+		this.lapNum = lapNum;
 	}
 
 	public String getTrap() {
@@ -97,17 +102,24 @@ public class DataRow {
 	
 		return !longitude.isEmpty() ? Double.parseDouble(longitude) : null;
 	}
+
+	public Double getBearing() {
+		String bearing = line[bearingIndex];
+	
+		return !bearing.isEmpty() ? Double.parseDouble(bearing) : null;
+	}
 	
 	public DataRow clone(){
 		return new DataRow(this);
 	}
 
-	public static void setRowConf(int time, int lap, int trap, int distance, int lat, int lon) {
+	public static void setRowConf(int time, int lap, int trap, int distance, int lat, int lon, int bearing) {
 		timeIndex = time;
 		lapIndex = lap;
 		trapIndex = trap;
 		distanceIndex = distance;
 		latIndex = lat;
 		lonIndex = lon;
+		bearingIndex = bearing;
 	}
 }
