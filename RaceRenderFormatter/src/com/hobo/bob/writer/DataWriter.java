@@ -59,7 +59,7 @@ public class DataWriter {
 			positionRow = lap.getLapData().get(bufferRows);
 		} while (positionRow.getTime() - lap.getDataStartTime() < ConversionConstants.POSITION_BUFFER);
 
-		writeHeader(out, lap);
+		writeHeader(out, lap, bufferRows);
 
 		AtomicInteger currentLap = new AtomicInteger(0);
 		AtomicInteger currentSector = new AtomicInteger(0);
@@ -109,20 +109,22 @@ public class DataWriter {
 		out.write(footer.getBytes());
 	}
 	
-	private void writeHeader(OutputStream out, Lap lap) throws IOException {
+	private void writeHeader(OutputStream out, Lap lap, int positionBuffer) throws IOException {
 		out.write("# RaceRender Data\n".getBytes());
 		out.write("# RaceRenderFormatter: https://github.com/dmcfarl/RaceRenderCustomization\n".getBytes());
-		out.write(String.format("# Start Point: %f,%f @ %.2f deg\n", lap.getLapStart().getLongitude(),
-				lap.getLapStart().getLatitude(), lap.getLapStart().getBearing()).getBytes());
+		DataRow positionStart = lap.getLapData().get(lap.getLapData().indexOf(lap.getLapStart()) + positionBuffer);
+		out.write(String.format("# Start Point: %f,%f @ %.2f deg\n", positionStart.getLongitude(),
+				positionStart.getLatitude(), positionStart.getBearing()).getBytes());
 		for (int i = 0; i < lap.getSectors().size(); i++) {
-			out.write(String.format("# Split Point %d: %f,%f @ %.2f deg\n", i + 1,
-					lap.getSectors().get(i).getDataRow().getLongitude(),
-					lap.getSectors().get(i).getDataRow().getLatitude(),
-					lap.getSectors().get(i).getDataRow().getBearing()).getBytes());
+			DataRow positionSector = lap.getLapData()
+					.get(lap.getLapData().indexOf(lap.getSectors().get(i).getDataRow()) + positionBuffer);
+			out.write(String.format("# Split Point %d: %f,%f @ %.2f deg\n", i + 1, positionSector.getLongitude(),
+					positionSector.getLatitude(), positionSector.getBearing()).getBytes());
 		}
-		out.write(String.format("# End Point: %f,%f @ %.2f deg\n", lap.getLapFinish().getLongitude(),
-				lap.getLapFinish().getLatitude(), lap.getLapFinish().getBearing()).getBytes());
-		
+		DataRow positionFinish = lap.getLapData().get(lap.getLapData().indexOf(lap.getLapFinish()) + positionBuffer);
+		out.write(String.format("# End Point: %f,%f @ %.2f deg\n", positionFinish.getLongitude(),
+				positionFinish.getLatitude(), positionFinish.getBearing()).getBytes());
+
 		out.write("Time".getBytes());
 		for (int i = 0; i < session.getHeaders().size(); i++) {
 			String header = session.getHeaders().get(i);
