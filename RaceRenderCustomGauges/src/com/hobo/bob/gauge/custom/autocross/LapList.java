@@ -31,6 +31,7 @@ private float BestCones;
 private int Buffer;
 private int BottomY;
 private String BackColor;
+private int PrevBestRun;
 
 public LapList(Frame frame, int sizeX, int sizeY) {
 super(frame, sizeX, sizeY);
@@ -1028,6 +1029,7 @@ if(RunIdx >= 0) {
 	}
 	RunIdx -= 1;
 }
+PrevBestRun = BestRun;
 }
 
 @Override
@@ -1096,6 +1098,7 @@ if(NumDisp > 1) {
 
 		if(BestRun != NumRuns - 1) {
 			Y = SizeY - Header - Buffer - (NumRuns - BestRun - 1) * RowY;
+			DrawRect(X + 70, Y, SizeX, Y - RowY + 10, ColorF, Filled);
 			DrawTime(BestRunTime, 3, ConeX - 3, Y, ColorD, FontSize, AlignH_Right, 2);
 			if(BestCones > 0) {
 				ConeText = "+" + FormatNumber(BestCones, 0);
