@@ -8,7 +8,7 @@ import com.hobo.bob.reader.RaceChronoReader;
 import com.hobo.bob.reader.LapFileReader;
 import com.hobo.bob.writer.DataWriter;
 
-public class Driver {
+public class AutocrossDriver {
 
 	public static void main(String[] args) {
 		if(args.length < 2 || args.length > 3){
