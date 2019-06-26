@@ -17,7 +17,7 @@ import com.hobo.bob.model.Session;
 
 public class RaceChronoReader {
 	private final String sessionFile;
-	private final boolean allLaps;
+	private boolean allLaps;
 
 	public RaceChronoReader(String sessionFile, boolean allLaps) {
 		this.sessionFile = sessionFile;
@@ -25,6 +25,12 @@ public class RaceChronoReader {
 	}
 
 	public void extract(Session session) throws IOException {
+		boolean createLaps = false;
+		if (session.getLaps().isEmpty()) {
+			allLaps = true;
+			createLaps = true;
+		}
+		
 		try (BufferedReader sessionReader = new BufferedReader(new FileReader(sessionFile))) {
 			clearUnusedHeaderData(sessionReader);
 
@@ -40,16 +46,27 @@ public class RaceChronoReader {
 					session.getHeaders().indexOf(ConversionConstants.LON_HEADER),
 					session.getHeaders().indexOf(ConversionConstants.BEARING_HEADER));
 			String line;
-			while ((session.getBest().getLapData() == null || allLaps) && (line = sessionReader.readLine()) != null) {
+			while ((allLaps || session.getBest().getLapData() == null) && (line = sessionReader.readLine()) != null) {
 				DataRow row = new DataRow(line);
 				dataBuffer.add(row);
 				while (dataBuffer.peek().getTime() < row.getTime() - ConversionConstants.LAP_BUFFER) {
 					dataBuffer.pop();
 				}
 
-				if (session.getBest().getLapNum() == row.getLapNum()) {
+				if (allLaps && row.getLapNum() > 0) {
+					Lap lap;
+					if (createLaps) {
+						lap = new Lap(row.getLapNum());
+					} else {
+						lap = session.getLaps().get(row.getLapNum() - 1);
+					}
+					readLap(lap, sessionReader, dataBuffer, row);
+					if (createLaps) {
+						session.addLap(lap);
+					}
+				} else if (session.getBest() != null && session.getBest().getLapNum() == row.getLapNum()) {
 					readLap(session.getBest(), sessionReader, dataBuffer, row);
-				} else if (session.getBest().getPrevBest() != null
+				} else if (session.getBest() != null && session.getBest().getPrevBest() != null
 						&& session.getBest().getPrevBest().getLapNum() == row.getLapNum()) {
 					readLap(session.getBest().getPrevBest(), sessionReader, dataBuffer, row);
 
@@ -65,8 +82,6 @@ public class RaceChronoReader {
 
 						readLap(session.getBest(), sessionReader, dataBuffer, bestStart);
 					}
-				} else if (allLaps && row.getLapNum() > 0) {
-					readLap(session.getLaps().get(row.getLapNum() - 1), sessionReader, dataBuffer, row);
 				}
 			}
 		}

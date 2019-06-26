@@ -11,17 +11,22 @@ import com.hobo.bob.writer.DataWriter;
 public class AutocrossDriver {
 
 	public static void main(String[] args) {
-		if(args.length < 2 || args.length > 3){
-			System.out.println("Requires 2 arguments with one optional argument: sessionFile lapsFile [allLaps]");
+		if(args.length < 1 || args.length > 3){
+			System.out.println("Requires 2 arguments with one optional argument: sessionFile [lapsFile] [allLaps]");
 			System.exit(1);
 		}
 
 		File dataFile = new File(args[0]);
 		
-		boolean extractAllLaps = args.length == 3 && Boolean.parseBoolean(args[2]);
+		boolean extractAllLaps = (args.length == 3 && Boolean.parseBoolean(args[2])) || args.length == 1;
 		RaceChronoReader extractor = new RaceChronoReader(args[0], extractAllLaps);
 		try {
-			Session session = new LapFileReader().extractLaps(args[1]);
+			Session session;
+			if (args.length >= 2) {
+				session = new LapFileReader().extractLaps(args[1]);
+			} else {
+				session = new Session();
+			}
 			System.out.println("Reading data...");
 			extractor.extract(session);
 			System.out.println("Data extracted...");

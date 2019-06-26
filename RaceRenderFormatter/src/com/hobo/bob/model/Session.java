@@ -17,6 +17,9 @@ public class Session {
 	}
 
 	public List<Lap> getLaps() {
+		if (this.laps == null) {
+			this.laps = new ArrayList<>();
+		}
 		return laps;
 	}
 

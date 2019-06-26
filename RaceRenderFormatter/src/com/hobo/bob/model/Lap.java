@@ -9,8 +9,8 @@ import com.hobo.bob.ConversionConstants;
 public class Lap {
 	private List<DataRow> lapData;
 	private List<Sector> sectors;
-	private double lapTime;
-	private double lapDisplay;
+	private Double lapTime;
+	private Double lapDisplay;
 	private DataRow lapStart;
 	private DataRow lapFinish;
 	private double dataStartTime;
@@ -22,6 +22,8 @@ public class Lap {
 	public Lap(int lapNum) {
 		this.lapNum = lapNum;
 		this.prevBest = null;
+		this.lapTime = null;
+		this.lapDisplay = null;
 	}
 
 	public List<DataRow> getLapData() {
@@ -101,6 +103,10 @@ public class Lap {
 
 	public void setLapFinish(DataRow lapFinish) {
 		this.lapFinish = lapFinish;
+		if (lapTime == null) {
+			lapTime = lapFinish.getTime() - lapStart.getTime();
+			lapDisplay = lapTime;
+		}
 	}
 
 	public double getDataStartTime() {
