@@ -107,6 +107,11 @@ public class RaceChronoReader {
 			throws IOException {
 		lap.setDataStartTime(dataBuffer.peekFirst().getTime());
 		
+		dataBuffer.removeLast();
+		lap.setStartBufferData(dataBuffer);
+		dataBuffer.clear();
+		dataBuffer.add(lapStart);
+		
 		String line;
 		DataRow row = null;
 		if (lap.getPreciseStartTime() > ConversionConstants.LAP_BUFFER && (line = sessionReader.readLine()) != null) {
@@ -145,7 +150,7 @@ public class RaceChronoReader {
 			}
 
 			lap.addLapData(dataBuffer);
-			lap.addLapData(lapCooldown);
+			lap.setFinishBufferData(lapCooldown);
 
 			dataBuffer.clear();
 			dataBuffer.addAll(lapCooldown);

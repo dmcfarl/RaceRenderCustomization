@@ -3,11 +3,15 @@ package com.hobo.bob.model;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.hobo.bob.ConversionConstants;
 
 public class Lap {
+	private List<DataRow> startBufferData;
 	private List<DataRow> lapData;
+	private List<DataRow> finishBufferData;
 	private List<Sector> sectors;
 	private Double lapTime;
 	private Double lapDisplay;
@@ -26,12 +30,43 @@ public class Lap {
 		this.lapDisplay = null;
 	}
 
-	public List<DataRow> getLapData() {
+	public List<DataRow> getLapOnlyData() {
 		return lapData;
+	}
+
+	public List<DataRow> getLapData() {
+		Stream<DataRow> stream = Stream.of();
+		stream = Stream.concat(stream, startBufferData.stream());
+		stream = Stream.concat(stream, lapData.stream());
+		stream = Stream.concat(stream, finishBufferData.stream());
+
+		return stream.collect(Collectors.toList());
 	}
 
 	public void setLapData(List<DataRow> lapData) {
 		this.lapData = lapData;
+	}
+	
+	public List<DataRow> getStartBufferData() {
+		return startBufferData;
+	}
+	
+	public void setStartBufferData(Deque<DataRow> startBufferData) {
+		if (this.startBufferData == null) {
+			this.startBufferData = new ArrayList<>();
+		}
+		this.startBufferData.addAll(startBufferData);
+	}
+	
+	public List<DataRow> getFinishBufferData() {
+		return finishBufferData;
+	}
+	
+	public void setFinishBufferData(Deque<DataRow> finishBufferData) {
+		if (this.finishBufferData == null) {
+			this.finishBufferData = new ArrayList<>();
+		}
+		this.finishBufferData.addAll(finishBufferData);
 	}
 
 	public void addLapData(Deque<DataRow> lapData) {
