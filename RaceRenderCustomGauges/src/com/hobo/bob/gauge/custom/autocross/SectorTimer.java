@@ -68,335 +68,335 @@ SplitTime = GetLapTime(SplitNum);
 LastPrevSplit = 999999;
 
 //Possible Lap 1
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 2
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 3
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 4
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 5
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 6
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 7
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 8
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 9
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 10
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 11
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 12
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 13
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 14
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 15
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 16
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 17
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 18
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 19
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 20
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 21
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 22
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 23
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 24
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Lap 25
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
-} else if(SplitStart == 0 && SplitTime < LastPrevSplit){
+} else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
 }
 
 //Possible Split 1
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
 }
@@ -404,10 +404,10 @@ if(SplitTime == 0){
 //Possible Split 2
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
 }
@@ -415,10 +415,10 @@ if(SplitTime == 0){
 //Possible Split 3
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
 }
@@ -426,10 +426,10 @@ if(SplitTime == 0){
 //Possible Split 4
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
 }
@@ -437,10 +437,10 @@ if(SplitTime == 0){
 //Possible Split 5
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
 }
@@ -448,10 +448,10 @@ if(SplitTime == 0){
 //Possible Split 6
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
 }
@@ -459,28 +459,76 @@ if(SplitTime == 0){
 //Possible Split End
 SplitNum = SplitNum + 1;
 SplitTime = GetLapTime(SplitNum);
-if(SplitTime == 0){
-	if(SplitStart == 0){
+if(SplitTime == 0) {
+	if(SplitStart == 0) {
 		SplitStart = SplitNum + 1;
-	} else if(NumSplits == 0){
+	} else if(NumSplits == 0) {
 		NumSplits = SplitNum - SplitStart;
 	}
 }
 
 //Save Split Information
-if(NumSplits >= 1){ CurrSplit1 = GetLapTime(SplitStart); } else { CurrSplit1 = 0; }
-if(NumSplits >= 2){ CurrSplit2 = GetLapTime(SplitStart + 1); } else { CurrSplit2 = 0; }
-if(NumSplits >= 3){ CurrSplit3 = GetLapTime(SplitStart + 2); } else { CurrSplit3 = 0; }
-if(NumSplits >= 4){ CurrSplit4 = GetLapTime(SplitStart + 3); } else { CurrSplit4 = 0; }
-if(NumSplits >= 5){ CurrSplit5 = GetLapTime(SplitStart + 4); } else { CurrSplit5 = 0; }
-if(NumSplits >= 6){ CurrSplit6 = GetLapTime(SplitStart + 5); } else { CurrSplit6 = 0; }
+if(NumSplits >= 1) {
+	CurrSplit1 = GetLapTime(SplitStart);
+} else {
+	CurrSplit1 = 0;
+}
+if(NumSplits >= 2) {
+	CurrSplit2 = GetLapTime(SplitStart + 1);
+} else {
+	CurrSplit2 = 0;
+}
+if(NumSplits >= 3) {
+	CurrSplit3 = GetLapTime(SplitStart + 2);
+} else {
+	CurrSplit3 = 0;
+}
+if(NumSplits >= 4) {
+	CurrSplit4 = GetLapTime(SplitStart + 3);
+} else {
+	CurrSplit4 = 0;
+}
+if(NumSplits >= 5) {
+	CurrSplit5 = GetLapTime(SplitStart + 4);
+} else {
+	CurrSplit5 = 0;
+}
+if(NumSplits >= 6) {
+	CurrSplit6 = GetLapTime(SplitStart + 5);
+} else {
+	CurrSplit6 = 0;
+}
 
-if(NumSplits >= 1){ PrevSplit1 = GetLapTime(SplitStart + NumSplits + 1); } else { PrevSplit1 = 0; }
-if(NumSplits >= 2){ PrevSplit2 = GetLapTime(SplitStart + NumSplits + 2); } else { PrevSplit2 = 0; }
-if(NumSplits >= 3){ PrevSplit3 = GetLapTime(SplitStart + NumSplits + 3); } else { PrevSplit3 = 0; }
-if(NumSplits >= 4){ PrevSplit4 = GetLapTime(SplitStart + NumSplits + 4); } else { PrevSplit4 = 0; }
-if(NumSplits >= 5){ PrevSplit5 = GetLapTime(SplitStart + NumSplits + 5); } else { PrevSplit5 = 0; }
-if(NumSplits >= 6){ PrevSplit6 = GetLapTime(SplitStart + NumSplits + 6); } else { PrevSplit6 = 0; }
+if(NumSplits >= 1) {
+	PrevSplit1 = GetLapTime(SplitStart + NumSplits + 1);
+} else {
+	PrevSplit1 = 0;
+}
+if(NumSplits >= 2) {
+	PrevSplit2 = GetLapTime(SplitStart + NumSplits + 2);
+} else {
+	PrevSplit2 = 0;
+}
+if(NumSplits >= 3) {
+	PrevSplit3 = GetLapTime(SplitStart + NumSplits + 3);
+} else {
+	PrevSplit3 = 0;
+}
+if(NumSplits >= 4) {
+	PrevSplit4 = GetLapTime(SplitStart + NumSplits + 4);
+} else {
+	PrevSplit4 = 0;
+}
+if(NumSplits >= 5) {
+	PrevSplit5 = GetLapTime(SplitStart + NumSplits + 5);
+} else {
+	PrevSplit5 = 0;
+}
+if(NumSplits >= 6) {
+	PrevSplit6 = GetLapTime(SplitStart + NumSplits + 6);
+} else {
+	PrevSplit6 = 0;
+}
 
 //Colors
 RunColor = ColorA;
@@ -503,46 +551,58 @@ ConesIndex = GetDataIndex("Cones");
 //Draw Sectors
 SectorX = SizeX / (NumSplits + 1);
 CurrSector = NumSplits;
-if(CurrSector >= 0){
+if(CurrSector >= 0) {
 	DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BackgroundColor, Filled);
-	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY * 2, SectorY / 2, HeaderColor, BackgroundColor, SectorY); 
+	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY * 2,
+			SectorY / 2, HeaderColor, BackgroundColor, SectorY);
 	DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 5, SectorY, HeaderColor, Filled);
-	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, White, 30, AlignH_Center);
+	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+			SectorY - 2, White, 30, AlignH_Center);
 	CurrSector -= 1;
 }
-if(CurrSector >= 0){
-	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY); 
+if(CurrSector >= 0) {
+	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2,
+			HeaderColor, BackgroundColor, SectorY);
 	DrawRect(SectorX * (CurrSector + 1) - 5, 0, SectorX * (CurrSector + 1), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 5, SectorY, HeaderColor, Filled);
-	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, White, 30, AlignH_Center);
+	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+			SectorY - 2, White, 30, AlignH_Center);
 	CurrSector -= 1;
 }
-if(CurrSector >= 0){
-	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY); 
+if(CurrSector >= 0) {
+	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2,
+			HeaderColor, BackgroundColor, SectorY);
 	DrawRect(SectorX * (CurrSector + 1) - 5, 0, SectorX * (CurrSector + 1), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 5, SectorY, HeaderColor, Filled);
-	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, White, 30, AlignH_Center);
+	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+			SectorY - 2, White, 30, AlignH_Center);
 	CurrSector -= 1;
 }
-if(CurrSector >= 0){
-	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY); 
+if(CurrSector >= 0) {
+	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2,
+			HeaderColor, BackgroundColor, SectorY);
 	DrawRect(SectorX * (CurrSector + 1) - 5, 0, SectorX * (CurrSector + 1), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 5, SectorY, HeaderColor, Filled);
-	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, White, 30, AlignH_Center);
+	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+			SectorY - 2, White, 30, AlignH_Center);
 	CurrSector -= 1;
 }
-if(CurrSector >= 0){
-	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY); 
+if(CurrSector >= 0) {
+	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2,
+			HeaderColor, BackgroundColor, SectorY);
 	DrawRect(SectorX * (CurrSector + 1) - 5, 0, SectorX * (CurrSector + 1), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 5, SectorY, HeaderColor, Filled);
-	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, White, 30, AlignH_Center);
+	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+			SectorY - 2, White, 30, AlignH_Center);
 	CurrSector -= 1;
 }
-if(CurrSector >= 0){
-	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY); 
+if(CurrSector >= 0) {
+	DrawLineGradientRGB(SectorX * CurrSector + SectorY, SectorY / 2, SectorX * (CurrSector + 1) - SectorY, SectorY / 2,
+			HeaderColor, BackgroundColor, SectorY);
 	DrawRect(SectorX * (CurrSector + 1) - 5, 0, SectorX * (CurrSector + 1), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 5, SectorY, HeaderColor, Filled);
-	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, White, 30, AlignH_Center);
+	DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+			SectorY - 2, White, 30, AlignH_Center);
 	CurrSector -= 1;
 }
 
@@ -580,50 +640,50 @@ PrevSplit = 0;
 NextPrevSplit = 0;
 RunTime = GetCurLapTime();
 // Determine Current Split Times
-if(GetCurLapNum() > 1){
+if(GetCurLapNum() > 1) {
 	CurrSplit = GetLapTime(1);
 	PrevSplit = LastPrevSplit;
 	NextPrevSplit = 99999;
-} else if(RunTime >= CurrSplit6 && CurrSplit6 > 0){
+} else if(RunTime >= CurrSplit6 && CurrSplit6 > 0) {
 	CurrSplit = CurrSplit6;
 	PrevSplit = PrevSplit6;
 	NextPrevSplit = LastPrevSplit;
-} else if(RunTime >= CurrSplit5 && CurrSplit5 > 0){
+} else if(RunTime >= CurrSplit5 && CurrSplit5 > 0) {
 	CurrSplit = CurrSplit5;
 	PrevSplit = PrevSplit5;
-	if(CurrSplit6 == 0){
+	if(CurrSplit6 == 0) {
 		NextPrevSplit = LastPrevSplit;
 	} else {
 		NextPrevSplit = PrevSplit6;
 	}
-} else if(RunTime >= CurrSplit4 && CurrSplit4 > 0){
+} else if(RunTime >= CurrSplit4 && CurrSplit4 > 0) {
 	CurrSplit = CurrSplit4;
 	PrevSplit = PrevSplit4;
-	if(CurrSplit5 == 0){
+	if(CurrSplit5 == 0) {
 		NextPrevSplit = LastPrevSplit;
 	} else {
 		NextPrevSplit = PrevSplit5;
 	}
-} else if(RunTime >= CurrSplit3 && CurrSplit3 > 0){
+} else if(RunTime >= CurrSplit3 && CurrSplit3 > 0) {
 	CurrSplit = CurrSplit3;
 	PrevSplit = PrevSplit3;
-	if(CurrSplit4 == 0){
+	if(CurrSplit4 == 0) {
 		NextPrevSplit = LastPrevSplit;
 	} else {
 		NextPrevSplit = PrevSplit4;
 	}
-} else if(RunTime >= CurrSplit2 && CurrSplit2 > 0){
+} else if(RunTime >= CurrSplit2 && CurrSplit2 > 0) {
 	CurrSplit = CurrSplit2;
 	PrevSplit = PrevSplit2;
-	if(CurrSplit3 == 0){
+	if(CurrSplit3 == 0) {
 		NextPrevSplit = LastPrevSplit;
 	} else {
 		NextPrevSplit = PrevSplit3;
 	}
-} else if(RunTime >= CurrSplit1 && CurrSplit1 > 0){
+} else if(RunTime >= CurrSplit1 && CurrSplit1 > 0) {
 	CurrSplit = CurrSplit1;
 	PrevSplit = PrevSplit1;
-	if(CurrSplit2 == 0){
+	if(CurrSplit2 == 0) {
 		NextPrevSplit = LastPrevSplit;
 	} else {
 		NextPrevSplit = PrevSplit2;
@@ -632,7 +692,7 @@ if(GetCurLapNum() > 1){
 	NextPrevSplit = PrevSplit1;
 }
 DiffSplit = CurrSplit - PrevSplit;
-if(ConesIndex > 0){
+if(ConesIndex > 0) {
 	DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 }
 
@@ -644,9 +704,9 @@ if(GetCurLapNum() > 1 || (CurrSplit != 0 && CurrSplit + SplitDisplayLength > Run
 		DiffSplit = CurrSplit;
 		DiffText = FormatNumber(DiffSplit, 3);
 	} else {
-		if(DiffSplit < 0){
+		if(DiffSplit < 0) {
 			DiffColor = NegativeSplitColor;
-		} else if(DiffSplit > 0){
+		} else if(DiffSplit > 0) {
 			DiffColor = PositiveSplitColor;
 			DiffText = "+" + DiffText;
 		}
@@ -695,13 +755,14 @@ if(PrevTime > 0 && PrevTime < 999999) {
 
 //Draw Sectors
 CurrSector = 0;
-if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit1 > 0 && RunTime > CurrSplit1) || (CurrSplit1 == 0 && RunTime > GetLapTime(1)))){
-	if(CurrSplit1 > 0){
+if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit1 > 0 && RunTime > CurrSplit1)
+		|| (CurrSplit1 == 0 && RunTime > GetLapTime(1)))) {
+	if(CurrSplit1 > 0) {
 		DiffSplit = CurrSplit1 - PrevSplit1;
 	} else {
 		DiffSplit = GetLapTime(1) - LastPrevSplit;
 	}
-	if(ConesIndex > 0){
+	if(ConesIndex > 0) {
 		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
 	DiffColor = RunColor;
@@ -713,13 +774,14 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit1 > 0 && RunTime 
 		}
 	}
 
-	//DrawRect(SectorX * CurrSector, 0, SectorX * CurrSector + 2, SectorY, DiffColor, Filled);
-	if(CurrSector + 1 <= NumSplits){
-		//DrawLineGradientRGB(SectorX * (CurrSector + 1) - SectorY, 2, SectorX * (CurrSector + 1), 2, HeaderColor, DiffColor, SectorY); 
-		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+	if(CurrSector + 1 <= NumSplits) {
+		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY,
+				BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
 	} else {
-		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
-		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2, BackgroundColor, Filled);
+		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47),
+				Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2,
+				BackgroundColor, Filled);
 	}
 	DrawLineGradientRGB(SectorX * CurrSector, 3, SectorX * (CurrSector + 1) - SectorY, 3, HeaderColor, DiffColor, 4);
 	DrawLineGradientRGB(SectorX * CurrSector, 8, SectorX * (CurrSector + 1) - SectorY, 8, HeaderColor, DiffColor, 3);
@@ -728,20 +790,24 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit1 > 0 && RunTime 
 	DrawLineGradientRGB(SectorX * CurrSector, 23, SectorX * (CurrSector + 1) - SectorY, 23, HeaderColor, DiffColor, 3);
 	DrawLineGradientRGB(SectorX * CurrSector, 28, SectorX * (CurrSector + 1) - SectorY, 28, HeaderColor, DiffColor, 3);
 
-	if((GetCurLapNum() == 1 && RunTime < CurrSplit1 + SplitDisplayLength) || CurrSplit1 == 0 && RunTime < SplitDisplayLength){
-		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
+	if((GetCurLapNum() == 1 && RunTime < CurrSplit1 + SplitDisplayLength)
+			|| CurrSplit1 == 0 && RunTime < SplitDisplayLength) {
+		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+				SectorY - 2, Black, 30, AlignH_Center);
 	} else {
-		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
+		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+				SectorY - 2, Black, 30, AlignH_Center);
 	}
 	CurrSector += 1;
 }
-if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit2 > 0 && RunTime > CurrSplit2) || (CurrSplit2 == 0 && RunTime > GetLapTime(1)))){
-	if(CurrSplit2 > 0){
+if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit2 > 0 && RunTime > CurrSplit2)
+		|| (CurrSplit2 == 0 && RunTime > GetLapTime(1)))) {
+	if(CurrSplit2 > 0) {
 		DiffSplit = CurrSplit2 - PrevSplit2;
 	} else {
 		DiffSplit = GetLapTime(1) - LastPrevSplit;
 	}
-	if(ConesIndex > 0){
+	if(ConesIndex > 0) {
 		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
 	DiffColor = RunColor;
@@ -753,13 +819,14 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit2 > 0 && RunTime 
 		}
 	}
 
-	//DrawRect(SectorX * CurrSector - 1, 0, SectorX * CurrSector + 2, SectorY, DiffColor, Filled);
-	if(CurrSector + 1 <= NumSplits){
-		//DrawLineGradientRGB(SectorX * (CurrSector + 1) - SectorY, 2, SectorX * (CurrSector + 1), 2, HeaderColor, DiffColor, SectorY); 
-		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+	if(CurrSector + 1 <= NumSplits) {
+		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY,
+				BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
 	} else {
-		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
-		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2, BackgroundColor, Filled);
+		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47),
+				Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2,
+				BackgroundColor, Filled);
 	}
 	DrawLineGradientRGB(SectorX * CurrSector, 3, SectorX * (CurrSector + 1) - SectorY, 3, HeaderColor, DiffColor, 4);
 	DrawLineGradientRGB(SectorX * CurrSector, 8, SectorX * (CurrSector + 1) - SectorY, 8, HeaderColor, DiffColor, 3);
@@ -768,20 +835,24 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit2 > 0 && RunTime 
 	DrawLineGradientRGB(SectorX * CurrSector, 23, SectorX * (CurrSector + 1) - SectorY, 23, HeaderColor, DiffColor, 3);
 	DrawLineGradientRGB(SectorX * CurrSector, 28, SectorX * (CurrSector + 1) - SectorY, 28, HeaderColor, DiffColor, 3);
 
-	if((GetCurLapNum() == 1 && RunTime < CurrSplit2 + SplitDisplayLength) || CurrSplit2 == 0 && RunTime < SplitDisplayLength){
-		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
+	if((GetCurLapNum() == 1 && RunTime < CurrSplit2 + SplitDisplayLength)
+			|| CurrSplit2 == 0 && RunTime < SplitDisplayLength) {
+		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+				SectorY - 2, Black, 30, AlignH_Center);
 	} else {
-		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
+		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+				SectorY - 2, Black, 30, AlignH_Center);
 	}
 	CurrSector += 1;
 }
-if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit3 > 0 && RunTime > CurrSplit3) || (CurrSplit3 == 0 && RunTime > GetLapTime(1)))){
-	if(CurrSplit3 > 0){
+if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit3 > 0 && RunTime > CurrSplit3)
+		|| (CurrSplit3 == 0 && RunTime > GetLapTime(1)))) {
+	if(CurrSplit3 > 0) {
 		DiffSplit = CurrSplit3 - PrevSplit3;
 	} else {
 		DiffSplit = GetLapTime(1) - LastPrevSplit;
 	}
-	if(ConesIndex > 0){
+	if(ConesIndex > 0) {
 		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
 	DiffColor = RunColor;
@@ -793,13 +864,14 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit3 > 0 && RunTime 
 		}
 	}
 
-	//DrawRect(SectorX * CurrSector - 1, 0, SectorX * CurrSector + 2, SectorY, DiffColor, Filled);
-	if(CurrSector + 1 <= NumSplits){
-		//DrawLineGradientRGB(SectorX * (CurrSector + 1) - SectorY, 2, SectorX * (CurrSector + 1), 2, HeaderColor, DiffColor, SectorY); 
-		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+	if(CurrSector + 1 <= NumSplits) {
+		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY,
+				BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
 	} else {
-		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
-		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2, BackgroundColor, Filled);
+		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47),
+				Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2,
+				BackgroundColor, Filled);
 	}
 	DrawLineGradientRGB(SectorX * CurrSector, 3, SectorX * (CurrSector + 1) - SectorY, 3, HeaderColor, DiffColor, 4);
 	DrawLineGradientRGB(SectorX * CurrSector, 8, SectorX * (CurrSector + 1) - SectorY, 8, HeaderColor, DiffColor, 3);
@@ -808,20 +880,24 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit3 > 0 && RunTime 
 	DrawLineGradientRGB(SectorX * CurrSector, 23, SectorX * (CurrSector + 1) - SectorY, 23, HeaderColor, DiffColor, 3);
 	DrawLineGradientRGB(SectorX * CurrSector, 28, SectorX * (CurrSector + 1) - SectorY, 28, HeaderColor, DiffColor, 3);
 
-	if((GetCurLapNum() == 1 && RunTime < CurrSplit3 + SplitDisplayLength) || CurrSplit3 == 0 && RunTime < SplitDisplayLength){
-		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
+	if((GetCurLapNum() == 1 && RunTime < CurrSplit3 + SplitDisplayLength)
+			|| CurrSplit3 == 0 && RunTime < SplitDisplayLength) {
+		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+				SectorY - 2, Black, 30, AlignH_Center);
 	} else {
-		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
+		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+				SectorY - 2, Black, 30, AlignH_Center);
 	}
 	CurrSector += 1;
 }
-if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit4 > 0 && RunTime > CurrSplit4) || (CurrSplit4 == 0 && RunTime > GetLapTime(1)))){
-	if(CurrSplit4 > 0){
+if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit4 > 0 && RunTime > CurrSplit4)
+		|| (CurrSplit4 == 0 && RunTime > GetLapTime(1)))) {
+	if(CurrSplit4 > 0) {
 		DiffSplit = CurrSplit4 - PrevSplit4;
 	} else {
 		DiffSplit = GetLapTime(1) - LastPrevSplit;
 	}
-	if(ConesIndex > 0){
+	if(ConesIndex > 0) {
 		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
 	DiffColor = RunColor;
@@ -833,13 +909,14 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit4 > 0 && RunTime 
 		}
 	}
 
-	//DrawRect(SectorX * CurrSector, 0, SectorX * (CurrSector + 1) - SectorY, SectorY, DiffColor, Filled);
-	if(CurrSector + 1 <= NumSplits){
-		//DrawLineGradientRGB(SectorX * (CurrSector + 1) - SectorY, 2, SectorX * (CurrSector + 1), 2, HeaderColor, DiffColor, SectorY); 
-		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+	if(CurrSector + 1 <= NumSplits) {
+		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY,
+				BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
 	} else {
-		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
-		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2, BackgroundColor, Filled);
+		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47),
+				Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2,
+				BackgroundColor, Filled);
 	}
 	DrawLineGradientRGB(SectorX * CurrSector, 3, SectorX * (CurrSector + 1) - SectorY, 3, HeaderColor, DiffColor, 4);
 	DrawLineGradientRGB(SectorX * CurrSector, 8, SectorX * (CurrSector + 1) - SectorY, 8, HeaderColor, DiffColor, 3);
@@ -848,20 +925,24 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit4 > 0 && RunTime 
 	DrawLineGradientRGB(SectorX * CurrSector, 23, SectorX * (CurrSector + 1) - SectorY, 23, HeaderColor, DiffColor, 3);
 	DrawLineGradientRGB(SectorX * CurrSector, 28, SectorX * (CurrSector + 1) - SectorY, 28, HeaderColor, DiffColor, 3);
 
-	if((GetCurLapNum() == 1 && RunTime < CurrSplit4 + SplitDisplayLength) || CurrSplit4 == 0 && RunTime < SplitDisplayLength){
-		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
+	if((GetCurLapNum() == 1 && RunTime < CurrSplit4 + SplitDisplayLength)
+			|| CurrSplit4 == 0 && RunTime < SplitDisplayLength) {
+		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+				SectorY - 2, Black, 30, AlignH_Center);
 	} else {
-		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
+		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+				SectorY - 2, Black, 30, AlignH_Center);
 	}
 	CurrSector += 1;
 }
-if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit5 > 0 && RunTime > CurrSplit5) || (CurrSplit5 == 0 && RunTime > GetLapTime(1)))){
-	if(CurrSplit5 > 0){
+if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit5 > 0 && RunTime > CurrSplit5)
+		|| (CurrSplit5 == 0 && RunTime > GetLapTime(1)))) {
+	if(CurrSplit5 > 0) {
 		DiffSplit = CurrSplit5 - PrevSplit5;
 	} else {
 		DiffSplit = GetLapTime(1) - LastPrevSplit;
 	}
-	if(ConesIndex > 0){
+	if(ConesIndex > 0) {
 		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
 	DiffColor = RunColor;
@@ -873,13 +954,14 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit5 > 0 && RunTime 
 		}
 	}
 
-	//DrawRect(SectorX * CurrSector, 0, SectorX * (CurrSector + 1) - SectorY, SectorY, DiffColor, Filled);
-	if(CurrSector + 1 <= NumSplits){
-		//DrawLineGradientRGB(SectorX * (CurrSector + 1) - SectorY, 2, SectorX * (CurrSector + 1), 2, HeaderColor, DiffColor, SectorY); 
-		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+	if(CurrSector + 1 <= NumSplits) {
+		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY,
+				BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
 	} else {
-		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
-		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2, BackgroundColor, Filled);
+		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47),
+				Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2,
+				BackgroundColor, Filled);
 	}
 	DrawLineGradientRGB(SectorX * CurrSector, 3, SectorX * (CurrSector + 1) - SectorY, 3, HeaderColor, DiffColor, 4);
 	DrawLineGradientRGB(SectorX * CurrSector, 8, SectorX * (CurrSector + 1) - SectorY, 8, HeaderColor, DiffColor, 3);
@@ -888,20 +970,24 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit5 > 0 && RunTime 
 	DrawLineGradientRGB(SectorX * CurrSector, 23, SectorX * (CurrSector + 1) - SectorY, 23, HeaderColor, DiffColor, 3);
 	DrawLineGradientRGB(SectorX * CurrSector, 28, SectorX * (CurrSector + 1) - SectorY, 28, HeaderColor, DiffColor, 3);
 
-	if((GetCurLapNum() == 1 && RunTime < CurrSplit5 + SplitDisplayLength) || CurrSplit5 == 0 && RunTime < SplitDisplayLength){
-		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
+	if((GetCurLapNum() == 1 && RunTime < CurrSplit5 + SplitDisplayLength)
+			|| CurrSplit5 == 0 && RunTime < SplitDisplayLength) {
+		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+				SectorY - 2, Black, 30, AlignH_Center);
 	} else {
-		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
+		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+				SectorY - 2, Black, 30, AlignH_Center);
 	}
 	CurrSector += 1;
 }
-if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit6 > 0 && RunTime > CurrSplit6) || (CurrSplit6 == 0 && RunTime > GetLapTime(1)))){
-	if(CurrSplit6 > 0){
+if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit6 > 0 && RunTime > CurrSplit6)
+		|| (CurrSplit6 == 0 && RunTime > GetLapTime(1)))) {
+	if(CurrSplit6 > 0) {
 		DiffSplit = CurrSplit6 - PrevSplit6;
 	} else {
 		DiffSplit = GetLapTime(1) - LastPrevSplit;
 	}
-	if(ConesIndex > 0){
+	if(ConesIndex > 0) {
 		DiffSplit += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
 	DiffColor = RunColor;
@@ -913,13 +999,14 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit6 > 0 && RunTime 
 		}
 	}
 
-	//DrawRect(SectorX * CurrSector, 0, SectorX * (CurrSector + 1) - SectorY, SectorY, DiffColor, Filled);
-	if(CurrSector + 1 <= NumSplits){
-		//DrawLineGradientRGB(SectorX * (CurrSector + 1) - SectorY, 2, SectorX * (CurrSector + 1), 2, HeaderColor, DiffColor, SectorY); 
-		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+	if(CurrSector + 1 <= NumSplits) {
+		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY,
+				BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
 	} else {
-		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
-		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2, BackgroundColor, Filled);
+		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47),
+				Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2,
+				BackgroundColor, Filled);
 	}
 	DrawLineGradientRGB(SectorX * CurrSector, 3, SectorX * (CurrSector + 1) - SectorY, 3, HeaderColor, DiffColor, 4);
 	DrawLineGradientRGB(SectorX * CurrSector, 8, SectorX * (CurrSector + 1) - SectorY, 8, HeaderColor, DiffColor, 3);
@@ -928,10 +1015,13 @@ if(CurrSector <= NumSplits && (GetCurLapNum() > 1 || (CurrSplit6 > 0 && RunTime 
 	DrawLineGradientRGB(SectorX * CurrSector, 23, SectorX * (CurrSector + 1) - SectorY, 23, HeaderColor, DiffColor, 3);
 	DrawLineGradientRGB(SectorX * CurrSector, 28, SectorX * (CurrSector + 1) - SectorY, 28, HeaderColor, DiffColor, 3);
 
-	if((GetCurLapNum() == 1 && RunTime < CurrSplit6 + SplitDisplayLength) || CurrSplit6 == 0 && RunTime < SplitDisplayLength){
-		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
+	if((GetCurLapNum() == 1 && RunTime < CurrSplit6 + SplitDisplayLength)
+			|| CurrSplit6 == 0 && RunTime < SplitDisplayLength) {
+		DrawText("SECTOR " + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+				SectorY - 2, Black, 30, AlignH_Center);
 	} else {
-		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2, SectorY - 2, Black, 30, AlignH_Center);
+		DrawText("S" + FormatNumber(CurrSector + 1, 0), (SectorX * CurrSector + SectorX * (CurrSector + 1)) / 2,
+				SectorY - 2, Black, 30, AlignH_Center);
 	}
 	CurrSector += 1;
 }
