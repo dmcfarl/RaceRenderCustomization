@@ -7,6 +7,10 @@ private Frame frame;
 
 protected int SizeX;
 protected int SizeY;
+protected float DataRatio;
+protected int DataMin;
+protected int DataMax;
+protected int DataValue;
 
 public AbstractCustomGauge(Frame frame, int sizeX, int sizeY) {
 this.frame = frame;
@@ -67,6 +71,10 @@ return frame.getDataValue(dataFieldIndex);
 }
 
 protected void DrawRect(int x1, int y1, int x2, int y2, String color, String thickness) {
+
+}
+
+protected void DrawRect(int x1, int y1, float x2, int y2, String color, String thickness) {
 
 }
 

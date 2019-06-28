@@ -9,11 +9,7 @@ private int Header;
 private int Footer;
 private int Border;
 private float Delta;
-private int DataValue;
 private String Display;
-private float DataRatio;
-private int DataMin;
-private int DataMax;
 private String Color;
 private float X;
 
