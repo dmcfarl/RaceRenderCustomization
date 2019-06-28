@@ -29,7 +29,6 @@ private String PositiveSplitColor;
 private String NegativeSplitColor;
 private String HeaderColor;
 private String BackgroundColor;
-private String HeaderColor2;
 private int FontSize;
 private int HeaderY;
 private int SectorY;
@@ -46,6 +45,7 @@ private float DiffSplit;
 private String DiffText;
 private String DiffColor;
 private float PrevTime;
+private int Compact;
 
 public SectorTimer(Frame frame, int sizeX, int sizeY) {
 super(frame, sizeX, sizeY);
@@ -488,7 +488,6 @@ PositiveSplitColor = ColorC;
 NegativeSplitColor = ColorD;
 HeaderColor = ColorE;
 BackgroundColor = ColorF;
-HeaderColor2 = ColorG;
 
 //Parameters
 FontSize = 100;
@@ -555,7 +554,6 @@ DrawLine(SizeX / 2, SectorY + 15, SizeX / 2, HeaderY - 15, White, 2);
 
 //Draw Header
 DrawRect(0, HeaderY, SizeX, SizeY, HeaderColor, Filled);
-DrawRect(0, SizeY - 5, SizeX, SizeY, HeaderColor2, Filled);
 
 //Draw Car Line
 DrawLineFlat(140, HeaderY + 15, 140, SizeY - 20, ColorB, 6);
@@ -653,9 +651,21 @@ if(GetCurLapNum() > 1 || (CurrSplit != 0 && CurrSplit + SplitDisplayLength > Run
 			DiffText = "+" + DiffText;
 		}
 	}
-	DrawText(DiffText, X, Y, DiffColor, FontSize, AlignH_Right);
+	if(LastPrevSplit > 60) {
+		DrawText(DiffText, X + 32, Y, DiffColor, FontSize - 5, AlignH_Right);
+	} else {
+		DrawText(DiffText, X, Y, DiffColor, FontSize, AlignH_Right);
+	}
 } else {
-	DrawText(FormatNumber(RunTime, 3), X, Y, RunColor, FontSize, AlignH_Right);
+	Compact = 2;
+	if(LastPrevSplit > 60) {
+		if(RunTime > 60) {
+			Compact = 1;
+		}
+		DrawTime(RunTime, 3, X + 32, Y, RunColor, FontSize - 5, AlignH_Right, Compact);
+	} else {
+		DrawTime(RunTime, 3, X, Y, RunColor, FontSize, AlignH_Right, Compact);
+	}
 }
 
 //Previous Split
@@ -666,11 +676,19 @@ if(CurrSplit != 0 && RunTime < CurrSplit + SplitDisplayLength) {
 	PrevTime = NextPrevSplit;
 }
 
-X = 7 * SizeX / 8;
+X = 7 * SizeX / 8 + 10;
 
 Y -= 40;
 if(PrevTime > 0 && PrevTime < 999999) {
-	DrawText(FormatNumber(PrevTime, 3), X, Y, RunColor, 5 * FontSize / 8, AlignH_Right);
+	Compact = 2;
+	if(LastPrevSplit > 60) {
+		if(RunTime > 60) {
+			Compact = 1;
+		}
+		DrawTime(PrevTime, 3, X + 25, Y, RunColor, 5 * FontSize / 8, AlignH_Right, Compact);
+	} else {
+		DrawTime(PrevTime, 3, X, Y, RunColor, 5 * FontSize / 8, AlignH_Right, Compact);
+	}
 } else {
 	DrawText("---", X - 175, Y, RunColor, 5 * FontSize / 8, AlignH_Right);
 }
