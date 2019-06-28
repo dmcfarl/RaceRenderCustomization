@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import com.hobo.bob.model.Lap;
+import com.hobo.bob.model.Sector;
 import com.hobo.bob.model.Session;
 
 public class LapFileReader {
@@ -64,9 +65,19 @@ public class LapFileReader {
 				lap.setPreciseStartTime(Double.parseDouble(tokens[1]));
 			}
 			
-			// Parse current lap cone times
+			// Parse precise sector times
 			if (tokens.length > 2) {
-				String[] cones = tokens[2].split("\\|");
+				String[] sectors = tokens[2].split("\\|");
+				for (String sector : sectors) {
+					if (!sector.trim().isEmpty()) {
+						lap.addSector(new Sector(Double.parseDouble(sector), lap));
+					}
+				}
+			}
+			
+			// Parse current lap cone times
+			if (tokens.length > 3) {
+				String[] cones = tokens[3].split("\\|");
 				for (String cone : cones) {
 					if (!cone.trim().isEmpty()) {
 						lap.getConeTimes().add(Double.parseDouble(cone));

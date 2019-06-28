@@ -127,10 +127,20 @@ public class RaceChronoReader {
 		}
 		lap.setLapStart(lapStart);
 
+		boolean readSectors = lap.getSectors().isEmpty();
+		int currentSector = 0;
+
 		while ((line = sessionReader.readLine()) != null && (row = new DataRow(line)).getLapNum() == lapStart.getLapNum()) {
 			dataBuffer.add(row);
-			if (row.getTrap() != null && !row.getTrap().isEmpty()) {
-				lap.addSector(new Sector(row, lap));
+			if (readSectors) {
+				if(row.getTrap() != null && !row.getTrap().isEmpty()) {
+					lap.addSector(new Sector(row, lap));
+				}
+			} else if (currentSector < lap.getSectors().size()){
+				if (row.getTime() > lap.getSectors().get(currentSector).getSplit() + lap.getDataStartTime() + lap.getPreciseStartTime()) {
+					lap.getSectors().get(currentSector).setDataRow(row);
+					currentSector++;
+				}
 			}
 		}
 

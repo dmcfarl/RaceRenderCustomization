@@ -13,6 +13,14 @@ public class Sector {
 				: this.split;
 	}
 
+	public Sector(double split, Lap lap) {
+		this.dataRow = null;
+		this.split = split;
+		this.sector = !lap.getSectors().isEmpty()
+				? this.split - lap.getSectors().get(lap.getSectors().size() - 1).getSplit()
+				: this.split;
+	}
+
 	public DataRow getDataRow() {
 		return dataRow;
 	}

@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import com.hobo.bob.ConversionConstants;
 
 public class Lap {
+	private List<DataRow> allData = null;
 	private List<DataRow> startBufferData;
 	private List<DataRow> lapData;
 	private List<DataRow> finishBufferData;
@@ -35,12 +36,15 @@ public class Lap {
 	}
 
 	public List<DataRow> getLapData() {
-		Stream<DataRow> stream = Stream.of();
-		stream = Stream.concat(stream, startBufferData.stream());
-		stream = Stream.concat(stream, lapData.stream());
-		stream = Stream.concat(stream, finishBufferData.stream());
+		if (allData == null) {
+			Stream<DataRow> stream = Stream.of();
+			stream = Stream.concat(stream, startBufferData.stream());
+			stream = Stream.concat(stream, lapData.stream());
+			stream = Stream.concat(stream, finishBufferData.stream());
 
-		return stream.collect(Collectors.toList());
+			allData = stream.collect(Collectors.toList());
+		}
+		return allData;
 	}
 
 	public void setLapData(List<DataRow> lapData) {

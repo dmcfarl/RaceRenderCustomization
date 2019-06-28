@@ -47,17 +47,45 @@ public class DataWriter {
 				e.printStackTrace();
 			}
 		});
+
+		System.out.println("Writing Comparison File...");
+		if (session.getBest() != null && session.getBest().getPrevBest() != null) {
+			Lap best = session.getBest();
+			Lap ghost = session.getBest().getPrevBest();
+			try (OutputStream out = new FileOutputStream(filepath + "BestComp.csv")) {
+				int bestBufferRows = getBufferRows(best);
+				int ghostBufferRows = getBufferRows(ghost);
+				writeHeader(out, best, bestBufferRows);
+
+				printLapHeader(out, 0, ghost.getPreciseStartTime());
+				writeLapDataOnly(out, ghost, ghostBufferRows, 1);
+				
+				double bestStartTime = best.getDataStartTime();
+				best.setDataStartTime(ghost.getDataStartTime());
+				printLapHeader(out, 2, best.getPreciseStartTime() + bestStartTime
+						- (ghost.getDataStartTime() + ghost.getPreciseStartTime() + ghost.getLapTime()));
+
+				writeLapDataOnly(out, best, bestBufferRows, 3);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void writeLapDataOnly(OutputStream out, Lap lap, int bufferRows, int lapNum)
+			throws IOException {
+		for (int i = 0; i < lap.getLapData().size(); i++) {
+			DataRow row = lap.getLapData().get(i);
+			writeRow(out, lap, row, i + bufferRows < lap.getLapData().size() ? lap.getLapData().get(i + bufferRows)
+					: lap.getLapData().get(i));
+		}
+		printLapHeader(out, lapNum, lap.getLapDisplay());
 	}
 
 	private void writeLap(OutputStream out, Lap lap) throws IOException {
 		String footer = getFooter(lap);
 		
-		int bufferRows = -1;
-		DataRow positionRow;
-		do {
-			bufferRows++;
-			positionRow = lap.getLapData().get(bufferRows);
-		} while (positionRow.getTime() - lap.getDataStartTime() < ConversionConstants.POSITION_BUFFER);
+		int bufferRows = getBufferRows(lap);
 
 		writeHeader(out, lap, bufferRows);
 
@@ -107,6 +135,17 @@ public class DataWriter {
 		writeRow(out, lap, last, last);
 
 		out.write(footer.getBytes());
+	}
+	
+	private int getBufferRows(Lap lap) {
+		int bufferRows = -1;
+		DataRow positionRow;
+		do {
+			bufferRows++;
+			positionRow = lap.getLapData().get(bufferRows);
+		} while (positionRow.getTime() - lap.getDataStartTime() < ConversionConstants.POSITION_BUFFER);
+		
+		return bufferRows;
 	}
 	
 	private void writeHeader(OutputStream out, Lap lap, int positionBuffer) throws IOException {
