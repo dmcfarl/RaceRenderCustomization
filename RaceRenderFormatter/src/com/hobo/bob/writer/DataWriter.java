@@ -58,24 +58,29 @@ public class DataWriter {
 				writeHeader(out, best, bestBufferRows);
 
 				printLapHeader(out, 0, ghost.getPreciseStartTime());
-				writeLapDataOnly(out, ghost, ghostBufferRows, 1);
+				double lapGap = 180 - best.getPreciseStartTime();
+				double ghostUTCTimeAdd = best.getStartBufferData().get(0).getTime() + best.getPreciseStartTime()
+						- lapGap - ghost.getStartBufferData().get(0).getTime() - ghost.getPreciseStartTime();
+				ghost.setDataStartTime(ghost.getDataStartTime() + ghostUTCTimeAdd);
+				writeLapDataOnly(out, ghost, ghostBufferRows, 1, ghostUTCTimeAdd);
 				
-				double bestStartTime = best.getDataStartTime();
-				best.setDataStartTime(ghost.getDataStartTime());
-				printLapHeader(out, 2, best.getPreciseStartTime() + bestStartTime
-						- (ghost.getDataStartTime() + ghost.getPreciseStartTime() + ghost.getLapTime()));
+				best.setDataStartTime(best.getDataStartTime() - lapGap);
+				
+				printLapHeader(out, 2, lapGap + best.getPreciseStartTime()
+						- (ghost.getPreciseStartTime() + ghost.getLapTime()));
 
-				writeLapDataOnly(out, best, bestBufferRows, 3);
+				writeLapDataOnly(out, best, bestBufferRows, 3, 0);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 	
-	private void writeLapDataOnly(OutputStream out, Lap lap, int bufferRows, int lapNum)
+	private void writeLapDataOnly(OutputStream out, Lap lap, int bufferRows, int lapNum, double timeBuffer)
 			throws IOException {
 		for (int i = 0; i < lap.getLapData().size(); i++) {
 			DataRow row = lap.getLapData().get(i);
+			row.addTime(timeBuffer);
 			writeRow(out, lap, row, i + bufferRows < lap.getLapData().size() ? lap.getLapData().get(i + bufferRows)
 					: lap.getLapData().get(i));
 		}
