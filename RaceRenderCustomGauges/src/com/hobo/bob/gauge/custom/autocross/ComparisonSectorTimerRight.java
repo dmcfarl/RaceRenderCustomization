@@ -46,6 +46,7 @@ private float DiffSector;
 private float DiffSplit;
 private String DiffColor;
 private float SectorTime;
+private int Compact;
 private int TimeDisp;
 
 public ComparisonSectorTimerRight(Frame frame, int sizeX, int sizeY) {
@@ -531,9 +532,9 @@ SetTextOutline(Transparent);
 DrawNumber(SplitStart - 2, 0, SizeX / 2 + 67, SizeY - 25, Black, 62, AlignH_Center);
 
 if(LastPrevSplit > 60 || GetLapTime(1) > 60) {
-	TimeDisp = 1;
+	Compact = 1;
 } else {
-	TimeDisp = 2;
+	Compact = 2;
 }
 }
 
@@ -581,7 +582,11 @@ if((LapTime > LastPrevSplit) && (GetCurLapNum() > 1)) {
 		DiffColor = PositiveSplitColor;
 		DiffText = "+" + DiffText;
 	}
-	DrawText(DiffText, SizeX - 40, Y, DiffColor, FontSize, AlignH_Right);
+	if(Compact == 2) {
+		DrawText(DiffText, SizeX - 40, Y, DiffColor, FontSize, AlignH_Right);
+	} else {
+		DrawText(DiffText, SizeX - 8, Y, DiffColor, FontSize - 6, AlignH_Right);
+	}
 } else {
 	RunTime = GetCurLapTime();
 	if(GetCurLapNum() > 1) {
@@ -592,7 +597,16 @@ if((LapTime > LastPrevSplit) && (GetCurLapNum() > 1)) {
 	if(ConesIndex > 0) {
 		RunDisplayTime += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 	}
-	DrawTime(RunDisplayTime, 3, SizeX - 40, Y, RunColor, FontSize, AlignH_Right, TimeDisp);
+	
+	if(Compact == 2) {
+		DrawTime(RunDisplayTime, 3, SizeX - 40, Y, RunColor, FontSize, AlignH_Right, Compact);
+	} else {
+		TimeDisp = Compact;
+		if(RunDisplayTime < 60) {
+			TimeDisp = 2;
+		}
+		DrawTime(RunDisplayTime, 3, SizeX - 8, Y, RunColor, FontSize - 6, AlignH_Right, TimeDisp);
+	}
 }
 
 //Previous Split
@@ -605,7 +619,15 @@ if(LapTime > LastPrevSplit) {
 if(ConesIndex > 0) {
 	RunDisplayTime += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 }
-DrawTime(RunDisplayTime, 3, 5 * SizeX / 18, Y, RunColor, FontSize, AlignH_Right, TimeDisp);
+if(Compact == 2) {
+	DrawTime(RunDisplayTime, 3, 5 * SizeX / 18, Y, RunColor, FontSize, AlignH_Right, Compact);
+} else {
+	TimeDisp = Compact;
+	if(RunDisplayTime < 60) {
+		TimeDisp = 2;
+	}
+	DrawTime(RunDisplayTime, 3, 5 * SizeX / 18 + 32, Y, RunColor, FontSize - 6, AlignH_Right, TimeDisp);
+}
 
 //Draw Sectors
 Y = HeaderY - FooterY + 5;

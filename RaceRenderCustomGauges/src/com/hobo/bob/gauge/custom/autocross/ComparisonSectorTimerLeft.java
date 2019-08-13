@@ -46,6 +46,7 @@ private float DiffSector;
 private float DiffSplit;
 private String DiffColor;
 private float SectorTime;
+private int Compact;
 private int TimeDisp;
 
 public ComparisonSectorTimerLeft(Frame frame, int sizeX, int sizeY) {
@@ -522,7 +523,7 @@ DrawRect(17, HeaderY + 15, 100, SizeY - 69, White, Filled);
 DrawCircle(100, SizeY - 69, 15, White, Filled);
 
 SetTextOutline(Transparent);
-DrawNumber(SplitStart - 2, 0, 67, SizeY - 15, Black, 62, AlignH_Center);
+DrawNumber(SplitStart - 2, 0, 67, SizeY - 25, Black, 62, AlignH_Center);
 
 DrawRect(SizeX / 2 + 17, SizeY - 69, SizeX / 2 + 115, SizeY - 22, White, Filled);
 DrawRect(SizeX / 2 + 17, HeaderY + 15, SizeX / 2 + 100, SizeY - 69, White, Filled);
@@ -531,9 +532,9 @@ DrawCircle(SizeX / 2 + 100, SizeY - 69, 15, White, Filled);
 DrawLineFlat(SizeX / 2 + 140, HeaderY + FooterY / 2, SizeX / 2 + 140, SizeY - 20, ColorG, 6);
 
 if(LastPrevSplit > 60 || GetLapTime(1) > 60) {
-	TimeDisp = 1;
+	Compact = 1;
 } else {
-	TimeDisp = 2;
+	Compact = 2;
 }
 }
 
@@ -577,7 +578,15 @@ if(GetCurLapNum() > 1) {
 if(ConesIndex > 0) {
 	RunDisplayTime += ceil(GetDataValue(ConesIndex)) * ConePenalty;
 }
-DrawTime(RunDisplayTime, 3, 5 * SizeX / 18, Y, RunColor, FontSize, AlignH_Right, TimeDisp);
+if(Compact == 2) {
+	DrawTime(RunDisplayTime, 3, 5 * SizeX / 18, Y, RunColor, FontSize, AlignH_Right, Compact);
+} else {
+	TimeDisp = Compact;
+	if(RunDisplayTime < 60) {
+		TimeDisp = 2;
+	}
+	DrawTime(RunDisplayTime, 3, 5 * SizeX / 18 + 32, Y, RunColor, FontSize - 6, AlignH_Right, TimeDisp);
+}
 
 //Previous Split
 if(LapTime > LastPrevSplit) {
@@ -599,9 +608,21 @@ if((LapTime > LastPrevSplit) && (GetCurLapNum() > 1)) {
 		DiffColor = PositiveSplitColor;
 		DiffText = "+" + DiffText;
 	}
-	DrawText(DiffText, SizeX - 40, Y, DiffColor, FontSize, AlignH_Right);
+	if(Compact == 2) {
+		DrawText(DiffText, SizeX - 40, Y, DiffColor, FontSize, AlignH_Right);
+	} else {
+		DrawText(DiffText, SizeX - 8, Y, DiffColor, FontSize - 6, AlignH_Right);
+	}
 } else {
-	DrawTime(RunDisplayTime, 3, SizeX - 40, Y, RunColor, FontSize, AlignH_Right, TimeDisp);
+	if(Compact == 2) {
+		DrawTime(RunDisplayTime, 3, SizeX - 40, Y, RunColor, FontSize, AlignH_Right, Compact);
+	} else {
+		TimeDisp = Compact;
+		if(RunDisplayTime < 60) {
+			TimeDisp = 2;
+		}
+		DrawTime(RunDisplayTime, 3, SizeX - 8, Y, RunColor, FontSize - 6, AlignH_Right, TimeDisp);
+	}
 }
 
 //Draw Sectors
