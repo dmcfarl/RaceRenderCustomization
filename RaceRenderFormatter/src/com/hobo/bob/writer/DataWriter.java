@@ -53,21 +53,21 @@ public class DataWriter {
 			Lap best = session.getBest();
 			Lap ghost = session.getBest().getPrevBest();
 			try (OutputStream out = new FileOutputStream(filepath + "BestComp.csv")) {
-				int bestBufferRows = getBufferRows(best);
-				int ghostBufferRows = getBufferRows(ghost);
+				int bestBufferRows = 0;//getBufferRows(best);
+				int ghostBufferRows = 0;//getBufferRows(ghost);
 				writeHeader(out, best, bestBufferRows);
 
 				printLapHeader(out, 0, ghost.getPreciseStartTime());
 				double lapGap = 180 - best.getPreciseStartTime();
-				double ghostUTCTimeAdd = best.getStartBufferData().get(0).getTime() + best.getPreciseStartTime()
-						- lapGap - ghost.getStartBufferData().get(0).getTime() - ghost.getPreciseStartTime();
+				double ghostUTCTimeAdd = best.getStartBufferData().get(0).getTime()
+						- lapGap - ghost.getStartBufferData().get(0).getTime();
 				ghost.setDataStartTime(ghost.getDataStartTime() + ghostUTCTimeAdd);
 				writeLapDataOnly(out, ghost, ghostBufferRows, 1, ghostUTCTimeAdd);
 				
 				best.setDataStartTime(best.getDataStartTime() - lapGap);
 				
-				printLapHeader(out, 2, lapGap + best.getPreciseStartTime()
-						- (ghost.getPreciseStartTime() + ghost.getLapTime()));
+				double lap2 = lapGap - ghost.getLapTime() - ghost.getPreciseStartTime() + best.getPreciseStartTime();
+				printLapHeader(out, 2, lap2);
 
 				writeLapDataOnly(out, best, bestBufferRows, 3, 0);
 			} catch (IOException e) {
@@ -84,7 +84,7 @@ public class DataWriter {
 			writeRow(out, lap, row, i + bufferRows < lap.getLapData().size() ? lap.getLapData().get(i + bufferRows)
 					: lap.getLapData().get(i));
 		}
-		printLapHeader(out, lapNum, lap.getLapDisplay());
+		printLapHeader(out, lapNum, lap.getLapTime());
 	}
 
 	private void writeLap(OutputStream out, Lap lap) throws IOException {
@@ -109,8 +109,10 @@ public class DataWriter {
 					// Cones for the current lap are handled with the Cones column
 					lapDisplay = lap.getLapTime();
 				}
-				printSectorHeader(out, currentSector.incrementAndGet(),
-						lap.getLapTime() - lap.getSectors().get(lap.getSectors().size() - 1).getSplit());
+				if (!lap.getSectors().isEmpty()) {
+					printSectorHeader(out, currentSector.incrementAndGet(),
+							lap.getLapTime() - lap.getSectors().get(lap.getSectors().size() - 1).getSplit());
+				}
 				printLapHeader(out, currentLap.getAndIncrement(), lapDisplay);
 				wroteFinish = true;
 			} else if (currentSector.get() < lap.getSectors().size()

@@ -7,6 +7,8 @@ public class SectorTimer extends AbstractCustomGauge {
 
 private int SplitDisplayLength;
 private int ConePenalty;
+private int ConeTime;
+private float Cones;
 private int SplitStart;
 private int NumSplits;
 private int SplitNum;
@@ -56,6 +58,7 @@ public void backgroundScript() {
 //Length of time in seconds to display the Current Split Time
 SplitDisplayLength = 3;
 ConePenalty = 2;
+ConeTime = 120;
 
 //Gather Split Information
 SplitStart = 0;
@@ -76,6 +79,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 2
@@ -89,6 +96,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 3
@@ -102,6 +113,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 4
@@ -115,6 +130,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 5
@@ -128,6 +147,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 6
@@ -141,6 +164,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 7
@@ -154,6 +181,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 8
@@ -167,6 +198,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 9
@@ -180,6 +215,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 10
@@ -193,6 +232,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 11
@@ -206,6 +249,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 12
@@ -219,6 +266,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 13
@@ -232,6 +283,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 14
@@ -245,6 +300,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 15
@@ -258,6 +317,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 16
@@ -271,6 +334,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 17
@@ -284,6 +351,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 18
@@ -297,6 +368,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 19
@@ -310,6 +385,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 20
@@ -323,6 +402,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 21
@@ -336,6 +419,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 22
@@ -349,6 +436,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 23
@@ -362,6 +453,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 24
@@ -375,6 +470,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Lap 25
@@ -388,6 +487,10 @@ if(SplitTime == 0) {
 	}
 } else if(SplitStart == 0 && SplitTime < LastPrevSplit) {
 	LastPrevSplit = SplitTime;
+	Cones = round(SplitTime / ConeTime, 0);
+	if (Cones > 0) {
+		LastPrevSplit = LastPrevSplit - Cones * ConeTime + Cones * ConePenalty;
+	}
 }
 
 //Possible Split 1
@@ -641,6 +744,7 @@ NextPrevSplit = 0;
 RunTime = GetCurLapTime();
 // Determine Current Split Times
 if(GetCurLapNum() > 1) {
+	// TODO: Handle cones on current lap
 	CurrSplit = GetLapTime(1);
 	PrevSplit = LastPrevSplit;
 	NextPrevSplit = 99999;
@@ -711,14 +815,14 @@ if(GetCurLapNum() > 1 || (CurrSplit != 0 && CurrSplit + SplitDisplayLength > Run
 			DiffText = "+" + DiffText;
 		}
 	}
-	if(LastPrevSplit > 60) {
+	if(GetLapTime(1) > 60) {
 		DrawText(DiffText, X + 32, Y, DiffColor, FontSize - 5, AlignH_Right);
 	} else {
 		DrawText(DiffText, X, Y, DiffColor, FontSize, AlignH_Right);
 	}
 } else {
 	Compact = 2;
-	if(LastPrevSplit > 60) {
+	if(GetLapTime(1) > 60) {
 		if(RunTime > 60) {
 			Compact = 1;
 		}

@@ -8,6 +8,7 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.hobo.bob.ConversionConstants;
 import com.hobo.bob.model.DataRow;
@@ -46,6 +47,7 @@ public class RaceChronoReader {
 					session.getHeaders().indexOf(ConversionConstants.LON_HEADER),
 					session.getHeaders().indexOf(ConversionConstants.BEARING_HEADER));
 			String line;
+			ListIterator<Lap> laps = session.getLaps().listIterator();
 			while ((allLaps || session.getBest().getLapData() == null) && (line = sessionReader.readLine()) != null) {
 				DataRow row = new DataRow(line);
 				dataBuffer.add(row);
@@ -58,10 +60,12 @@ public class RaceChronoReader {
 					if (createLaps) {
 						lap = new Lap(row.getLapNum());
 					} else {
-						lap = session.getLaps().get(row.getLapNum() - 1);
+						lap = laps.next();
 					}
-					readLap(lap, sessionReader, dataBuffer, row);
-					if (createLaps) {
+
+					if (readLap(lap, sessionReader, dataBuffer, row)) {
+						laps.previous();
+					} else if (createLaps) {
 						session.addLap(lap);
 					}
 				} else if (session.getBest() != null && session.getBest().getLapNum() == row.getLapNum()) {
@@ -103,7 +107,7 @@ public class RaceChronoReader {
 		return Arrays.asList(line.split(",", -1));
 	}
 
-	private void readLap(Lap lap, BufferedReader sessionReader, Deque<DataRow> dataBuffer, DataRow lapStart)
+	private boolean readLap(Lap lap, BufferedReader sessionReader, Deque<DataRow> dataBuffer, DataRow lapStart)
 			throws IOException {
 		lap.setDataStartTime(dataBuffer.peekFirst().getTime());
 		
@@ -165,5 +169,8 @@ public class RaceChronoReader {
 			dataBuffer.clear();
 			dataBuffer.addAll(lapCooldown);
 		}
+		
+		// Determine if Lap is invalid: Off by more than 20% of specified time
+		return Math.abs((lap.getLapFinish().getTime() - lap.getLapStart().getTime()) / lap.getLapTime() - 1) > 0.2;
 	}
 }

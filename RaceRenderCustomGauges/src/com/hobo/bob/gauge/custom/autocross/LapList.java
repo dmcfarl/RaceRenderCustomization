@@ -42,7 +42,7 @@ public void backgroundScript() {
 SetTextOutline(Transparent);
 //Set Cone Penalty
 ConePenalty = 2;
-ConeTime = 600; // Number of seconds added to recorded Lap times to designate a cone
+ConeTime = 120; // Number of seconds added to recorded Lap times to designate a cone
 
 Header = 63;
 RowY = 50;
@@ -146,9 +146,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -182,9 +182,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -218,9 +218,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -254,9 +254,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -290,9 +290,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -326,9 +326,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -362,9 +362,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -398,9 +398,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -434,9 +434,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -470,9 +470,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -506,9 +506,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -542,9 +542,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -578,9 +578,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -614,9 +614,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -650,9 +650,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -686,9 +686,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -722,9 +722,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -758,9 +758,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -794,9 +794,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -830,9 +830,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -866,9 +866,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -902,9 +902,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -938,9 +938,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -974,9 +974,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -1010,9 +1010,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 18) {
+			if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
-			} else if(Cones == 12) {
+			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
 			} else {
 				DrawTime(RunTime, 3, ConeX - 3, Y, ColorC, FontSize, AlignH_Right, 2);
@@ -1083,7 +1083,7 @@ if(NumDisp > 1) {
 
 	if(NumRuns - NumDisp > BestRun) {
 		DrawNumber(BestRun + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-		DrawTime(BestRunTime, 3, ConeX - 3, Y, ColorD, FontSize, AlignH_Right, 2);
+		DrawTime(BestRunTime - BestCones * ConeTime, 3, ConeX - 3, Y, ColorD, FontSize, AlignH_Right, 2);
 		if(BestCones > 0) {
 			ConeText = "+" + FormatNumber(BestCones, 0);
 			DrawText(ConeText, ConeX, Y, ColorD, FontSize, AlignH_Left);
@@ -1099,7 +1099,7 @@ if(NumDisp > 1) {
 		if(BestRun != NumRuns - 1) {
 			Y = SizeY - Header - Buffer - (NumRuns - BestRun - 1) * RowY;
 			DrawRect(X + 70, Y, SizeX, Y - RowY + 10, ColorF, Filled);
-			DrawTime(BestRunTime, 3, ConeX - 3, Y, ColorD, FontSize, AlignH_Right, 2);
+			DrawTime(BestRunTime - BestCones * ConeTime, 3, ConeX - 3, Y, ColorD, FontSize, AlignH_Right, 2);
 			if(BestCones > 0) {
 				ConeText = "+" + FormatNumber(BestCones, 0);
 				DrawText(ConeText, ConeX, Y, ColorD, FontSize, AlignH_Left);
