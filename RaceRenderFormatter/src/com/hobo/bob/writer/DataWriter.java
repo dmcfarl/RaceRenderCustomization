@@ -28,11 +28,13 @@ public class DataWriter {
 
 	public void writeBestAndGhost() throws IOException {
 		try (OutputStream best = new FileOutputStream(filepath + "Best.csv");
-				OutputStream ghost = new FileOutputStream(filepath + "Ghost.csv")) {
-			writeLap(best, session.getBest());
+				OutputStream bestTiming = new FileOutputStream(filepath + "Best-timing.csv");
+				OutputStream ghost = new FileOutputStream(filepath + "Ghost.csv");
+				OutputStream ghostTiming = new FileOutputStream(filepath + "Ghost-timing.csv")) {
+			writeLap(best, bestTiming, session.getBest());
 			System.out.println("Best lap file written...");
 			if (session.getBest().getPrevBest() != null) {
-				writeLap(ghost, session.getBest().getPrevBest());
+				writeLap(ghost, ghostTiming, session.getBest().getPrevBest());
 				System.out.println("Ghost lap file written...");
 			}
 		}
@@ -40,59 +42,63 @@ public class DataWriter {
 
 	public void writeAll() {
 		session.getLaps().parallelStream().forEach(lap -> {
-			try (OutputStream out = new FileOutputStream(filepath + "Lap " + lap.getLapNum() + ".csv")) {
-				writeLap(out, lap);
+			try (OutputStream out = new FileOutputStream(filepath + "Lap " + lap.getLapNum() + ".csv");
+					OutputStream timingOut = new FileOutputStream(filepath + "Lap " + lap.getLapNum() + "-timing.csv")) {
+				writeLap(out, timingOut, lap);
 				System.out.println("Lap " + lap.getLapNum() + " file written...");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
 
-		System.out.println("Writing Comparison File...");
-		if (session.getBest() != null && session.getBest().getPrevBest() != null) {
-			Lap best = session.getBest();
-			Lap ghost = session.getBest().getPrevBest();
-			try (OutputStream out = new FileOutputStream(filepath + "BestComp.csv")) {
-				int bestBufferRows = 0;//getBufferRows(best);
-				int ghostBufferRows = 0;//getBufferRows(ghost);
-				writeHeader(out, best, bestBufferRows);
-
-				printLapHeader(out, 0, ghost.getPreciseStartTime());
-				double lapGap = 180 - best.getPreciseStartTime();
-				double ghostUTCTimeAdd = best.getStartBufferData().get(0).getTime()
-						- lapGap - ghost.getStartBufferData().get(0).getTime();
-				ghost.setDataStartTime(ghost.getDataStartTime() + ghostUTCTimeAdd);
-				writeLapDataOnly(out, ghost, ghostBufferRows, 1, ghostUTCTimeAdd);
-				
-				best.setDataStartTime(best.getDataStartTime() - lapGap);
-				
-				double lap2 = lapGap - ghost.getLapTime() - ghost.getPreciseStartTime() + best.getPreciseStartTime();
-				printLapHeader(out, 2, lap2);
-
-				writeLapDataOnly(out, best, bestBufferRows, 3, 0);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+//		System.out.println("Writing Comparison File...");
+//		if (session.getBest() != null && session.getBest().getPrevBest() != null) {
+//			Lap best = session.getBest();
+//			Lap ghost = session.getBest().getPrevBest();
+//			try (OutputStream out = new FileOutputStream(filepath + "BestComp.csv")) {
+//				int bestBufferRows = 0;//getBufferRows(best);
+//				int ghostBufferRows = 0;//getBufferRows(ghost);
+//				writeHeader(out, best, bestBufferRows);
+//
+//				printLapHeader(out, 0, ghost.getPreciseStartTime());
+//				double lapGap = 180 - best.getPreciseStartTime();
+//				double ghostUTCTimeAdd = best.getStartBufferData().get(0).getTime()
+//						- lapGap - ghost.getStartBufferData().get(0).getTime();
+//				ghost.setDataStartTime(ghost.getDataStartTime() + ghostUTCTimeAdd);
+//				writeLapDataOnly(out, ghost, ghostBufferRows, 1, ghostUTCTimeAdd);
+//				
+//				best.setDataStartTime(best.getDataStartTime() - lapGap);
+//				
+//				double lap2 = lapGap - ghost.getLapTime() - ghost.getPreciseStartTime() + best.getPreciseStartTime();
+//				printLapHeader(out, 2, lap2);
+//
+//				writeLapDataOnly(out, best, bestBufferRows, 3, 0);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 	
-	private void writeLapDataOnly(OutputStream out, Lap lap, int bufferRows, int lapNum, double timeBuffer)
-			throws IOException {
-		for (int i = 0; i < lap.getLapData().size(); i++) {
-			DataRow row = lap.getLapData().get(i);
-			row.addTime(timeBuffer);
-			writeRow(out, lap, row, i + bufferRows < lap.getLapData().size() ? lap.getLapData().get(i + bufferRows)
-					: lap.getLapData().get(i));
-		}
-		printLapHeader(out, lapNum, lap.getLapTime());
-	}
+//	private void writeLapDataOnly(OutputStream out, Lap lap, int bufferRows, int lapNum, double timeBuffer)
+//			throws IOException {
+//		for (int i = 0; i < lap.getLapData().size(); i++) {
+//			DataRow row = lap.getLapData().get(i);
+//			row.addTime(timeBuffer);
+//			writeRow(out, lap, row, i + bufferRows < lap.getLapData().size() ? lap.getLapData().get(i + bufferRows)
+//					: lap.getLapData().get(i));
+//		}
+//		printLapHeader(out, lapNum, lap.getLapTime());
+//	}
 
-	private void writeLap(OutputStream out, Lap lap) throws IOException {
+	private void writeLap(OutputStream out, OutputStream outTiming, Lap lap) throws IOException {
 		String footer = getFooter(lap);
 		
 		int bufferRows = getBufferRows(lap);
 
 		writeHeader(out, lap, bufferRows);
+		writeHeader(outTiming, lap, bufferRows);
+		writeRow(outTiming, lap, lap.getLapData().get(0),
+				bufferRows < lap.getLapData().size() ? lap.getLapData().get(bufferRows) : lap.getLapData().get(0));
 
 		AtomicInteger currentLap = new AtomicInteger(0);
 		AtomicInteger currentSector = new AtomicInteger(0);
@@ -101,7 +107,8 @@ public class DataWriter {
 		for (int i = 0; i < lap.getLapData().size(); i++) {
 			DataRow row = lap.getLapData().get(i);
 			if (!wroteStart && row.getTime() >= lap.getLapStart().getTime()) {
-				printLapHeader(out, currentLap.getAndIncrement(), lap.getPreciseStartTime());
+				printLapHeader(out, currentLap.get(), lap.getPreciseStartTime());
+				printLapHeader(outTiming, currentLap.getAndIncrement(), lap.getPreciseStartTime());
 				wroteStart = true;
 			} else if (!wroteFinish && row.getTime() == lap.getLapFinish().getTime()) {
 				double lapDisplay = lap.getLapDisplay();
@@ -112,13 +119,17 @@ public class DataWriter {
 				if (!lap.getSectors().isEmpty()) {
 					printSectorHeader(out, currentSector.incrementAndGet(),
 							lap.getLapTime() - lap.getSectors().get(lap.getSectors().size() - 1).getSplit());
+					printSectorHeader(outTiming, currentSector.incrementAndGet(),
+							lap.getLapTime() - lap.getSectors().get(lap.getSectors().size() - 1).getSplit());
 				}
-				printLapHeader(out, currentLap.getAndIncrement(), lapDisplay);
+				printLapHeader(out, currentLap.get(), lapDisplay);
+				printLapHeader(outTiming, currentLap.getAndIncrement(), lapDisplay);
 				wroteFinish = true;
 			} else if (currentSector.get() < lap.getSectors().size()
 					&& row.getTime() == lap.getSectors().get(currentSector.get()).getDataRow().getTime()) {
 				Sector sector = lap.getSectors().get(currentSector.getAndIncrement());
 				printSectorHeader(out, currentSector.get(), sector.getSector());
+				printSectorHeader(outTiming, currentSector.get(), sector.getSector());
 			}
 			writeRow(out, lap, row, i + bufferRows < lap.getLapData().size() ? lap.getLapData().get(i + bufferRows)
 					: lap.getLapData().get(i));
@@ -126,8 +137,8 @@ public class DataWriter {
 		DataRow last = lap.getLapData().get(lap.getLapData().size() - 1).clone();
 
 		double lapTimes = 0;
-		for (int i = 1; i < lap.getLapNum(); i++) {
-			lapTimes += session.getLaps().get(i - 1).getLapDisplay();
+		for (int i = 0; i < lap.getLapNum(); i++) {
+			lapTimes += session.getLaps().get(i).getLapDisplay();
 		}
 		for (Sector sector : lap.getSectors()) {
 			lapTimes += sector.getSplit();
@@ -139,9 +150,10 @@ public class DataWriter {
 		}
 
 		last.addTime(lapTimes + 1);
-		writeRow(out, lap, last, last);
+		writeRow(outTiming, lap, last, last);
 
-		out.write(footer.getBytes());
+		out.write("# Session End\n\n".getBytes());
+		outTiming.write(footer.getBytes());
 	}
 	
 	private int getBufferRows(Lap lap) {
