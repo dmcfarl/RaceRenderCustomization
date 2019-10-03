@@ -31,7 +31,6 @@ private float BestCones;
 private int Buffer;
 private int BottomY;
 private String BackColor;
-private int PrevBestRun;
 
 public LapList(Frame frame, int sizeX, int sizeY) {
 super(frame, sizeX, sizeY);
@@ -146,7 +145,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -182,7 +183,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -218,7 +221,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -254,7 +259,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -290,7 +297,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -326,7 +335,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -362,7 +373,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -398,7 +411,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -434,7 +449,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -470,7 +487,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -506,7 +525,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -542,7 +563,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -578,7 +601,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -614,7 +639,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -650,7 +677,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -686,7 +715,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -722,7 +753,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -758,7 +791,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -794,7 +829,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -830,7 +867,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -866,7 +905,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -902,7 +943,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -938,7 +981,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -974,7 +1019,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -1010,7 +1057,9 @@ if(RunIdx >= 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 		if(RunIdx > NumRuns - NumDisp) {
 			DrawNumber(RunIdx + 1, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-			if(Cones == 15) {
+			if(Cones == 20) {
+				DrawText("RERUN", TimeX, Y, ColorC, FontSize, 0);
+			} else if(Cones == 15) {
 				DrawText("DNF", TimeX, Y, ColorC, FontSize, 0);
 			} else if(Cones == 10) {
 				DrawText("OFF", TimeX, Y, ColorC, FontSize, 0);
@@ -1029,7 +1078,6 @@ if(RunIdx >= 0) {
 	}
 	RunIdx -= 1;
 }
-PrevBestRun = BestRun;
 }
 
 @Override
