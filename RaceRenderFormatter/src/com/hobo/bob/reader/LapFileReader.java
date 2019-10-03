@@ -50,14 +50,16 @@ public class LapFileReader {
 			
 			// Parse lap time
 			if (tokens[0].toLowerCase().contains("dnf")) {
-				lap.setLapDisplay(-1, -1, false, true);
+				lap.setLapDisplay(-1, -1, Lap.Penalty.DNF);
 			} else if (tokens[0].toLowerCase().contains("oc") || tokens[0].toLowerCase().contains("off")) {
-				lap.setLapDisplay(-1, -1, true, false);
+				lap.setLapDisplay(-1, -1, Lap.Penalty.OFF);
+			} else if (tokens[0].toLowerCase().contains("rerun")) {
+				lap.setLapDisplay(-1, -1, Lap.Penalty.RERUN);
 			} else if (tokens[0].trim().matches("^\\d+(\\.\\d+)?\\+\\d$")) {
 				String[] time = tokens[0].split("\\+");
-				lap.setLapDisplay(Double.parseDouble(time[0]), Integer.parseInt(time[1]), false, false);
+				lap.setLapDisplay(Double.parseDouble(time[0]), Integer.parseInt(time[1]));
 			} else {
-				lap.setLapDisplay(Double.parseDouble(tokens[0]), 0, false, false);
+				lap.setLapDisplay(Double.parseDouble(tokens[0]), 0);
 			}
 			
 			// Parse precise lap start time

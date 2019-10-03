@@ -63,9 +63,8 @@ public class RaceChronoReader {
 						lap = laps.next();
 					}
 
-					if (readLap(lap, sessionReader, dataBuffer, row)) {
-						laps.previous();
-					} else if (createLaps) {
+					readLap(lap, sessionReader, dataBuffer, row);
+					if (createLaps) {
 						session.addLap(lap);
 					}
 				} else if (session.getBest() != null && session.getBest().getLapNum() == row.getLapNum()) {
@@ -170,7 +169,8 @@ public class RaceChronoReader {
 			dataBuffer.addAll(lapCooldown);
 		}
 		
-		// Determine if Lap is invalid: Off by more than 20% of specified time
+		// Current: Mark reruns using a different marker.  Don't want to lose the lap
+		// OBE: Determine if Lap is invalid: Off by more than 20% of specified time
 		return Math.abs((lap.getLapFinish().getTime() - lap.getLapStart().getTime()) / lap.getLapTime() - 1) > 0.2;
 	}
 }

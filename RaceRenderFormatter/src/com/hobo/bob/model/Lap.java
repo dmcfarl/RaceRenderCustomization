@@ -110,12 +110,18 @@ public class Lap {
 		return lapDisplay;
 	}
 
-	public void setLapDisplay(double time, int cones, boolean offCourse, boolean dnf) {
-		if (dnf) {
+	public void setLapDisplay(double time, int cones) {
+		setLapDisplay(time, cones, Penalty.NONE);
+	}
+	public void setLapDisplay(double time, int cones, Penalty penalty) {
+		if (Penalty.DNF.equals(penalty)) {
 			lapDisplay = ConversionConstants.DNF_DISPLAY_TIME;
 			lapTime = lapDisplay;
-		} else if (offCourse) {
+		} else if (Penalty.OFF.equals(penalty)) {
 			lapDisplay = ConversionConstants.OFF_DISPLAY_TIME;
+			lapTime = lapDisplay;
+		} else if (Penalty.RERUN.equals(penalty)) {
+			lapDisplay = ConversionConstants.RERUN_DISPLAY_TIME;
 			lapTime = lapDisplay;
 		} else if (cones > 9) {
 			throw new IllegalArgumentException("Unable to process runs with more than 9 hit cones.");
@@ -189,5 +195,9 @@ public class Lap {
 
 	public void setPrevBest(Lap prevBest) {
 		this.prevBest = prevBest;
+	}
+	
+	public enum Penalty {
+		DNF, OFF, RERUN, NONE;
 	}
 }

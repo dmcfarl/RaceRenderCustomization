@@ -16,6 +16,7 @@ public class ConversionConstants {
 	public static final double CONE_TIME_PENALTY = 2.0;
 	public static final double DNF_DISPLAY_TIME = 30 * 60;
 	public static final double OFF_DISPLAY_TIME = 20 * 60;
+	public static final double RERUN_DISPLAY_TIME = 40 * 60;
 	public static final double CONE_DISPLAY_PENALTY = 2 * 60;
 	
 	public static final String CELCIUS_HEADER = "(.C)";
