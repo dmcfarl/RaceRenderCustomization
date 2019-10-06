@@ -7,6 +7,7 @@ import com.hobo.bob.model.Session;
 import com.hobo.bob.reader.RaceChronoReader;
 import com.hobo.bob.reader.LapFileReader;
 import com.hobo.bob.writer.DataWriter;
+import com.hobo.bob.writer.IntroDisplayWriter;
 
 public class AutocrossDriver {
 
@@ -37,6 +38,7 @@ public class AutocrossDriver {
 			} else {
 				writer.writeBestAndGhost();
 			}
+			new IntroDisplayWriter(dataFile.getParent() + File.separator).writeDisplayFile();
 			System.out.println("Conversion complete.");
 		} catch (IOException e) {
 			e.printStackTrace();
