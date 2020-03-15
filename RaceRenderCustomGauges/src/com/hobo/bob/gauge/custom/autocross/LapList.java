@@ -5,34 +5,34 @@ import com.hobo.bob.gauge.model.Frame;
 
 public class LapList extends AbstractCustomGauge {
 
-private int ConePenalty;
-private int ConeTime;
-private int NumRuns;
-private int RunIdx;
-private int BestRun;
+private float ConePenalty;
+private float ConeTime;
+private float NumRuns;
+private float RunIdx;
+private float BestRun;
 private float BestRunTime;
 private float Run;
 private float Cones;
-private int Header;
-private int RowY;
-private int NumDisp;
-private int X;
-private int Y;
-private int FontSize;
-private int TimeX;
-private int ConeIndex;
-private int ConeX;
+private float Header;
+private float RowY;
+private float NumDisp;
+private float X;
+private float Y;
+private float FontSize;
+private float TimeX;
+private float ConeIndex;
+private float ConeX;
 private float RunTime;
 private String ConeText;
 private float LastDisp;
 private float LastCones;
 private String RunColor;
 private float BestCones;
-private int Buffer;
-private int BottomY;
+private float Buffer;
+private float BottomY;
 private String BackColor;
 
-public LapList(Frame frame, int sizeX, int sizeY) {
+public LapList(Frame frame, float sizeX, float sizeY) {
 super(frame, sizeX, sizeY);
 }
 

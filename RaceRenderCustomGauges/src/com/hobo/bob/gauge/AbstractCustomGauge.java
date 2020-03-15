@@ -5,24 +5,24 @@ import com.hobo.bob.gauge.model.Frame;
 public abstract class AbstractCustomGauge extends GaugeConstants {
 private Frame frame;
 
-protected int SizeX;
-protected int SizeY;
+protected float SizeX;
+protected float SizeY;
 protected float DataRatio;
-protected int DataMin;
-protected int DataMax;
-protected int DataValue;
+protected float DataMin;
+protected float DataMax;
+protected float DataValue;
 
-public AbstractCustomGauge(Frame frame, int sizeX, int sizeY) {
+public AbstractCustomGauge(Frame frame, float sizeX2, float sizeY2) {
 this.frame = frame;
-this.SizeX = sizeX;
-this.SizeY = sizeY;
+this.SizeX = sizeX2;
+this.SizeY = sizeY2;
 }
 
 public abstract void backgroundScript();
 
 public abstract void foregroundScript();
 
-protected float GetLapTime(int LapNum) {
+protected float GetLapTime(float LapNum) {
 return frame.getCurrentLapNum();
 }
 
@@ -30,7 +30,7 @@ protected float GetCurLapTime() {
 return frame.getCurrentLapTime();
 }
 
-protected int GetCurLapNum() {
+protected float GetCurLapNum() {
 return frame.getCurrentLapNum();
 }
 
@@ -46,75 +46,71 @@ protected float floor(float val) {
 return (float) Math.floor(val);
 }
 
-protected int trunc(float val) {
+protected float trunc(float val) {
 return (int) Math.floor(val);
 }
 
-protected float round(float val, int decimals) {
+protected float round(float val, float decimals) {
 return (float) (Math.round(val * Math.pow(10, decimals)) / Math.pow(10, decimals));
 }
 
-protected String substr(String value, int start, int length) {
-return value.substring(start, start + length);
+protected String substr(String value, float start, float length) {
+return value.substring((int)start, (int)(start + length));
 }
 
-protected String substr(float value, int start, int length) {
-return Float.toString(value).substring(start, start + length);
+protected String substr(float value, float start, float length) {
+return Float.toString(value).substring((int)start, (int)(start + length));
 }
 
-protected int GetDataIndex(String dataFieldName) {
+protected float GetDataIndex(String dataFieldName) {
 return frame.getDataIndex(dataFieldName);
 }
 
-protected Object GetDataValue(int dataFieldIndex) {
-return frame.getDataValue(dataFieldIndex);
+protected Float GetDataValue(float dataFieldIndex) {
+return (Float)frame.getDataValue(dataFieldIndex);
 }
 
-protected void DrawRect(int x1, int y1, int x2, int y2, String color, String thickness) {
-
-}
-
-protected void DrawRect(int x1, int y1, float x2, int y2, String color, String thickness) {
+protected void DrawRect(float x1, float y1, float x2, float y2, String color, String thickness) {
 
 }
 
-protected void DrawRRect(int x1, int y1, int x2, int y2, String color, String thickness) {
+protected void DrawRRect(float x1, float y1, float x2, float y2, String color, String thickness) {
 
 }
 
-protected void DrawCircle(int x, int y, int radius, String color, String thickness) {
+protected void DrawCircle(float x, float y, float radius, String color, String thickness) {
 
 }
 
-protected void DrawLine(int x1, int y1, int x2, int y2, String color, int thickness) {
+protected void DrawLine(float x1, float y1, float x2, float y2, String color, float thickness) {
 
 }
 
-protected void DrawLineFlat(int x1, int y1, int x2, int y2, String color, int thickness) {
+protected void DrawLineFlat(float x1, float y1, float x2, float y2, String color, float thickness) {
 
 }
 
-protected void DrawLineGradientRGB(int x1, int y1, int x2, int y2, String colorA, String colorB, int thickness) {
+protected void DrawLineGradientRGB(float x1, float y1, float x2, float y2, String colorA, String colorB, float thickness) {
 
 }
 
-protected void DrawText(String text, int x, int y, String color, int size, String alignment) {
+protected void DrawText(String text, float x, float y, String color, float size, String alignment) {
 
 }
 
-protected void DrawText(String text, double x, int y, String color, int size, String alignment) {
+protected void DrawText(String text, double x, float y, String color, float size, String alignment) {
 
 }
 
-protected void DrawText(String text, int x, int y, String color, int size, int alignment) {
+protected void DrawText(String text, float x, float y, String color, float size, float alignment) {
 
 }
 
-protected void DrawNumber(Object val, int decimals, int x, int y, String color, int size, String alignment) {
+protected void DrawNumber(Object val, float decimals, float x, float y, String color, float size, String alignment) {
 
 }
 
-protected void DrawTime(Object val, int decimals, int x, int y, String color, int size, String alignment, int compact) {
+protected void DrawTime(Object val, float decimals, float x, float y, String color, float size, String alignment, float compact) {
 
 }
 
@@ -130,7 +126,7 @@ protected void SetTextOutline(String color) {
 
 }
 
-protected String FormatNumber(float value, int decimals) {
+protected String FormatNumber(float value, float decimals) {
 return String.format("%." + decimals + "f", value);
 }
 }

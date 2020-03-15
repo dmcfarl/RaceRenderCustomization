@@ -19,14 +19,16 @@ public class DataRow {
 	private static int bearingIndex = -1;
 
 	private DataRow(DataRow clone) {
-		this.line = clone.getLine();
+		this.line = clone.getLine().clone();
 		this.time = clone.getTime();
 		this.lapNum = clone.getLapNum();
 		this.trap = clone.getTrap();
 	}
 
 	public DataRow(String line) {
-		this.line = line.split(",", -1);
+		if (line != null) {
+			this.line = line.split(",", -1);
+		}
 	}
 
 	public String[] getLine() {

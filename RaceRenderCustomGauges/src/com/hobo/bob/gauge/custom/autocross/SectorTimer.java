@@ -5,13 +5,13 @@ import com.hobo.bob.gauge.model.Frame;
 
 public class SectorTimer extends AbstractCustomGauge {
 
-private int SplitDisplayLength;
-private int ConePenalty;
-private int ConeTime;
+private float SplitDisplayLength;
+private float ConePenalty;
+private float ConeTime;
 private float Cones;
-private int SplitStart;
-private int NumSplits;
-private int SplitNum;
+private float SplitStart;
+private float NumSplits;
+private float SplitNum;
 private float SplitTime;
 private float LastPrevSplit;
 private float CurrSplit1;
@@ -31,14 +31,14 @@ private String PositiveSplitColor;
 private String NegativeSplitColor;
 private String HeaderColor;
 private String BackgroundColor;
-private int FontSize;
-private int HeaderY;
-private int SectorY;
-private int ConesIndex;
-private int SectorX;
-private int CurrSector;
-private int X;
-private int Y;
+private float FontSize;
+private float HeaderY;
+private float SectorY;
+private float ConesIndex;
+private float SectorX;
+private float CurrSector;
+private float X;
+private float Y;
 private float CurrSplit;
 private float PrevSplit;
 private float NextPrevSplit;
@@ -47,9 +47,9 @@ private float DiffSplit;
 private String DiffText;
 private String DiffColor;
 private float PrevTime;
-private int Compact;
+private float Compact;
 
-public SectorTimer(Frame frame, int sizeX, int sizeY) {
+public SectorTimer(Frame frame, float sizeX, float sizeY) {
 super(frame, sizeX, sizeY);
 }
 
