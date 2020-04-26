@@ -5,10 +5,10 @@ import com.hobo.bob.gauge.model.Frame;
 
 public class ComparisonSectorTimerRight extends AbstractCustomGauge {
 
-private int ConePenalty;
-private int SplitStart;
-private int NumSplits;
-private int SplitNum;
+private float ConePenalty;
+private float SplitStart;
+private float NumSplits;
+private float SplitNum;
 private float SplitTime;
 private float LastPrevSplit;
 private float CurrSplit1;
@@ -28,28 +28,28 @@ private String PositiveSplitColor;
 private String NegativeSplitColor;
 private String HeaderColor;
 private String BackgroundColor;
-private int FontSize;
-private int HeaderY;
-private int SectorY;
-private int ConesIndex;
-private int Y;
+private float FontSize;
+private float HeaderY;
+private float SectorY;
+private float ConesIndex;
+private float Y;
 private float RunTime;
 private String DiffText;
 private float RunDisplayTime;
 private float LapTime;
-private int FooterY;
-private int SeparatorX;
-private int SectorX1;
-private int SectorX2;
+private float FooterY;
+private float SeparatorX;
+private float SectorX1;
+private float SectorX2;
 private String SplitColor;
 private float DiffSector;
 private float DiffSplit;
 private String DiffColor;
 private float SectorTime;
-private int Compact;
-private int TimeDisp;
+private float Compact;
+private float TimeDisp;
 
-public ComparisonSectorTimerRight(Frame frame, int sizeX, int sizeY) {
+public ComparisonSectorTimerRight(Frame frame, float sizeX, float sizeY) {
 super(frame, sizeX, sizeY);
 }
 

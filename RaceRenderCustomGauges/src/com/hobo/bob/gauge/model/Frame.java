@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Frame {
-	private int lapNum;
+	private float lapNum;
 	private float lapTime;
 	private float[] laps;
 	private Map<String, Integer> dataIndices;
@@ -18,7 +18,7 @@ public class Frame {
 		this.dataValues = dataValues;
 	}
 	
-	public int getCurrentLapNum() {
+	public float getCurrentLapNum() {
 		return lapNum;
 	}
 	
@@ -26,15 +26,15 @@ public class Frame {
 		return lapTime;
 	}
 	
-	public float getLapTime(int lap) {
-		return laps[lap];
+	public float getLapTime(float lap) {
+		return laps[(int)lap];
 	}
 	
-	public int getDataIndex(String field) {
+	public float getDataIndex(String field) {
 		return dataIndices.get(field);
 	}
 	
-	public Object getDataValue(int index) {
-		return dataValues.get(index);
+	public Object getDataValue(float dataFieldIndex) {
+		return dataValues.get((int)dataFieldIndex);
 	}
 }

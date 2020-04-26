@@ -5,15 +5,15 @@ import com.hobo.bob.gauge.model.Frame;
 
 public class EstimatedGapTimer extends AbstractCustomGauge {
 
-private int Header;
-private int Footer;
-private int Border;
+private float Header;
+private float Footer;
+private float Border;
 private float Delta;
 private String Display;
 private String Color;
 private float X;
 
-public EstimatedGapTimer(Frame frame, int sizeX, int sizeY) {
+public EstimatedGapTimer(Frame frame, float sizeX, float sizeY) {
 super(frame, sizeX, sizeY);
 }
 

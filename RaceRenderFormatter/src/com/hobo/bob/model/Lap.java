@@ -10,16 +10,16 @@ import com.hobo.bob.ConversionConstants;
 
 public class Lap {
 	private List<DataRow> allData = null;
-	private List<DataRow> startBufferData;
-	private List<DataRow> lapData;
-	private List<DataRow> finishBufferData;
+	private final List<DataRow> startBufferData = new ArrayList<>();
+	private final List<DataRow> lapData = new ArrayList<>();
+	private final List<DataRow> finishBufferData = new ArrayList<>();
 	private List<Sector> sectors;
 	private Double lapTime;
 	private Double lapDisplay;
 	private DataRow lapStart;
 	private DataRow lapFinish;
-	private double dataStartTime;
-	private int lapNum;
+	private double dataStartTime = 0;
+	private final int lapNum;
 	private double preciseStartTime = ConversionConstants.LAP_BUFFER;
 	private List<Double> coneTimes;
 	private Lap prevBest;
@@ -47,36 +47,23 @@ public class Lap {
 		return allData;
 	}
 
-	public void setLapData(List<DataRow> lapData) {
-		this.lapData = lapData;
-	}
-	
 	public List<DataRow> getStartBufferData() {
 		return startBufferData;
 	}
-	
-	public void setStartBufferData(Deque<DataRow> startBufferData) {
-		if (this.startBufferData == null) {
-			this.startBufferData = new ArrayList<>();
-		}
+
+	public void addStartBufferData(Deque<DataRow> startBufferData) {
 		this.startBufferData.addAll(startBufferData);
 	}
-	
+
 	public List<DataRow> getFinishBufferData() {
 		return finishBufferData;
 	}
-	
+
 	public void setFinishBufferData(Deque<DataRow> finishBufferData) {
-		if (this.finishBufferData == null) {
-			this.finishBufferData = new ArrayList<>();
-		}
 		this.finishBufferData.addAll(finishBufferData);
 	}
 
 	public void addLapData(Deque<DataRow> lapData) {
-		if (this.lapData == null) {
-			this.lapData = new ArrayList<>();
-		}
 		this.lapData.addAll(lapData);
 	}
 
@@ -98,7 +85,7 @@ public class Lap {
 		this.sectors.add(sector);
 	}
 
-	public double getLapTime() {
+	public Double getLapTime() {
 		return lapTime;
 	}
 
@@ -106,13 +93,14 @@ public class Lap {
 		this.lapTime = lapTime;
 	}
 
-	public double getLapDisplay() {
+	public Double getLapDisplay() {
 		return lapDisplay;
 	}
 
 	public void setLapDisplay(double time, int cones) {
 		setLapDisplay(time, cones, Penalty.NONE);
 	}
+
 	public void setLapDisplay(double time, int cones, Penalty penalty) {
 		if (Penalty.DNF.equals(penalty)) {
 			lapDisplay = ConversionConstants.DNF_DISPLAY_TIME;
@@ -166,10 +154,6 @@ public class Lap {
 		return lapNum;
 	}
 
-	public void setLapNum(int lapNum) {
-		this.lapNum = lapNum;
-	}
-
 	public double getPreciseStartTime() {
 		return preciseStartTime;
 	}
@@ -196,7 +180,7 @@ public class Lap {
 	public void setPrevBest(Lap prevBest) {
 		this.prevBest = prevBest;
 	}
-	
+
 	public enum Penalty {
 		DNF, OFF, RERUN, NONE;
 	}

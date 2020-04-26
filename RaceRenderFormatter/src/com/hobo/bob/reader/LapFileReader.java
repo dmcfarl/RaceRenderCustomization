@@ -5,14 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import com.hobo.bob.model.Event;
 import com.hobo.bob.model.Lap;
 import com.hobo.bob.model.Sector;
-import com.hobo.bob.model.Session;
 
 public class LapFileReader {
 
-	public Session extractLaps(String lapsFile) throws FileNotFoundException, IOException {
-		Session session = new Session();
+	public Event extractLaps(String lapsFile) throws FileNotFoundException, IOException {
+		Event event = new Event();
 		int currentLap = 1;
 		try (BufferedReader lapReader = new BufferedReader(new FileReader(lapsFile))) {
 			Lap lap = new Lap(currentLap);
@@ -23,7 +23,7 @@ public class LapFileReader {
 					throw new IllegalArgumentException("Unable to parse laps file.");
 				}
 			}
-			session.addLap(lap);
+			event.addLap(lap);
 
 			while ((line = lapReader.readLine()) != null) {
 				if (!line.isEmpty()) {
@@ -32,12 +32,12 @@ public class LapFileReader {
 					if (!parseLapLine(lap, line)) {
 						throw new IllegalArgumentException("Unable to parse laps file.");
 					}
-					session.addLap(lap);
+					event.addLap(lap);
 				}
 			}
 		}
 
-		return session;
+		return event;
 	}
 
 	private boolean parseLapLine(Lap lap, String line) {

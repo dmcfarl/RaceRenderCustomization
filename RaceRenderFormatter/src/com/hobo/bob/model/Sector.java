@@ -1,5 +1,7 @@
 package com.hobo.bob.model;
 
+import com.hobo.bob.ConversionConstants;
+
 public class Sector {
 	private DataRow dataRow;
 	private Double split;
@@ -7,7 +9,10 @@ public class Sector {
 
 	public Sector(DataRow dataRow, Lap lap) {
 		this.dataRow = dataRow;
-		this.split = dataRow.getTime() - lap.getDataStartTime() - lap.getPreciseStartTime();
+		this.split = dataRow.getTime() - lap.getLapStart().getTime()
+				- (lap.getPreciseStartTime() > ConversionConstants.LAP_BUFFER
+						? lap.getPreciseStartTime() - ConversionConstants.LAP_BUFFER
+						: 0);
 		this.sector = !lap.getSectors().isEmpty()
 				? this.split - lap.getSectors().get(lap.getSectors().size() - 1).getSplit()
 				: this.split;

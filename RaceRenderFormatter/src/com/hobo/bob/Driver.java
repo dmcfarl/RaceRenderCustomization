@@ -1,15 +1,14 @@
 package com.hobo.bob;
 
 import java.io.File;
-import java.io.IOException;
 
-import com.hobo.bob.model.Session;
+import com.hobo.bob.model.Event;
 import com.hobo.bob.reader.RaceChronoReader;
 import com.hobo.bob.reader.LapFileReader;
 import com.hobo.bob.writer.DataWriter;
 import com.hobo.bob.writer.IntroDisplayWriter;
 
-public class AutocrossDriver {
+public class Driver {
 
 	public static void main(String[] args) {
 		if(args.length < 1 || args.length > 3){
@@ -20,27 +19,28 @@ public class AutocrossDriver {
 		File dataFile = new File(args[0]);
 		
 		boolean extractAllLaps = (args.length == 3 && Boolean.parseBoolean(args[2])) || args.length == 1;
-		RaceChronoReader extractor = new RaceChronoReader(args[0], extractAllLaps);
 		try {
-			Session session;
+			Event event;
 			if (args.length >= 2) {
-				session = new LapFileReader().extractLaps(args[1]);
+				event = new LapFileReader().extractLaps(args[1]);
 			} else {
-				session = new Session();
+				event = new Event();
 			}
 			System.out.println("Reading data...");
-			extractor.extract(session);
+			RaceChronoReader extractor = new RaceChronoReader(args[0], event);
+			extractor.extract();
 			System.out.println("Data extracted...");
 
-			DataWriter writer = new DataWriter(dataFile.getParent() + File.separator, session);
-			if(extractAllLaps) {
-				writer.writeAll();
-			} else {
-				writer.writeBestAndGhost();
-			}
-			new IntroDisplayWriter(dataFile.getParent() + File.separator).writeDisplayFile();
+			DataWriter writer = new DataWriter(dataFile.getParent() + File.separator, event);
+//			if(extractAllLaps) {
+//				writer.writeAll();
+//			} else {
+//				writer.writeBestAndGhost();
+//			}
+			writer.compareLaps(6, 31);
+//			new IntroDisplayWriter(dataFile.getParent() + File.separator).writeDisplayFile();
 			System.out.println("Conversion complete.");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
