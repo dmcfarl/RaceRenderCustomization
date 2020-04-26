@@ -7,6 +7,7 @@ public class Contestant {
 	private List<LapTime> lapTimes;
 	private int contestantEnum;
 	private String name;
+	private double lap0Time;
 	
 	public Contestant(int contestantEnum) {
 		this.contestantEnum = contestantEnum;
@@ -67,7 +68,7 @@ public class Contestant {
 	
 	public LapTime getLapTimeAtTime(double seconds) {
 		LapTime result = new LapTime();
-		double runTime = 0;
+		double runTime = lap0Time;
 		for (int i = 0; i < lapTimes.size() && lapTimes.get(i).getLast() + runTime <= seconds; i++) {
 			result = lapTimes.get(i);
 			runTime += lapTimes.get(i).getLast();
@@ -82,5 +83,13 @@ public class Contestant {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public double getLap0Time() {
+		return lap0Time;
+	}
+
+	public void setLap0Time(double lap0Time) {
+		this.lap0Time = lap0Time;
 	}
 }

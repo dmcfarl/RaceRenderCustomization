@@ -76,6 +76,21 @@ public class GoKartDriver {
 						leaderboard.getContestants().add(new Contestant(cell.getStringCellValue()));
 					}
 				}
+				
+				// Read lap0Time
+				i++;
+				if (i <= rowSize) {
+					Row row = sheet.getRow(i);
+					for (int j = 0; j <= columnSize; j++) {
+						Cell cell = row.getCell(j);
+						if (cell != null) {
+							double lapTime = cell.getNumericCellValue();
+							if (lapTime > 0) {
+								leaderboard.getContestants().get(j).setLap0Time(lapTime);
+							}
+						}
+					}
+				}
 
 				// Read lapTimes
 				for (i++; i <= rowSize; i++) {
@@ -108,18 +123,33 @@ public class GoKartDriver {
 					}
 				}
 
-				// Read lapTimes
-				String row = null;
-				while ((row = in.readLine()) != null) {
+				// Read lap0Times
+				String row = in.readLine();
+				if (row != null) {
 					String[] cells = row.split(",");
 					for (int i = 0; i < cells.length; i++) {
 						try {
 							if (cells[i].length() > 0) {
 								double lapTime = Double.parseDouble(cells[i]);
-								leaderboard.getContestants().get(i).addLapTime(lapTime);
+								leaderboard.getContestants().get(i).setLap0Time(lapTime);
 							}
 						} catch (NumberFormatException e) {
 							// Ignore
+						}
+					}
+					
+					// Read lapTimes
+					while ((row = in.readLine()) != null) {
+						cells = row.split(",");
+						for (int i = 0; i < cells.length; i++) {
+							try {
+								if (cells[i].length() > 0) {
+									double lapTime = Double.parseDouble(cells[i]);
+									leaderboard.getContestants().get(i).addLapTime(lapTime);
+								}
+							} catch (NumberFormatException e) {
+								// Ignore
+							}
 						}
 					}
 				}
@@ -159,8 +189,7 @@ public class GoKartDriver {
 
 	public String formatRow(double sessionTime, List<String> toFormat) {
 		StringBuffer row = new StringBuffer();
-		row.append("" + sessionTime);
-		row.append(",");
+		row.append(String.format("%.4f,", sessionTime));
 		for (int i = 0; i < toFormat.size(); i++) {
 			row.append(toFormat.get(i));
 			if (i < toFormat.size() - 1) {

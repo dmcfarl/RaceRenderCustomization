@@ -25,7 +25,7 @@ public class Leaderboard {
 	public List<Double> getEvents() {
 		Set<Double> eventSet = new HashSet<>();
 		for (Contestant contestant : contestants) {
-			double sessionTime = 0;
+			double sessionTime = contestant.getLap0Time();
 			for (LapTime lap : contestant.getLapTimes()) {
 				sessionTime += lap.getLast();
 				eventSet.add(sessionTime);
