@@ -129,4 +129,8 @@ protected void SetTextOutline(String color) {
 protected String FormatNumber(float value, float decimals) {
 return String.format("%." + decimals + "f", value);
 }
+protected String chr(float trunc) {
+//TODO Auto-generated method stub
+return "";
+}
 }
