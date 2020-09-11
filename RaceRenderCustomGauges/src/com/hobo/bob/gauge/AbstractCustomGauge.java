@@ -34,6 +34,10 @@ protected float GetCurLapNum() {
 return frame.getCurrentLapNum();
 }
 
+protected float GetBestLapNum() {
+return frame.getCurrentLapNum();
+}
+
 protected float abs(float val) {
 return Math.abs(val);
 }
@@ -78,6 +82,10 @@ protected void DrawRRect(float x1, float y1, float x2, float y2, String color, S
 
 }
 
+protected void DrawRRect(float x1, float y1, float x2, float y2, String color, float thickness) {
+
+}
+
 protected void DrawCircle(float x, float y, float radius, String color, String thickness) {
 
 }
@@ -110,7 +118,15 @@ protected void DrawNumber(Object val, float decimals, float x, float y, String c
 
 }
 
+protected void DrawNumber(Object val, float decimals, float x, float y, String color, float size, float alignment) {
+
+}
+
 protected void DrawTime(Object val, float decimals, float x, float y, String color, float size, String alignment, float compact) {
+
+}
+
+protected void DrawTime(Object val, float decimals, float x, float y, String color, float size, float alignment, float compact) {
 
 }
 
