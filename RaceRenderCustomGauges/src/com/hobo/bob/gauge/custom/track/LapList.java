@@ -33,6 +33,7 @@ private float FutureLapDisplay;
 private float PreviousLapDisplay;
 private float PreviousLapTransition;
 private boolean DrawFutureTime;
+private boolean DrawCurrentTime;
 
 public LapList(Frame frame, float sizeX, float sizeY) {
 super(frame, sizeX, sizeY);
@@ -64,13 +65,24 @@ PreviousLapTransition = 1 / 2; // seconds
 public void foregroundScript() {
 SetTextOutline(Transparent);
 
-LapTime = GetCurLapTime();
 TotalLaps = GetDataValue(TotalLapsIndex);
 SessionLapStart = GetDataValue(SessionLapStartIndex);
 SessionLaps = GetDataValue(SessionLapsIndex);
 PrevBestLapIdx = GetDataValue(PrevBestLapNumIndex);
-CurrentLapNum = GetCurLapNum() + SessionLapStart - 1;
-LapIdx = GetCurLapNum();
+
+if(GetCurLapNum() > SessionLaps) {
+	LapIdx = SessionLaps;
+	LapTime = GetCurLapTime();
+	CurrentLapNum = SessionLaps + SessionLapStart - 1;
+} else if(GetCurLapNum() >= 1) {
+	LapIdx = GetCurLapNum();
+	LapTime = GetCurLapTime();
+	CurrentLapNum = GetCurLapNum() + SessionLapStart - 1;
+} else {
+	LapIdx = 1;
+	LapTime = 0;
+	CurrentLapNum = SessionLapStart;
+}
 if(PrevBestLapIdx < SessionLapStart) {
 	PrevBestLapIdx += SessionLapStart - SessionLaps + 2;
 } else {
@@ -79,11 +91,15 @@ if(PrevBestLapIdx < SessionLapStart) {
 
 Y = SizeY - Header - Buffer; // Space between top of chart and the topmost Run time
 
-DrawFutureTime = GetLapTime(LapIdx) - LapTime <= FutureLapDisplay;
+DrawCurrentTime = GetCurLapNum() <= SessionLaps;
+DrawFutureTime = GetCurLapNum() > 0 && GetCurLapNum() + 1 <= SessionLaps && GetLapTime(LapIdx) - FutureLapDisplay <= LapTime;
+
 NumDisp = trunc(Y / RowY);
 if(NumDisp > CurrentLapNum) {
 	NumDisp = CurrentLapNum;
-	if(DrawFutureTime) { NumDisp += 1; }
+	if(DrawFutureTime) {
+		NumDisp += 1;
+	}
 }
 
 // Draw Future Lap
@@ -113,19 +129,21 @@ LapText = FormatNumber(CurrentLapNum, 0) + " / " + FormatNumber(TotalLaps, 0);
 if(CurrentLapNum < 10) {
 	LapText = "   " + LapText;
 }
-DrawText(LapText, SizeX /2, SizeY - Header + FontSize, ColorG, FontSize, AlignH_Center);
+DrawText(LapText, SizeX / 2, SizeY - Header + FontSize, ColorG, FontSize, AlignH_Center);
 
-// Draw Current Lap
-DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
-DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
-DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
-DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-RunColor = ColorB;
+if(DrawCurrentTime) {
+	// Draw Current Lap
+	DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+	DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+	DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+	DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
+	RunColor = ColorB;
 
-DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 1);
-Y -= RowY;
-LapIdx -= 1;
-CurrentLapNum -= 1;
+	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 1);
+	Y -= RowY;
+	LapIdx -= 1;
+	CurrentLapNum -= 1;
+}
 
 //NumRuns - 1
 if(floor(Y) > 0 && CurrentLapNum > 0) {
@@ -134,7 +152,7 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	}
 
 	// Highlight Run Number Box
-	if(LapTime < PreviousLapDisplay) {
+	if(GetCurLapNum() > 1 && GetCurLapTime() < PreviousLapDisplay) {
 		if(PrevBestLapIdx == LapIdx) {
 			BackColor = ColorD;
 		} else {
@@ -143,7 +161,8 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 		if(LapTime < PreviousLapTransition) {
 			BackColor = BlendColorsRGB(ColorG, BackColor, LapTime / PreviousLapTransition);
 		} else if(LapTime > PreviousLapDisplay - PreviousLapTransition) {
-			BackColor = BlendColors(BackColor, ColorG, (LapTime - PreviousLapDisplay + PreviousLapTransition) / PreviousLapTransition);
+			BackColor = BlendColors(BackColor, ColorG,
+					(LapTime - PreviousLapDisplay + PreviousLapTransition) / PreviousLapTransition);
 		}
 	} else {
 		BackColor = ColorG;
