@@ -332,8 +332,10 @@ public class DataWriter {
 		outTiming.write(String.format("%.3f", lapFinish).getBytes());
 		outTiming.write(sectors.toString().getBytes());
 		outTiming.write("\n".getBytes());
-		printSectorHeader(outTiming, ++currentSector,
-				lap.getLapTime() - lap.getSectors().get(lap.getSectors().size() - 1).getSplit());
+		if (!lap.getSectors().isEmpty()) {
+			printSectorHeader(outTiming, ++currentSector,
+					lap.getLapTime() - lap.getSectors().get(lap.getSectors().size() - 1).getSplit());
+		}
 		printLapHeader(outTiming, sessionLapNumber, lap.getLapDisplay());
 	}
 
@@ -435,8 +437,10 @@ public class DataWriter {
 				for (int j = 0; j < curr.getSectors().size(); j++) {
 					footer.append(getHeader("Sector", j + 1, curr.getSectors().get(j).getSector()));
 				}
-				footer.append(getHeader("Sector", curr.getSectors().size() + 1,
-						curr.getLapTime() - curr.getSectors().get(curr.getSectors().size() - 1).getSplit()));
+				if (!curr.getSectors().isEmpty()) {
+					footer.append(getHeader("Sector", curr.getSectors().size() + 1,
+							curr.getLapTime() - curr.getSectors().get(curr.getSectors().size() - 1).getSplit()));
+				}
 				footer.append(getHeader("Lap", currentLap.getAndIncrement(), curr.getLapDisplay()));
 			}
 

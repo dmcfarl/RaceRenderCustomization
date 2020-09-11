@@ -64,15 +64,21 @@ public class RaceChronoReader {
 					lap.setDataStartTime(session.getLaps().get(0).getDataStartTime());
 					lap.setPreciseStartTime(0);
 				}
-				session.addLap(lap);
+				
+				if (lap.getLapOnlyData().get(lap.getLapOnlyData().size() - 1).getTrap().contains("Finish")) {
+					session.addLap(lap);
 
-				if (createLaps) {
-					// Add the lap to the event after reading since we need to know the lap time
-					// which won't be known until we read the lap
-					event.addLap(lap);
+					if (createLaps) {
+						// Add the lap to the event after reading since we need to know the lap time
+						// which won't be known until we read the lap
+						event.addLap(lap);
+					}
+				} else {
+					System.out.println("Ignoring lap without finish: " + lap.getLapNum());
 				}
 			}
 		}
+		return;
 	}
 
 	private boolean findNextLap(BufferedReader sessionReader, Deque<DataRow> dataBuffer) throws IOException {
