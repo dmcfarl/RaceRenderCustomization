@@ -16,24 +16,23 @@ private float TimeX;
 private float LapTime;
 private String RunColor;
 private float Buffer;
-private float BottomY;
 private String BackColor;
 private float PrevBestLapNumIndex;
 private float TotalLapsIndex;
 private float SessionLapsIndex;
-private float PrevBestLapIdx;
+private float PrevBestLapNum;
 private float TotalLaps;
 private float SessionLapStart;
 private float SessionLapStartIndex;
 private float SessionLaps;
 private float CurrentLapNum;
 private float Ratio;
-private String LapText;
 private float FutureLapDisplay;
 private float PreviousLapDisplay;
 private float PreviousLapTransition;
 private boolean DrawFutureTime;
 private boolean DrawCurrentTime;
+private int DrawMinutes;
 
 public LapList(Frame frame, float sizeX, float sizeY) {
 super(frame, sizeX, sizeY);
@@ -68,7 +67,7 @@ SetTextOutline(Transparent);
 TotalLaps = GetDataValue(TotalLapsIndex);
 SessionLapStart = GetDataValue(SessionLapStartIndex);
 SessionLaps = GetDataValue(SessionLapsIndex);
-PrevBestLapIdx = GetDataValue(PrevBestLapNumIndex);
+PrevBestLapNum = GetDataValue(PrevBestLapNumIndex);
 
 if(GetCurLapNum() > SessionLaps) {
 	LapIdx = SessionLaps;
@@ -82,11 +81,6 @@ if(GetCurLapNum() > SessionLaps) {
 	LapIdx = 1;
 	LapTime = 0;
 	CurrentLapNum = SessionLapStart;
-}
-if(PrevBestLapIdx < SessionLapStart) {
-	PrevBestLapIdx += SessionLapStart - SessionLaps + 2;
-} else {
-	PrevBestLapIdx -= SessionLapStart - 1;
 }
 
 Y = SizeY - Header - Buffer; // Space between top of chart and the topmost Run time
@@ -108,10 +102,10 @@ if(DrawFutureTime) {
 	Y += RowY - Ratio * RowY;
 }
 
-BottomY = Y - NumDisp * RowY;
-// Draw background
-DrawRect(0, BottomY, SizeX / 10, BottomY + SizeX / 10, ColorF, Filled);
-DrawRRect(0, BottomY, SizeX, SizeY, ColorF, Filled);
+// Background drawn by other Display Object
+//BottomY = Y - NumDisp * RowY;
+//DrawRect(0, BottomY, SizeX / 10, BottomY + SizeX / 10, ColorF, Filled);
+//DrawRRect(0, BottomY, SizeX, SizeY, ColorF, Filled);
 
 if(DrawFutureTime) {
 	DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
@@ -125,11 +119,9 @@ if(DrawFutureTime) {
 // Draw Banner
 DrawRect(0, SizeY - Header, SizeX, SizeY, ColorE, Filled);
 DrawLine(SizeX / 4, SizeY - Header + FontSize + Buffer, SizeX * 3 / 4, SizeY - Header + FontSize + Buffer, ColorG, 2);
-LapText = FormatNumber(CurrentLapNum, 0) + " / " + FormatNumber(TotalLaps, 0);
-if(CurrentLapNum < 10) {
-	LapText = "   " + LapText;
-}
-DrawText(LapText, SizeX / 2, SizeY - Header + FontSize, ColorG, FontSize, AlignH_Center);
+DrawNumber(CurrentLapNum, 0, CenterX - 18, SizeY - Header + FontSize, ColorG, FontSize, AlignH_Right);
+DrawText("/", CenterX, SizeY - Header + FontSize, ColorG, FontSize, AlignH_Center);
+DrawNumber(TotalLaps, 0, CenterX + 18, SizeY - Header + FontSize, ColorG, FontSize, AlignH_Left);
 
 if(DrawCurrentTime) {
 	// Draw Current Lap
@@ -137,9 +129,14 @@ if(DrawCurrentTime) {
 	DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 	DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 	DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-	RunColor = ColorB;
+	RunColor = ColorH;
 
-	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 1);
+	if(LapTime >= 60) {
+		DrawMinutes = 1;
+	} else {
+		DrawMinutes = 0;
+	}
+	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
 	Y -= RowY;
 	LapIdx -= 1;
 	CurrentLapNum -= 1;
@@ -153,7 +150,7 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 
 	// Highlight Run Number Box
 	if(GetCurLapNum() > 1 && GetCurLapTime() < PreviousLapDisplay) {
-		if(PrevBestLapIdx == LapIdx) {
+		if(PrevBestLapNum == CurrentLapNum) {
 			BackColor = ColorD;
 		} else {
 			BackColor = ColorB;
@@ -172,11 +169,17 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	DrawRect(X, Y - 40, X + 57, Y - 32, BackColor, Filled);
 	DrawCircle(X + 58, Y - 33, 7, BackColor, Filled);
 	DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-	if(LapIdx == PrevBestLapIdx) {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorD, FontSize, AlignH_Right, 1);
+	if(LapTime >= 60) {
+		DrawMinutes = 1;
 	} else {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorC, FontSize, AlignH_Right, 1);
+		DrawMinutes = 0;
 	}
+	if(CurrentLapNum == PrevBestLapNum) {
+		RunColor = ColorD;
+	} else {
+		RunColor = ColorC;
+	}
+	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -193,11 +196,17 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 	DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 	DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-	if(LapIdx == PrevBestLapIdx) {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorD, FontSize, AlignH_Right, 1);
+	if(LapTime >= 60) {
+		DrawMinutes = 1;
 	} else {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorC, FontSize, AlignH_Right, 1);
+		DrawMinutes = 0;
 	}
+	if(CurrentLapNum == PrevBestLapNum) {
+		RunColor = ColorD;
+	} else {
+		RunColor = ColorC;
+	}
+	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -213,11 +222,17 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 	DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 	DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-	if(LapIdx == PrevBestLapIdx) {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorD, FontSize, AlignH_Right, 1);
+	if(LapTime >= 60) {
+		DrawMinutes = 1;
 	} else {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorC, FontSize, AlignH_Right, 1);
+		DrawMinutes = 0;
 	}
+	if(CurrentLapNum == PrevBestLapNum) {
+		RunColor = ColorD;
+	} else {
+		RunColor = ColorC;
+	}
+	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -233,11 +248,17 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 	DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 	DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-	if(LapIdx == PrevBestLapIdx) {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorD, FontSize, AlignH_Right, 1);
+	if(LapTime >= 60) {
+		DrawMinutes = 1;
 	} else {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorC, FontSize, AlignH_Right, 1);
+		DrawMinutes = 0;
 	}
+	if(CurrentLapNum == PrevBestLapNum) {
+		RunColor = ColorD;
+	} else {
+		RunColor = ColorC;
+	}
+	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -253,11 +274,17 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 	DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 	DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-	if(LapIdx == PrevBestLapIdx) {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorD, FontSize, AlignH_Right, 1);
+	if(LapTime >= 60) {
+		DrawMinutes = 1;
 	} else {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorC, FontSize, AlignH_Right, 1);
+		DrawMinutes = 0;
 	}
+	if(CurrentLapNum == PrevBestLapNum) {
+		RunColor = ColorD;
+	} else {
+		RunColor = ColorC;
+	}
+	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -273,11 +300,17 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 	DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 	DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-	if(LapIdx == PrevBestLapIdx) {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorD, FontSize, AlignH_Right, 1);
+	if(LapTime >= 60) {
+		DrawMinutes = 1;
 	} else {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorC, FontSize, AlignH_Right, 1);
+		DrawMinutes = 0;
 	}
+	if(CurrentLapNum == PrevBestLapNum) {
+		RunColor = ColorD;
+	} else {
+		RunColor = ColorC;
+	}
+	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -293,11 +326,17 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 	DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 	DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-	if(LapIdx == PrevBestLapIdx) {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorD, FontSize, AlignH_Right, 1);
+	if(LapTime >= 60) {
+		DrawMinutes = 1;
 	} else {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorC, FontSize, AlignH_Right, 1);
+		DrawMinutes = 0;
 	}
+	if(CurrentLapNum == PrevBestLapNum) {
+		RunColor = ColorD;
+	} else {
+		RunColor = ColorC;
+	}
+	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -313,11 +352,17 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
 	DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 	DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-	if(LapIdx == PrevBestLapIdx) {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorD, FontSize, AlignH_Right, 1);
+	if(LapTime >= 60) {
+		DrawMinutes = 1;
 	} else {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorC, FontSize, AlignH_Right, 1);
+		DrawMinutes = 0;
 	}
+	if(CurrentLapNum == PrevBestLapNum) {
+		RunColor = ColorD;
+	} else {
+		RunColor = ColorC;
+	}
+	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -325,26 +370,11 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 }
 //NumRuns - 9
 if(floor(Y) > 0 && CurrentLapNum > 0) {
-	if(LapIdx <= 0) {
-		LapIdx += SessionLapStart + SessionLaps;
+	// If no NumRuns-10, Draw Best or Last?
+	if(floor(Y - RowY) <= 0 && PrevBestLapNum < CurrentLapNum) {
+		LapIdx -= (CurrentLapNum - PrevBestLapNum);
+		CurrentLapNum = PrevBestLapNum;
 	}
-	LapTime = GetLapTime(LapIdx);
-	DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
-	DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
-	DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
-	DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-	if(LapIdx == PrevBestLapIdx) {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorD, FontSize, AlignH_Right, 1);
-	} else {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorC, FontSize, AlignH_Right, 1);
-	}
-
-	Y -= RowY;
-	LapIdx -= 1;
-	CurrentLapNum -= 1;
-}
-//NumRuns - 10
-if(floor(Y) > 0 && CurrentLapNum > 0) {
 	if(LapIdx <= 0) {
 		LapIdx += SessionLapStart + SessionLaps;
 	}
@@ -365,11 +395,60 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
 	}
 	DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
-	if(LapIdx == PrevBestLapIdx) {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorD, FontSize, AlignH_Right, 1);
+	if(LapTime >= 60) {
+		DrawMinutes = 1;
 	} else {
-		DrawTime(LapTime, 3, TimeX - 3, Y, ColorC, FontSize, AlignH_Right, 1);
+		DrawMinutes = 0;
 	}
+	if(CurrentLapNum == PrevBestLapNum) {
+		RunColor = ColorD;
+	} else {
+		RunColor = ColorC;
+	}
+	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+
+	Y -= RowY;
+	LapIdx -= 1;
+	CurrentLapNum -= 1;
+}
+//NumRuns - 10: Only used when a Session has finished
+if(floor(Y) > 0 && CurrentLapNum > 0) {
+	// Draw Best or Last?
+	if(PrevBestLapNum < CurrentLapNum) {
+		LapIdx -= (CurrentLapNum - PrevBestLapNum);
+		CurrentLapNum = PrevBestLapNum;
+	}
+	if(LapIdx <= 0) {
+		LapIdx += SessionLapStart + SessionLaps;
+	}
+	LapTime = GetLapTime(LapIdx);
+
+	// Only draw if above 0
+	if(Y >= 32) {
+		DrawRect(X, Y - 32, X + 65, Y + 1, ColorG, Filled);
+	} else {
+		DrawRect(X, 0, X + 65, Y + 1, ColorG, Filled);
+	}
+	if(Y >= 40) {
+		DrawRect(X, Y - 40, X + 57, Y - 32, ColorG, Filled);
+	} else if(Y - 32 > 0) {
+		DrawRect(X, 0, X + 57, Y - 32, ColorG, Filled);
+	}
+	if(Y > 26) {
+		DrawCircle(X + 58, Y - 33, 7, ColorG, Filled);
+	}
+	DrawNumber(CurrentLapNum, 0, X + 33, Y, ColorA, FontSize, AlignH_Center);
+	if(LapTime >= 60) {
+		DrawMinutes = 1;
+	} else {
+		DrawMinutes = 0;
+	}
+	if(CurrentLapNum == PrevBestLapNum) {
+		RunColor = ColorD;
+	} else {
+		RunColor = ColorC;
+	}
+	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
 
 	Y -= RowY;
 	LapIdx -= 1;
