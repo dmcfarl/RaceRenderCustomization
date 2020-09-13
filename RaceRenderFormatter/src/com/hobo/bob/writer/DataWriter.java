@@ -289,7 +289,6 @@ public class DataWriter {
 				outTiming.write(",0".getBytes());
 
 			}
-			outTiming.write(",0".getBytes());
 			outTiming.write("\n".getBytes());
 			printLapHeader(outTiming, sessionLapNumber, lap.getPreciseStartTime());
 		}
