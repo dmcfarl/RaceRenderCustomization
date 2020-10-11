@@ -14,10 +14,9 @@ public class ConversionConstants {
 	public static final double POSITION_BUFFER = 0.4;
 	
 	public static final double CONE_TIME_PENALTY = 2.0;
-	public static final double DNF_DISPLAY_TIME = 30 * 60;
-	public static final double OFF_DISPLAY_TIME = 20 * 60;
-	public static final double RERUN_DISPLAY_TIME = 40 * 60;
-	public static final double CONE_DISPLAY_PENALTY = 2 * 60;
+	public static final int DNF_PENALTY = 12;
+	public static final int OFF_PENALTY = 11;
+	public static final int RERUN_PENALTY = 10;
 	
 	public static final String CELCIUS_HEADER = "(.C)";
 	public static final String FAHRENHEIT_HEADER = "(.F)";

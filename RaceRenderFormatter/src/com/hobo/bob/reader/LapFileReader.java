@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import com.hobo.bob.ConversionConstants;
 import com.hobo.bob.model.Event;
 import com.hobo.bob.model.Lap;
 import com.hobo.bob.model.Sector;
@@ -36,6 +37,19 @@ public class LapFileReader {
 				}
 			}
 		}
+		
+		double maxTime = -1;
+		for (Lap lap : event.getLaps()) {
+			if (lap.getLapTime() > maxTime) {
+				maxTime = lap.getLapTime();
+			}
+		}
+		
+		for (Lap lap : event.getLaps()) {
+			if (lap.getLapTime() < 0) {
+				lap.setLapTime(maxTime, lap.getPenalties());
+			}
+		}
 
 		return event;
 	}
@@ -50,16 +64,16 @@ public class LapFileReader {
 			
 			// Parse lap time
 			if (tokens[0].toLowerCase().contains("dnf")) {
-				lap.setLapDisplay(-1, -1, Lap.Penalty.DNF);
+				lap.setLapTime(-1, ConversionConstants.DNF_PENALTY);
 			} else if (tokens[0].toLowerCase().contains("oc") || tokens[0].toLowerCase().contains("off")) {
-				lap.setLapDisplay(-1, -1, Lap.Penalty.OFF);
+				lap.setLapTime(-1, ConversionConstants.OFF_PENALTY);
 			} else if (tokens[0].toLowerCase().contains("rerun")) {
-				lap.setLapDisplay(-1, -1, Lap.Penalty.RERUN);
+				lap.setLapTime(-1, ConversionConstants.RERUN_PENALTY);
 			} else if (tokens[0].trim().matches("^\\d+(\\.\\d+)?\\+\\d$")) {
 				String[] time = tokens[0].split("\\+");
-				lap.setLapDisplay(Double.parseDouble(time[0]), Integer.parseInt(time[1]));
+				lap.setLapTime(Double.parseDouble(time[0]), Integer.parseInt(time[1]));
 			} else {
-				lap.setLapDisplay(Double.parseDouble(tokens[0]), 0);
+				lap.setLapTime(Double.parseDouble(tokens[0]), 0);
 			}
 			
 			// Parse precise lap start time

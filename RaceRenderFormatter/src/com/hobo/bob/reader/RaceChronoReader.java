@@ -128,7 +128,7 @@ public class RaceChronoReader {
 		if (lap.getPreciseStartTime() > ConversionConstants.LAP_BUFFER && (row = readDataRow(sessionReader)) != null) {
 			do {
 				dataBuffer.add(row);
-			} while (row.getTime() - lap.getLapStart().getTime() < lap.getPreciseStartTime()
+			} while (row.getTime() - lapStart.getTime() < (lap.getPreciseStartTime() - ConversionConstants.LAP_BUFFER)
 					&& (row = readDataRow(sessionReader)) != null);
 
 			if (dataBuffer.peekLast().getLapNum() == null) {
@@ -148,7 +148,7 @@ public class RaceChronoReader {
 					lap.addSector(new Sector(row, lap));
 				}
 			} else if (currentSector < lap.getSectors().size()) {
-				if (row.getTime() > lap.getSectors().get(currentSector).getSplit() + lap.getLapStart().getTime()
+				if (row.getTime() > lap.getSectors().get(currentSector).getSplit() + lap.getStartBufferData().get(0).getTime()
 						+ lap.getPreciseStartTime()) {
 					lap.getSectors().get(currentSector).setDataRow(row);
 					currentSector++;
@@ -156,8 +156,8 @@ public class RaceChronoReader {
 			}
 		}
 
-		if (lap.getLapDisplay() == null && row != null && row.getLapNum() - 1 == lapStart.getLapNum()) {
-			lap.setLapDisplay(row.getTime() - lap.getLapStart().getTime(), 0);
+		if (lap.getLapTime() == null && row != null && row.getLapNum() - 1 == lapStart.getLapNum()) {
+			lap.setLapTime(row.getTime() - lap.getLapStart().getTime(), 0);
 		}
 
 		lap.setLapFinish(dataBuffer.peekLast());

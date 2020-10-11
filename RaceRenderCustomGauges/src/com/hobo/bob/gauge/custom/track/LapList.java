@@ -33,6 +33,8 @@ private float PreviousLapTransition;
 private boolean DrawFutureTime;
 private boolean DrawCurrentTime;
 private int DrawMinutes;
+private float PenaltyIndex;
+private Float Penalties;
 
 public LapList(Frame frame, float sizeX, float sizeY) {
 super(frame, sizeX, sizeY);
@@ -53,7 +55,7 @@ PrevBestLapNumIndex = GetDataIndex("Previous Lap Number");
 
 X = 13;
 FontSize = 42;
-TimeX = SizeX - 20;
+TimeX = SizeX - 60;
 
 FutureLapDisplay = 2; // seconds
 PreviousLapDisplay = 4; // seconds
@@ -179,7 +181,22 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	} else {
 		RunColor = ColorC;
 	}
-	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum, 0));
+	if(PenaltyIndex < 0 || PenaltyIndex > 100) {
+		DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	} else {
+		Penalties = GetDataValue(PenaltyIndex);
+		if(Penalties >= 12) {
+			DrawText("DNF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 11) {
+			DrawText("OFF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 10) {
+			DrawText("RERUN", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else {
+			DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+			DrawText("+" + FormatNumber(Penalties, 0), TimeX - 3, Y, RunColor, FontSize, AlignH_Left);
+		}
+	}
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -206,7 +223,22 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	} else {
 		RunColor = ColorC;
 	}
-	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum, 0));
+	if(PenaltyIndex < 0 || PenaltyIndex > 100) {
+		DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	} else {
+		Penalties = GetDataValue(PenaltyIndex);
+		if(Penalties >= 12) {
+			DrawText("DNF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 11) {
+			DrawText("OFF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 10) {
+			DrawText("RERUN", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else {
+			DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+			DrawText("+" + FormatNumber(Penalties, 0), TimeX - 3, Y, RunColor, FontSize, AlignH_Left);
+		}
+	}
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -232,7 +264,22 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	} else {
 		RunColor = ColorC;
 	}
-	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum, 0));
+	if(PenaltyIndex < 0 || PenaltyIndex > 100) {
+		DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	} else {
+		Penalties = GetDataValue(PenaltyIndex);
+		if(Penalties >= 12) {
+			DrawText("DNF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 11) {
+			DrawText("OFF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 10) {
+			DrawText("RERUN", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else {
+			DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+			DrawText("+" + FormatNumber(Penalties, 0), TimeX - 3, Y, RunColor, FontSize, AlignH_Left);
+		}
+	}
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -258,7 +305,22 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	} else {
 		RunColor = ColorC;
 	}
-	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum, 0));
+	if(PenaltyIndex < 0 || PenaltyIndex > 100) {
+		DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	} else {
+		Penalties = GetDataValue(PenaltyIndex);
+		if(Penalties >= 12) {
+			DrawText("DNF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 11) {
+			DrawText("OFF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 10) {
+			DrawText("RERUN", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else {
+			DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+			DrawText("+" + FormatNumber(Penalties, 0), TimeX - 3, Y, RunColor, FontSize, AlignH_Left);
+		}
+	}
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -284,7 +346,22 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	} else {
 		RunColor = ColorC;
 	}
-	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum, 0));
+	if(PenaltyIndex < 0 || PenaltyIndex > 100) {
+		DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	} else {
+		Penalties = GetDataValue(PenaltyIndex);
+		if(Penalties >= 12) {
+			DrawText("DNF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 11) {
+			DrawText("OFF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 10) {
+			DrawText("RERUN", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else {
+			DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+			DrawText("+" + FormatNumber(Penalties, 0), TimeX - 3, Y, RunColor, FontSize, AlignH_Left);
+		}
+	}
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -310,7 +387,22 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	} else {
 		RunColor = ColorC;
 	}
-	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum, 0));
+	if(PenaltyIndex < 0 || PenaltyIndex > 100) {
+		DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	} else {
+		Penalties = GetDataValue(PenaltyIndex);
+		if(Penalties >= 12) {
+			DrawText("DNF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 11) {
+			DrawText("OFF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 10) {
+			DrawText("RERUN", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else {
+			DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+			DrawText("+" + FormatNumber(Penalties, 0), TimeX - 3, Y, RunColor, FontSize, AlignH_Left);
+		}
+	}
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -336,7 +428,22 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	} else {
 		RunColor = ColorC;
 	}
-	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum, 0));
+	if(PenaltyIndex < 0 || PenaltyIndex > 100) {
+		DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	} else {
+		Penalties = GetDataValue(PenaltyIndex);
+		if(Penalties >= 12) {
+			DrawText("DNF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 11) {
+			DrawText("OFF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 10) {
+			DrawText("RERUN", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else {
+			DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+			DrawText("+" + FormatNumber(Penalties, 0), TimeX - 3, Y, RunColor, FontSize, AlignH_Left);
+		}
+	}
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -362,7 +469,22 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	} else {
 		RunColor = ColorC;
 	}
-	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum, 0));
+	if(PenaltyIndex < 0 || PenaltyIndex > 100) {
+		DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	} else {
+		Penalties = GetDataValue(PenaltyIndex);
+		if(Penalties >= 12) {
+			DrawText("DNF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 11) {
+			DrawText("OFF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 10) {
+			DrawText("RERUN", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else {
+			DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+			DrawText("+" + FormatNumber(Penalties, 0), TimeX - 3, Y, RunColor, FontSize, AlignH_Left);
+		}
+	}
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -405,7 +527,22 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	} else {
 		RunColor = ColorC;
 	}
-	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum, 0));
+	if(PenaltyIndex < 0 || PenaltyIndex > 100) {
+		DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	} else {
+		Penalties = GetDataValue(PenaltyIndex);
+		if(Penalties >= 12) {
+			DrawText("DNF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 11) {
+			DrawText("OFF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 10) {
+			DrawText("RERUN", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else {
+			DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+			DrawText("+" + FormatNumber(Penalties, 0), TimeX - 3, Y, RunColor, FontSize, AlignH_Left);
+		}
+	}
 
 	Y -= RowY;
 	LapIdx -= 1;
@@ -448,7 +585,22 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 	} else {
 		RunColor = ColorC;
 	}
-	DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum, 0));
+	if(PenaltyIndex < 0 || PenaltyIndex > 100) {
+		DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+	} else {
+		Penalties = GetDataValue(PenaltyIndex);
+		if(Penalties >= 12) {
+			DrawText("DNF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 11) {
+			DrawText("OFF", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else if(Penalties >= 10) {
+			DrawText("RERUN", SizeX - 230, Y, RunColor, FontSize, AlignH_Left);
+		} else {
+			DrawTime(LapTime, 3, TimeX - 3, Y, RunColor, FontSize, AlignH_Right, 2 - DrawMinutes);
+			DrawText("+" + FormatNumber(Penalties, 0), TimeX - 3, Y, RunColor, FontSize, AlignH_Left);
+		}
+	}
 
 	Y -= RowY;
 	LapIdx -= 1;
