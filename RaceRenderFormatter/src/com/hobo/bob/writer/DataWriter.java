@@ -203,7 +203,7 @@ public class DataWriter {
 		Lap sessionBest = sessionLast.getPrevBest() != null
 				&& sessionLast.getLapTime() >= sessionLast.getPrevBest().getLapTime() ? sessionLast.getPrevBest() : null;
 		writeTimingRow(outTiming, session.getLaps().get(0).getLapNum(), session.getLaps().size(),
-				sessionLast, sessionBest, sessionLast.getLapFinish().getTime());
+				sessionLast, sessionBest, sessionLast.getLapStart().getTime() + sessionLast.getLapTime());
 		outTiming.write(getFooter(session, last).getBytes());
 	}
 
