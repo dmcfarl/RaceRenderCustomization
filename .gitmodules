@@ -1,0 +1,3 @@
+[submodule "racerender-formatter"]
+	path = racerender-formatter
+	url = git@github.com:dmcfarl/racerender-formatter.git
