@@ -44,7 +44,7 @@ public class Event {
 		this.laps.add(lap);
 		lap.setPrevBest(getBest());
 
-		if (best == null || lap.getLapDisplay() < best.getLapDisplay()) {
+		if (best == null || lap.getTotalLapTime() < best.getTotalLapTime()) {
 			setBest(lap);
 		}
 	}

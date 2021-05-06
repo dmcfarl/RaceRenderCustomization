@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.hobo.bob.ConversionConstants;
@@ -38,10 +39,10 @@ public class DataWriter {
 			best.write(prologue.getBytes());
 			bestTiming.write(prologue.getBytes());
 			writeHeaders(best, event.getBest());
-			writeTimingHeaders(bestTiming, event.getBest());
+			writeTimingHeaders(bestTiming);
 			DataRow last = writeLap(best, event.getBest(), 0);
 			writeLapTiming(bestTiming, event.getBest(), 0, 1, 1);
-			String footer = getFooter(event.getBest(), event.getBest(), 1, last);
+			String footer = getFooter(event.getBest(), event.getBest(), 1, 1, last);
 			best.write("# Session End\n\n".getBytes());
 			bestTiming.write(footer.getBytes());
 			System.out.println("Best lap file written...");
@@ -49,10 +50,10 @@ public class DataWriter {
 				ghost.write(prologue.getBytes());
 				ghostTiming.write(prologue.getBytes());
 				writeHeaders(ghost, event.getBest().getPrevBest());
-				writeTimingHeaders(ghostTiming, event.getBest().getPrevBest());
+				writeTimingHeaders(ghostTiming);
 				last = writeLap(ghost, event.getBest().getPrevBest(), 0);
 				writeLapTiming(ghostTiming, event.getBest().getPrevBest(), 0, 1, 1);
-				footer = getFooter(event.getBest().getPrevBest(), event.getBest().getPrevBest(), 1, last);
+				footer = getFooter(event.getBest().getPrevBest(), event.getBest().getPrevBest(), 1, 1, last);
 				ghost.write("# Session End\n\n".getBytes());
 				ghostTiming.write(footer.getBytes());
 				System.out.println("Ghost lap file written...");
@@ -61,6 +62,7 @@ public class DataWriter {
 	}
 
 	public void writeAll() {
+//		for (Session session : event.getSessions()) {
 		event.getSessions().parallelStream().forEach(session -> {
 			if (!session.getLaps().isEmpty()) {
 				String filename = session.getLaps().size() == 1 ? "Lap " + session.getLaps().get(0).getLapNum()
@@ -74,6 +76,7 @@ public class DataWriter {
 				}
 			}
 		});
+//		}
 	}
 	
 	public void compareLaps(int lapNum1, int lapNum2) {
@@ -94,7 +97,7 @@ public class DataWriter {
 			out.write(prologue.getBytes());
 			outTiming.write(prologue.getBytes());
 			writeHeaders(out, event.getBest());
-			writeTimingHeaders(outTiming, event.getBest());
+			writeTimingHeaders(outTiming);
 
 			
 			// Write first lap
@@ -144,7 +147,7 @@ public class DataWriter {
 				sectors.append(",0,0");
 			}
 			sectors.append(",0,0");
-			double lap2Start = lap1.getLapStart().getTime() + lap1.getLapDisplay();
+			double lap2Start = lap1.getLapStart().getTime() + lap1.getLapTime();
 			outTiming.write(String
 					.format("%.3f,", getRowSessionTime(lap1, lap2Start))
 					.getBytes());
@@ -179,7 +182,7 @@ public class DataWriter {
 		out.write(prologue.getBytes());
 		outTiming.write(prologue.getBytes());
 		writeHeaders(out, event.getBest());
-		writeTimingHeaders(outTiming, event.getBest());
+		writeTimingHeaders(outTiming);
 
 		double startSessionTime = getRowSessionTime(session.getLaps().get(0), session.getLaps().get(0).getLapData().get(0).getTime());
 		if (startSessionTime > 0) {
@@ -196,6 +199,11 @@ public class DataWriter {
 		}
 
 		out.write("# Session End\n\n".getBytes());
+		Lap sessionLast = session.getLaps().get(session.getLaps().size() - 1);
+		Lap sessionBest = sessionLast.getPrevBest() != null
+				&& sessionLast.getLapTime() >= sessionLast.getPrevBest().getLapTime() ? sessionLast.getPrevBest() : null;
+		writeTimingRow(outTiming, session.getLaps().get(0).getLapNum(), session.getLaps().size(),
+				sessionLast, sessionBest, sessionLast.getLapStart().getTime() + sessionLast.getLapTime());
 		outTiming.write(getFooter(session, last).getBytes());
 	}
 
@@ -229,11 +237,8 @@ public class DataWriter {
 					: lap.getLapData().get(i));
 
 			if (!wroteFinish && row.getTime() == lap.getLapFinish().getTime()) {
-				double lapDisplay = lap.getLapDisplay();
-				if (lapDisplay > lap.getLapTime() && lapDisplay < ConversionConstants.OFF_DISPLAY_TIME) {
-					// Cones for the current lap are handled with the Cones column
-					lapDisplay = lap.getLapTime();
-				}
+				// Cones for the current lap are handled with the Cones column
+				double lapDisplay = lap.getLapTime();
 				if (!lap.getSectors().isEmpty()) {
 					printSectorHeader(out, currentSector.incrementAndGet(),
 							lap.getLapTime() - lap.getSectors().get(lap.getSectors().size() - 1).getSplit());
@@ -266,6 +271,8 @@ public class DataWriter {
 			for (int i = 0; i < lap.getSectors().size() + 1; i++) {
 				outTiming.write(",0".getBytes());
 			}
+			// TODO: Handle current cones
+			outTiming.write(",0".getBytes());
 			if (lap.getPrevBest() != null) {
 				outTiming.write(",".getBytes());
 				outTiming.write(Integer.toString(lap.getPrevBest().getLapNum()).getBytes());
@@ -281,12 +288,37 @@ public class DataWriter {
 				outTiming.write(",0".getBytes());
 
 			}
+			// TODO: Handle previous cones
 			outTiming.write(",0".getBytes());
+			for (Lap lapPenalty : event.getLaps()) {
+				if (lapPenalty.getPenalties() > 0) {
+					outTiming.write(("," + lapPenalty.getPenalties()).getBytes());
+				}
+			}
 			outTiming.write("\n".getBytes());
 			printLapHeader(outTiming, sessionLapNumber, lap.getPreciseStartTime());
 		}
 		sessionLapNumber++;
 
+		writeTimingRow(outTiming, sessionLapStart, sessionLaps, lap, lap.getPrevBest(), lap.getLapStart().getTime());
+
+		int currentSector = 0;
+		for (Sector sector : lap.getSectors()) {
+			printSectorHeader(outTiming, ++currentSector, sector.getSector());
+		}
+
+		writeTimingRow(outTiming, sessionLapStart, sessionLaps, lap, lap.getPrevBest(),
+				lap.getLapStart().getTime() + lap.getLapTime() - 0.001);
+
+		if (!lap.getSectors().isEmpty()) {
+			printSectorHeader(outTiming, ++currentSector,
+					lap.getLapTime() - lap.getSectors().get(lap.getSectors().size() - 1).getSplit());
+		}
+		printLapHeader(outTiming, sessionLapNumber, lap.getLapTime());
+	}
+	
+	private void writeTimingRow(OutputStream outTiming, int sessionLapStart, int sessionLaps, Lap current, Lap prevBest, double utcTime) throws IOException {
+		double sessionTime = getRowSessionTime(current, utcTime);
 		StringBuffer sectors = new StringBuffer();
 		sectors.append(",");
 		sectors.append(Integer.toString(sessionLapStart));
@@ -295,46 +327,45 @@ public class DataWriter {
 		sectors.append(",");
 		sectors.append(Integer.toString(event.getLaps().size()));
 		sectors.append(",");
-		sectors.append(lap.getLapNum());
-		for (Sector sector : lap.getSectors()) {
+		sectors.append(current.getLapNum());
+		for (Sector sector : current.getSectors()) {
 			sectors.append(String.format(",%.3f", sector.getSplit()));
 		}
-		sectors.append(String.format(",%.3f", lap.getLapDisplay()));
-		if (lap.getPrevBest() != null) {
+		sectors.append(String.format(",%.3f", current.getLapTime()));
+		// TODO Handle current penalties
+		sectors.append(",0");
+		if (prevBest != null) {
 			sectors.append(",");
-			sectors.append(lap.getPrevBest().getLapNum());
-			for (Sector sector : lap.getPrevBest().getSectors()) {
+			sectors.append(prevBest.getLapNum());
+			for (Sector sector : prevBest.getSectors()) {
 				sectors.append(String.format(",%.3f", sector.getSplit()));
 			}
-			sectors.append(String.format(",%.3f", lap.getPrevBest().getLapTime()));
+			sectors.append(String.format(",%.3f", prevBest.getLapTime()));
 		} else {
-			sectors.append(lap.getLapNum());
-			for (Sector sector : lap.getSectors()) {
+			sectors.append(",");
+			sectors.append(current.getLapNum());
+			// Want to maintain the sector timing even though the previous best lap number remains the same
+			List<Sector> sectorList = current.getPrevBest() != null ? current.getPrevBest().getSectors()
+					: current.getSectors();
+			for (Sector sector : sectorList) {
 				sectors.append(String.format(",%.3f", sector.getSplit()));
 			}
-			sectors.append(String.format(",%.3f", lap.getLapTime()));
+			sectors.append(String.format(",%.3f",
+					current.getPrevBest() != null ? current.getPrevBest().getLapTime() : current.getLapTime()));
 
 		}
-		outTiming.write(String.format("%.3f,", getRowSessionTime(lap, lap.getLapStart().getTime())).getBytes());
-		outTiming.write(String.format("%.3f", lap.getLapStart().getTime()).getBytes());
+		// TODO Handle previous penalties
+		sectors.append(",0");
+		
+		outTiming.write(String.format("%.3f,", sessionTime).getBytes());
+		outTiming.write(String.format("%.3f", utcTime).getBytes());
 		outTiming.write(sectors.toString().getBytes());
-		outTiming.write("\n".getBytes());
-
-		int currentSector = 0;
-		for (Sector sector : lap.getSectors()) {
-			printSectorHeader(outTiming, ++currentSector, sector.getSector());
+		for (Lap lap : event.getLaps()) {
+			if (lap.getPenalties() > 0) {
+				outTiming.write(("," + lap.getPenalties()).getBytes());
+			}
 		}
-
-		double lapFinish = lap.getLapStart().getTime() + lap.getLapDisplay() - 0.001;
-		outTiming.write(String
-				.format("%.3f,", getRowSessionTime(lap, lapFinish))
-				.getBytes());
-		outTiming.write(String.format("%.3f", lapFinish).getBytes());
-		outTiming.write(sectors.toString().getBytes());
 		outTiming.write("\n".getBytes());
-		printSectorHeader(outTiming, ++currentSector,
-				lap.getLapTime() - lap.getSectors().get(lap.getSectors().size() - 1).getSplit());
-		printLapHeader(outTiming, sessionLapNumber, lap.getLapDisplay());
 	}
 
 	private int getBufferRows(Lap lap) {
@@ -406,44 +437,58 @@ public class DataWriter {
 		out.write("\n".getBytes());
 	}
 
-	private void writeTimingHeaders(OutputStream out, Lap lap) throws IOException {
+	private void writeTimingHeaders(OutputStream out) throws IOException {
 		out.write("Time,UTC Time,Session Lap Start,Session Laps,Total Laps,Current Lap Number".getBytes());
-		for (int i = 0; i < lap.getSectors().size() + 1; i++) {
+		for (int i = 0; i < event.getBest().getSectors().size() + 1; i++) {
 			out.write((",Current Split " + (i + 1)).getBytes());
 		}
+		out.write(",Current Penalty".getBytes());
 		out.write(",Previous Lap Number".getBytes());
-		for (int i = 0; i < lap.getSectors().size() + 1; i++) {
+		for (int i = 0; i < event.getBest().getSectors().size() + 1; i++) {
 			out.write((",Previous Split " + (i + 1)).getBytes());
 		}
+		out.write(",Previous Penalty".getBytes());
+		String penalties = "";
+		for (Lap lap : event.getLaps()) {
+			if (lap.getPenalties() > 0) {
+				penalties += ",Penalty Lap " + lap.getLapNum();
+			}
+		}
+		out.write(penalties.getBytes());
 		out.write("\n".getBytes());
 	}
 
 	private String getFooter(Session session, DataRow last) throws IOException {
 		return getFooter(session.getLaps().get(0), session.getLaps().get(session.getLaps().size() - 1),
-				session.getLaps().size(), last);
+				session.getLaps().get(0).getLapNum(), session.getLaps().size(), last);
 	}
 
-	private String getFooter(Lap startSession, Lap endSession, int currentLapNumber, DataRow last) throws IOException {
+	private String getFooter(Lap startSession, Lap endSession, int sessionLapStart, int sessionLaps, DataRow last) throws IOException {
 		StringBuffer footer = new StringBuffer();
-		AtomicInteger currentLap = new AtomicInteger(currentLapNumber + 1);
+		AtomicInteger currentLap = new AtomicInteger(sessionLaps + 1);
 		if (startSession.getLapNum() > 1) {
 			footer.append(getHeader("Lap", currentLap.getAndIncrement(), 0));
 			double lapTimes = 0;
 			for (int i = 1; i < event.getLaps().size() && i < startSession.getLapNum(); i++) {
 				Lap curr = event.getLaps().get(i - 1);
-				lapTimes += curr.getLapDisplay();
+				lapTimes += curr.getLapTime();
 				for (int j = 0; j < curr.getSectors().size(); j++) {
 					footer.append(getHeader("Sector", j + 1, curr.getSectors().get(j).getSector()));
 				}
-				footer.append(getHeader("Sector", curr.getSectors().size() + 1,
-						curr.getLapTime() - curr.getSectors().get(curr.getSectors().size() - 1).getSplit()));
-				footer.append(getHeader("Lap", currentLap.getAndIncrement(), curr.getLapDisplay()));
+				if (!curr.getSectors().isEmpty()) {
+					footer.append(getHeader("Sector", curr.getSectors().size() + 1,
+							curr.getLapTime() - curr.getSectors().get(curr.getSectors().size() - 1).getSplit()));
+				}
+				footer.append(getHeader("Lap", currentLap.getAndIncrement(), curr.getLapTime()));
 			}
-
+			
 			if (last != null) {
 				last.addTime(lapTimes + 1);
+				Lap sessionBest = endSession.getPrevBest() != null
+						&& endSession.getLapTime() >= endSession.getPrevBest().getLapTime() ? endSession.getPrevBest()
+								: null;
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				writeRow(out, endSession, last, last);
+				writeTimingRow(out, sessionLapStart, sessionLaps, endSession, sessionBest, last.getTime());
 				footer.append(out.toString());
 			}
 		}

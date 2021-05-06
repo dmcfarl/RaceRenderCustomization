@@ -15,7 +15,7 @@ public class Lap {
 	private final List<DataRow> finishBufferData = new ArrayList<>();
 	private List<Sector> sectors;
 	private Double lapTime;
-	private Double lapDisplay;
+	private int penalties = 0;
 	private DataRow lapStart;
 	private DataRow lapFinish;
 	private double dataStartTime = 0;
@@ -28,7 +28,6 @@ public class Lap {
 		this.lapNum = lapNum;
 		this.prevBest = null;
 		this.lapTime = null;
-		this.lapDisplay = null;
 	}
 
 	public List<DataRow> getLapOnlyData() {
@@ -36,7 +35,7 @@ public class Lap {
 	}
 
 	public List<DataRow> getLapData() {
-		if (allData == null) {
+		if (allData == null || allData.size() < startBufferData.size() + lapData.size() + finishBufferData.size()) {
 			Stream<DataRow> stream = Stream.of();
 			stream = Stream.concat(stream, startBufferData.stream());
 			stream = Stream.concat(stream, lapData.stream());
@@ -88,38 +87,18 @@ public class Lap {
 	public Double getLapTime() {
 		return lapTime;
 	}
+	
+	public double getTotalLapTime() {
+		return lapTime == null || lapTime < 0 ? 99999 : lapTime + penalties * ConversionConstants.CONE_TIME_PENALTY;
+	}
 
 	public void setLapTime(double lapTime) {
-		this.lapTime = lapTime;
+		setLapTime(lapTime, 0);
 	}
 
-	public Double getLapDisplay() {
-		return lapDisplay;
-	}
-
-	public void setLapDisplay(double time, int cones) {
-		setLapDisplay(time, cones, Penalty.NONE);
-	}
-
-	public void setLapDisplay(double time, int cones, Penalty penalty) {
-		if (Penalty.DNF.equals(penalty)) {
-			lapDisplay = ConversionConstants.DNF_DISPLAY_TIME;
-			lapTime = lapDisplay;
-		} else if (Penalty.OFF.equals(penalty)) {
-			lapDisplay = ConversionConstants.OFF_DISPLAY_TIME;
-			lapTime = lapDisplay;
-		} else if (Penalty.RERUN.equals(penalty)) {
-			lapDisplay = ConversionConstants.RERUN_DISPLAY_TIME;
-			lapTime = lapDisplay;
-		} else if (cones > 9) {
-			throw new IllegalArgumentException("Unable to process runs with more than 9 hit cones.");
-		} else if (cones > 0) {
-			lapTime = time;
-			lapDisplay = time + ConversionConstants.CONE_DISPLAY_PENALTY * cones;
-		} else {
-			lapDisplay = time;
-			lapTime = lapDisplay;
-		}
+	public void setLapTime(double time, int cones) {
+		this.penalties = cones;
+		this.lapTime = time;
 	}
 
 	public DataRow getLapStart() {
@@ -138,7 +117,6 @@ public class Lap {
 		this.lapFinish = lapFinish;
 		if (lapTime == null) {
 			lapTime = lapFinish.getTime() - lapStart.getTime();
-			lapDisplay = lapTime;
 		}
 	}
 
@@ -181,7 +159,7 @@ public class Lap {
 		this.prevBest = prevBest;
 	}
 
-	public enum Penalty {
-		DNF, OFF, RERUN, NONE;
+	public int getPenalties() {
+		return penalties;
 	}
 }

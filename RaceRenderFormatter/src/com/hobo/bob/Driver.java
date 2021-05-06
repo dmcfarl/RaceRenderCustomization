@@ -32,13 +32,13 @@ public class Driver {
 			System.out.println("Data extracted...");
 
 			DataWriter writer = new DataWriter(dataFile.getParent() + File.separator, event);
-//			if(extractAllLaps) {
-//				writer.writeAll();
-//			} else {
-//				writer.writeBestAndGhost();
-//			}
-			writer.compareLaps(6, 31);
-//			new IntroDisplayWriter(dataFile.getParent() + File.separator).writeDisplayFile();
+			if(extractAllLaps) {
+				writer.writeAll();
+			} else {
+				writer.writeBestAndGhost();
+			}
+//			writer.compareLaps(6, 31);
+			new IntroDisplayWriter(dataFile.getParent() + File.separator).writeDisplayFile();
 			System.out.println("Conversion complete.");
 		} catch (Exception e) {
 			e.printStackTrace();
