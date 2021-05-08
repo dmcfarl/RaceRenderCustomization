@@ -248,8 +248,7 @@ if(floor(Y) > 0 && CurrentLapNum > 0) {
 		if(LapTime < PreviousLapTransition) {
 			BackColor = BlendColorsRGB(ColorG, BackColor, LapTime / PreviousLapTransition);
 		} else if(LapTime > PreviousLapDisplay - PreviousLapTransition) {
-			BackColor = BlendColors(BackColor, ColorG,
-					(LapTime - PreviousLapDisplay + PreviousLapTransition) / PreviousLapTransition);
+			BackColor = BlendColors(BackColor, ColorG, (LapTime - PreviousLapDisplay + PreviousLapTransition) / PreviousLapTransition);
 		}
 	} else {
 		BackColor = ColorG;
