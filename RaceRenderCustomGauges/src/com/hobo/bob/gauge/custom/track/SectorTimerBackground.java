@@ -107,7 +107,6 @@ if(CurrentSplit6Idx >= 0 && CurrentSplit6Idx < 50) {
 	PreviousSplitLastIdx = PreviousSplit6Idx;
 }
 
-
 //Colors
 RunColor = ColorA;
 PositiveSplitColor = ColorC;
@@ -126,42 +125,36 @@ SectorX = SizeX / (NumSplits);
 CurrSector = NumSplits;
 if(CurrSector > 0) {
 	DrawCircle(SectorX * (CurrSector) - SectorY, SectorY, SectorY, BackgroundColor, Filled);
-	DrawLineGradientRGB(SectorX * (CurrSector - 1) + SectorY, SectorY / 2, SectorX * (CurrSector) - SectorY * 2,
-			SectorY / 2, HeaderColor, BackgroundColor, SectorY);
+	DrawLineGradientRGB(SectorX * (CurrSector - 1) + SectorY, SectorY / 2, SectorX * (CurrSector) - SectorY * 2, SectorY / 2, HeaderColor, BackgroundColor, SectorY);
 	DrawRect(SectorX * (CurrSector - 1), 0, SectorX * (CurrSector - 1) + 5, SectorY, HeaderColor, Filled);
 	CurrSector -= 1;
 }
 if(CurrSector > 0) {
-	DrawLineGradientRGB(SectorX * (CurrSector - 1) + SectorY, SectorY / 2, SectorX * (CurrSector) - SectorY, SectorY / 2,
-			HeaderColor, BackgroundColor, SectorY);
+	DrawLineGradientRGB(SectorX * (CurrSector - 1) + SectorY, SectorY / 2, SectorX * (CurrSector) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY);
 	DrawRect(SectorX * (CurrSector) - 5, 0, SectorX * (CurrSector), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * (CurrSector - 1), 0, SectorX * (CurrSector - 1) + 5, SectorY, HeaderColor, Filled);
 	CurrSector -= 1;
 }
 if(CurrSector > 0) {
-	DrawLineGradientRGB(SectorX * (CurrSector - 1) + SectorY, SectorY / 2, SectorX * (CurrSector) - SectorY, SectorY / 2,
-			HeaderColor, BackgroundColor, SectorY);
+	DrawLineGradientRGB(SectorX * (CurrSector - 1) + SectorY, SectorY / 2, SectorX * (CurrSector) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY);
 	DrawRect(SectorX * (CurrSector) - 5, 0, SectorX * (CurrSector), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * (CurrSector - 1), 0, SectorX * (CurrSector - 1) + 5, SectorY, HeaderColor, Filled);
 	CurrSector -= 1;
 }
 if(CurrSector > 0) {
-	DrawLineGradientRGB(SectorX * (CurrSector - 1) + SectorY, SectorY / 2, SectorX * (CurrSector) - SectorY, SectorY / 2,
-			HeaderColor, BackgroundColor, SectorY);
+	DrawLineGradientRGB(SectorX * (CurrSector - 1) + SectorY, SectorY / 2, SectorX * (CurrSector) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY);
 	DrawRect(SectorX * (CurrSector) - 5, 0, SectorX * (CurrSector), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * (CurrSector - 1), 0, SectorX * (CurrSector - 1) + 5, SectorY, HeaderColor, Filled);
 	CurrSector -= 1;
 }
 if(CurrSector > 0) {
-	DrawLineGradientRGB(SectorX * (CurrSector - 1) + SectorY, SectorY / 2, SectorX * (CurrSector) - SectorY, SectorY / 2,
-			HeaderColor, BackgroundColor, SectorY);
+	DrawLineGradientRGB(SectorX * (CurrSector - 1) + SectorY, SectorY / 2, SectorX * (CurrSector) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY);
 	DrawRect(SectorX * (CurrSector) - 5, 0, SectorX * (CurrSector), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * (CurrSector - 1), 0, SectorX * (CurrSector - 1) + 5, SectorY, HeaderColor, Filled);
 	CurrSector -= 1;
 }
 if(CurrSector > 0) {
-	DrawLineGradientRGB(SectorX * (CurrSector - 1) + SectorY, SectorY / 2, SectorX * (CurrSector) - SectorY, SectorY / 2,
-			HeaderColor, BackgroundColor, SectorY);
+	DrawLineGradientRGB(SectorX * (CurrSector - 1) + SectorY, SectorY / 2, SectorX * (CurrSector) - SectorY, SectorY / 2, HeaderColor, BackgroundColor, SectorY);
 	DrawRect(SectorX * (CurrSector) - 5, 0, SectorX * (CurrSector), SectorY, BackgroundColor, Filled);
 	DrawRect(SectorX * (CurrSector - 1), 0, SectorX * (CurrSector - 1) + 5, SectorY, HeaderColor, Filled);
 	CurrSector -= 1;
@@ -284,13 +277,10 @@ if(CurrSector < NumSplits && GetCurLapNum() > 0 && CurrSplit1 > 0 && (RunTime > 
 	}
 
 	if(CurrSector + 1 < NumSplits) {
-		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY,
-				BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
 	} else {
-		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47),
-				Filled);
-		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2,
-				BackgroundColor, Filled);
+		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2, BackgroundColor, Filled);
 	}
 	DrawLineGradientRGB(SectorX * CurrSector, 3, SectorX * (CurrSector + 1) - SectorY, 3, HeaderColor, DiffColor, 4);
 	DrawLineGradientRGB(SectorX * CurrSector, 8, SectorX * (CurrSector + 1) - SectorY, 8, HeaderColor, DiffColor, 3);
@@ -323,13 +313,10 @@ if(CurrSector < NumSplits && GetCurLapNum() > 0 && CurrSplit2 > 0 && (RunTime > 
 	}
 
 	if(CurrSector + 1 < NumSplits) {
-		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY,
-				BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
 	} else {
-		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47),
-				Filled);
-		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2,
-				BackgroundColor, Filled);
+		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2, BackgroundColor, Filled);
 	}
 	DrawLineGradientRGB(SectorX * CurrSector, 3, SectorX * (CurrSector + 1) - SectorY, 3, HeaderColor, DiffColor, 4);
 	DrawLineGradientRGB(SectorX * CurrSector, 8, SectorX * (CurrSector + 1) - SectorY, 8, HeaderColor, DiffColor, 3);
@@ -362,13 +349,10 @@ if(CurrSector < NumSplits && GetCurLapNum() > 0 && CurrSplit3 > 0 && (RunTime > 
 	}
 
 	if(CurrSector + 1 < NumSplits) {
-		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY,
-				BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
 	} else {
-		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47),
-				Filled);
-		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2,
-				BackgroundColor, Filled);
+		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2, BackgroundColor, Filled);
 	}
 	DrawLineGradientRGB(SectorX * CurrSector, 3, SectorX * (CurrSector + 1) - SectorY, 3, HeaderColor, DiffColor, 4);
 	DrawLineGradientRGB(SectorX * CurrSector, 8, SectorX * (CurrSector + 1) - SectorY, 8, HeaderColor, DiffColor, 3);
@@ -401,13 +385,10 @@ if(CurrSector < NumSplits && GetCurLapNum() > 0 && CurrSplit4 > 0 && (RunTime > 
 	}
 
 	if(CurrSector + 1 < NumSplits) {
-		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY,
-				BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
 	} else {
-		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47),
-				Filled);
-		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2,
-				BackgroundColor, Filled);
+		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2, BackgroundColor, Filled);
 	}
 	DrawLineGradientRGB(SectorX * CurrSector, 3, SectorX * (CurrSector + 1) - SectorY, 3, HeaderColor, DiffColor, 4);
 	DrawLineGradientRGB(SectorX * CurrSector, 8, SectorX * (CurrSector + 1) - SectorY, 8, HeaderColor, DiffColor, 3);
@@ -440,13 +421,10 @@ if(CurrSector < NumSplits && GetCurLapNum() > 0 && CurrSplit5 > 0 && (RunTime > 
 	}
 
 	if(CurrSector + 1 < NumSplits) {
-		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY,
-				BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
 	} else {
-		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47),
-				Filled);
-		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2,
-				BackgroundColor, Filled);
+		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2, BackgroundColor, Filled);
 	}
 	DrawLineGradientRGB(SectorX * CurrSector, 3, SectorX * (CurrSector + 1) - SectorY, 3, HeaderColor, DiffColor, 4);
 	DrawLineGradientRGB(SectorX * CurrSector, 8, SectorX * (CurrSector + 1) - SectorY, 8, HeaderColor, DiffColor, 3);
@@ -479,13 +457,10 @@ if(CurrSector < NumSplits && GetCurLapNum() > 0 && CurrSplit6 > 0 && (RunTime > 
 	}
 
 	if(CurrSector + 1 < NumSplits) {
-		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY,
-				BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY, 0, SectorX * (CurrSector + 1), SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
 	} else {
-		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47),
-				Filled);
-		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2,
-				BackgroundColor, Filled);
+		DrawCircle(SectorX * (CurrSector + 1) - SectorY, SectorY, SectorY, BlendColorsRGB(HeaderColor, DiffColor, 0.47), Filled);
+		DrawRect(SectorX * (CurrSector + 1) - SectorY * 2, SectorY + 1, SectorX * (CurrSector + 1), SectorY * 2, BackgroundColor, Filled);
 	}
 	DrawLineGradientRGB(SectorX * CurrSector, 3, SectorX * (CurrSector + 1) - SectorY, 3, HeaderColor, DiffColor, 4);
 	DrawLineGradientRGB(SectorX * CurrSector, 8, SectorX * (CurrSector + 1) - SectorY, 8, HeaderColor, DiffColor, 3);
