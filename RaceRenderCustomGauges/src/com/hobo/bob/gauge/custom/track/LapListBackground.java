@@ -21,6 +21,9 @@ private float CurrentLapNum;
 private float Ratio;
 private float FutureLapDisplay;
 private boolean DrawFutureTime;
+private float PenaltyX;
+private int TotalPenalties;
+private float PenaltyIndex;
 
 public LapListBackground(Frame frame, float sizeX, float sizeY) {
 super(frame, sizeX, sizeY);
@@ -33,6 +36,8 @@ SetTextOutline(Transparent);
 Header = 103;
 RowY = 50;
 Buffer = 7;
+
+PenaltyX = SizeX - 120;
 
 SessionLapsIndex = GetDataIndex("Session Laps");
 SessionLapStartIndex = GetDataIndex("Session Lap Start");
@@ -81,8 +86,74 @@ if(DrawFutureTime) {
 
 // Draw background
 BottomY = Y - NumDisp * RowY;
-DrawRect(0, BottomY, SizeX / 10, BottomY + SizeX / 10, ColorF, Filled);
-DrawRRect(0, BottomY, SizeX, SizeY, ColorF, Filled);
+
+TotalPenalties = 0;
+PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum, 0));
+if(TotalPenalties == 0 && PenaltyIndex >= 0 && PenaltyIndex <= 100) {
+	TotalPenalties += GetDataValue(PenaltyIndex);
+}
+if(TotalPenalties == 0) {
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum - 1, 0));
+	if(PenaltyIndex >= 0 && PenaltyIndex <= 100) {
+		TotalPenalties += GetDataValue(PenaltyIndex);
+	}
+}
+if(TotalPenalties == 0) {
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum - 2, 0));
+	if(PenaltyIndex >= 0 && PenaltyIndex <= 100) {
+		TotalPenalties += GetDataValue(PenaltyIndex);
+	}
+}
+if(TotalPenalties == 0) {
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum - 3, 0));
+	if(PenaltyIndex >= 0 && PenaltyIndex <= 100) {
+		TotalPenalties += GetDataValue(PenaltyIndex);
+	}
+}
+if(TotalPenalties == 0) {
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum - 4, 0));
+	if(PenaltyIndex >= 0 && PenaltyIndex <= 100) {
+		TotalPenalties += GetDataValue(PenaltyIndex);
+	}
+}
+if(TotalPenalties == 0) {
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum - 5, 0));
+	if(PenaltyIndex >= 0 && PenaltyIndex <= 100) {
+		TotalPenalties += GetDataValue(PenaltyIndex);
+	}
+}
+if(TotalPenalties == 0) {
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum - 6, 0));
+	if(PenaltyIndex >= 0 && PenaltyIndex <= 100) {
+		TotalPenalties += GetDataValue(PenaltyIndex);
+	}
+}
+if(TotalPenalties == 0) {
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum - 7, 0));
+	if(PenaltyIndex >= 0 && PenaltyIndex <= 100) {
+		TotalPenalties += GetDataValue(PenaltyIndex);
+	}
+}
+if(TotalPenalties == 0) {
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum - 8, 0));
+	if(PenaltyIndex >= 0 && PenaltyIndex <= 100) {
+		TotalPenalties += GetDataValue(PenaltyIndex);
+	}
+}
+if(TotalPenalties == 0) {
+	PenaltyIndex = GetDataIndex("Penalty Lap " + FormatNumber(CurrentLapNum - 9, 0));
+	if(PenaltyIndex >= 0 && PenaltyIndex <= 100) {
+		TotalPenalties += GetDataValue(PenaltyIndex);
+	}
+}
+
+if(TotalPenalties > 0) {
+	DrawRRect(0, BottomY, SizeX, SizeY - Header, ColorE, Filled);
+	DrawRect(0, BottomY, PenaltyX, BottomY + PenaltyX / 10, ColorF, Filled);
+} else {
+	DrawRect(0, BottomY, PenaltyX / 10, BottomY + PenaltyX / 10, ColorF, Filled);
+}
+DrawRRect(0, BottomY, PenaltyX, SizeY, ColorF, Filled);
 }
 
 }
