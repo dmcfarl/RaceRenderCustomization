@@ -15,7 +15,6 @@ private String BackgroundColor;
 private float FontSize;
 private float HeaderY;
 private float SectorY;
-private float ConesIndex;
 private float Y;
 private float RunTime;
 private String DiffText;
@@ -65,6 +64,9 @@ private float CurrentSplitLastIdx;
 private float PreviousSplitLastIdx;
 private Float LeftSplitLast;
 private Float RightSplitLast;
+private float CurrentPenaltyIdx;
+private float PreviousPenaltyIdx;
+private float CurrentPenalty;
 
 public ComparisonSectorTimerLeft(Frame frame, float sizeX, float sizeY) {
 super(frame, sizeX, sizeY);
@@ -84,17 +86,17 @@ CurrentSplit3Idx = GetDataIndex("Current Split 3");
 CurrentSplit4Idx = GetDataIndex("Current Split 4");
 CurrentSplit5Idx = GetDataIndex("Current Split 5");
 CurrentSplit6Idx = GetDataIndex("Current Split 6");
-CurrentSplitLastIdx = GetDataIndex("Current Last Split");
 PreviousSplit1Idx = GetDataIndex("Previous Split 1");
 PreviousSplit2Idx = GetDataIndex("Previous Split 2");
 PreviousSplit3Idx = GetDataIndex("Previous Split 3");
 PreviousSplit4Idx = GetDataIndex("Previous Split 4");
 PreviousSplit5Idx = GetDataIndex("Previous Split 5");
 PreviousSplit6Idx = GetDataIndex("Previous Split 6");
-PreviousSplitLastIdx = GetDataIndex("Previous Last Split");
 
 CurrentLapNumIdx = GetDataIndex("Current Lap Number");
 PreviousLapNumIdx = GetDataIndex("Previous Lap Number");
+CurrentPenaltyIdx = GetDataIndex("Current Penalty");
+PreviousPenaltyIdx = GetDataIndex("Previous Penalty");
 
 if(CurrentSplit6Idx >= 0 && CurrentSplit6Idx < 50) {
 	NumSplits += 1;
@@ -131,8 +133,6 @@ FooterY = 30;
 SeparatorX = 3 * SizeX / 10;
 SectorX1 = SizeX / 2 - 131;
 SectorX2 = SizeX / 2 + 277;
-
-ConesIndex = GetDataIndex("Cones");
 
 DrawCircle(SizeX - FooterY, FooterY, FooterY, BackgroundColor, Filled);
 DrawRect(0, 0, SizeX - FooterY, FooterY, BackgroundColor, Filled);
@@ -251,15 +251,15 @@ if(RightSplitLast > 60 || LeftSplitLast > 60) {
 DrawNumber(LeftCarNum, 0, 67, SizeY - 25, Black, 62, AlignH_Center);
 DrawNumber(RightCarNum, 0, SizeX / 2 + 67, SizeY - 25, Black, 62, AlignH_Center);
 
-if(GetCurLapNum() == 0 || (GetCurLapNum() == 2 && GetCurLapTime() > 30)) {
+if(GetCurLapNum() == 0 || (GetCurLapNum() >= 2 && GetCurLapTime() > 30)) {
 	LapTime = 0;
 } else {
 	LapTime = GetCurLapTime();
-	if(GetCurLapNum() == 2) {
+	if(GetCurLapNum() >= 2) {
 		LapTime += GetLapTime(1);
 	}
-	if(GetCurLapNum() > 3) {
-		LapTime += GetLapTime(3);
+	if(GetCurLapNum() >= 3) {
+		LapTime += GetLapTime(2);
 	}
 }
 
@@ -272,8 +272,10 @@ if(GetCurLapNum() > 1) {
 } else {
 	RunDisplayTime = RunTime;
 }
-if(ConesIndex > 0) {
-	RunDisplayTime += ceil(GetDataValue(ConesIndex)) * ConePenalty;
+CurrentPenalty = 0;
+if(CurrentPenaltyIdx > 0 && CurrentPenaltyIdx < 100) {
+	CurrentPenalty = ceil(GetDataValue(CurrentPenaltyIdx)) * ConePenalty;
+	RunDisplayTime += CurrentPenalty;
 }
 if(Compact == 2) {
 	DrawTime(RunDisplayTime, 3, 5 * SizeX / 18, Y, RunColor, FontSize, AlignH_Right, Compact);
@@ -292,10 +294,11 @@ if(LapTime > RightSplitLast) {
 	RunDisplayTime = LapTime;
 }
 
-if((LapTime > RightSplitLast) && (GetCurLapNum() == 2 || GetCurLapNum() > 3)) {
+if(LapTime > RightSplitLast && GetCurLapNum() >= 2) {
 	DiffSplit = RightSplitLast - LeftSplitLast;
-	if(ConesIndex > 0) {
-		DiffSplit -= ceil(GetDataValue(ConesIndex)) * ConePenalty;
+	// TODO: Figure out how to handle this across splits
+	if(PreviousPenaltyIdx > 0 && PreviousPenaltyIdx < 100) {
+		DiffSplit -= ceil(GetDataValue(PreviousPenaltyIdx)) * ConePenalty;
 	}
 	DiffText = FormatNumber(DiffSplit, 3);
 	DiffColor = RunColor;
